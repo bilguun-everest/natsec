@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Design tokens + the handful of base rules the utility classes build on.
+  Everything else is styled with Tailwind utilities in the components.
+*/
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: #1a1d26; /* --ink */
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
+
+/* Long-form copy is justified throughout the design. */
+.justify {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Anchor targets clear the sticky header. */
+:where(section[id], div[id]) {
+  scroll-margin-top: 5rem;
+}
+
+:focus-visible {
+  outline: 2.5px solid #48bee6;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
