@@ -1,181 +1,215 @@
-import type { ReactNode } from "react";
-import { T } from "@/components/lang";
-import type { Bi } from "@/lib/content";
+"use client";
 
-/** Page gutter — every section shares the same measure. */
-export function Wrap({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div className={`mx-auto w-full max-w-[1180px] px-7 max-sm:px-5 ${className}`}>
-      {children}
-    </div>
-  );
-}
+import { useState, type CSSProperties, type ReactNode } from "react";
+import { T, useLang } from "@/components/lang";
+import { Reveal } from "@/components/motion";
 
-/** Tinted, hairline-bounded band used to separate neighbouring sections. */
-export function Band({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div className={`border-y border-line bg-paper ${className}`}>
-      {children}
-    </div>
-  );
-}
-
-/** Mono micro-label with the short rule in front of it. */
+/** Monospaced kicker with the short rule in front of it. */
 export function Eyebrow({
-  children,
-  tone = "dark",
-  className = "",
+  mn,
+  en,
+  style,
 }: {
-  children: Bi;
-  tone?: "dark" | "light";
-  className?: string;
+  mn: string;
+  en: string;
+  style?: CSSProperties;
 }) {
   return (
-    <div
-      className={`mb-[14px] flex items-center gap-[10px] font-mono text-[11px] font-medium uppercase tracking-[.16em] ${
-        tone === "light" ? "text-blue" : "text-blue-text"
-      } ${className}`}
-    >
-      <span className="h-px w-[22px] shrink-0 bg-blue" />
-      <T>{children}</T>
+    <div className="eyebrow" style={style}>
+      <T mn={mn} en={en} />
     </div>
   );
 }
 
-const BUTTON_BASE =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[7px] border-[1.5px] border-transparent px-5 py-[11px] font-display text-sm font-semibold transition-all duration-[180ms] max-sm:px-3.5 max-sm:text-[13px]";
-
-const BUTTON_VARIANTS = {
-  /** Primary — the brand blue fill. */
-  p: "bg-blue text-navy-900 hover:bg-blue-hover hover:-translate-y-px hover:shadow-cta",
-  /** Outline on light backgrounds. */
-  o: "border-line text-navy hover:border-blue hover:text-blue-text",
-  /** White fill, for use on the navy hero. */
-  w: "bg-white text-navy hover:bg-[#EDF1FF]",
-  /** Ghost outline, for use on the navy hero. */
-  g: "border-white/30 text-white hover:border-white hover:bg-white/[.09]",
-} as const;
-
-export function Btn({
-  href,
-  variant,
-  children,
-  className = "",
-}: {
-  href: string;
-  variant: keyof typeof BUTTON_VARIANTS;
-  children: Bi;
-  className?: string;
-}) {
-  return (
-    <a
-      href={href}
-      className={`${BUTTON_BASE} ${BUTTON_VARIANTS[variant]} ${className}`}
-    >
-      <T>{children}</T>
-    </a>
-  );
-}
-
-/** Section header: eyebrow, title, optional supporting line. */
-export function SectionHeading({
+/** Eyebrow + heading + optional standfirst, the opener of every section. */
+export function SecHead({
   eyebrow,
   title,
   lead,
-  className = "mb-11",
+  style,
+  level = 2,
 }: {
-  eyebrow: Bi;
-  title: Bi;
-  lead?: Bi;
-  className?: string;
+  eyebrow: { mn: string; en: string };
+  title: { mn: string; en: string };
+  lead?: { mn: string; en: string };
+  style?: CSSProperties;
+  level?: 2 | 3;
 }) {
+  const Heading = level === 3 ? "h3" : "h2";
   return (
-    <div className={`max-w-[620px] ${className}`}>
-      <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="font-display text-[clamp(27px,3.3vw,38px)] font-bold text-ink">
-        <T>{title}</T>
-      </h2>
+    <Reveal className="sec-h" style={style}>
+      <Eyebrow mn={eyebrow.mn} en={eyebrow.en} />
+      <Heading>
+        <T mn={title.mn} en={title.en} />
+      </Heading>
       {lead && (
-        <p className="justify mt-3 text-base text-grey">
-          <T>{lead}</T>
+        <p>
+          <T mn={lead.mn} en={lead.en} />
         </p>
       )}
+    </Reveal>
+  );
+}
+
+/** Bulleted list in the house style (square outline markers). */
+export function List({ items }: { items: { mn: string; en: string }[] }) {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item.mn}>
+          <T mn={item.mn} en={item.en} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Copies `text`, then flashes a confirmation via the `.copied` class. */
+export function CopyButton({
+  text,
+  className = "copy-btn",
+  children = "⧉",
+  style,
+}: {
+  text: string;
+  className?: string;
+  children?: ReactNode;
+  style?: CSSProperties;
+}) {
+  const { t } = useLang();
+  const [copied, setCopied] = useState(false);
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      fallbackCopy(text);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1600);
+  }
+
+  return (
+    <button
+      type="button"
+      className={copied ? `${className} copied` : className}
+      style={style}
+      onClick={copy}
+      aria-label={t("Хуулах", "Copy")}
+    >
+      {children}
+    </button>
+  );
+}
+
+function fallbackCopy(text: string) {
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.style.position = "fixed";
+  area.style.opacity = "0";
+  document.body.appendChild(area);
+  area.focus();
+  area.select();
+  try {
+    document.execCommand("copy");
+  } catch {
+    /* nothing more to try */
+  }
+  document.body.removeChild(area);
+}
+
+export interface PageLink {
+  href: string;
+  mn: string;
+  en: string;
+}
+
+/** Previous / next pager closing each guide, FAQ answer, and policy page. */
+export function PageNav({ prev, next }: { prev?: PageLink; next?: PageLink }) {
+  return (
+    <div className="guide-pagenav">
+      <div className="side prev">
+        {prev && (
+          <>
+            <small>
+              <T mn="ӨМНӨХ" en="Previous" />
+            </small>
+            <a href={prev.href}>
+              {/* Non-breaking space keeps the arrow from orphaning onto its
+                  own line when a label wraps. */}
+              ← <T mn={prev.mn} en={prev.en} />
+            </a>
+          </>
+        )}
+      </div>
+      <div className="side next">
+        {next && (
+          <>
+            <small>
+              <T mn="ДАРААХ" en="Next" />
+            </small>
+            <a href={next.href}>
+              <T mn={next.mn} en={next.en} /> →
+            </a>
+          </>
+        )}
+      </div>
     </div>
   );
 }
 
-/** The logo mark, abstracted: concentric squares. */
-export function Mark({
-  className = "h-[38px] w-[38px]",
-  rings = 3,
+/** Progress pips across the six customer-support guides. */
+export function StepDots({
+  steps,
+  active,
 }: {
-  className?: string;
-  rings?: 2 | 3;
+  steps: string[];
+  active: string;
 }) {
   return (
-    <svg viewBox="0 0 40 40" aria-hidden="true" className={className}>
-      <rect x="1" y="1" width="38" height="38" />
-      <rect x="9" y="9" width="22" height="22" />
-      {rings === 3 && <rect x="16" y="16" width="8" height="8" />}
-    </svg>
+    <div className="step-dots">
+      {steps.map((step) => (
+        <a href={`#${step}`} key={step}>
+          <span className={step === active ? "active" : ""} />
+        </a>
+      ))}
+    </div>
   );
 }
 
-/** Ambient field built from the same concentric squares as the logo. */
-export function Rings({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 720 720"
-      aria-hidden="true"
-      className={`pointer-events-none absolute [&_rect]:fill-none [&_rect]:stroke-blue [&_rect]:stroke-[1.4] ${className}`}
-    >
-      <rect x="10" y="10" width="700" height="700" />
-      <rect x="70" y="70" width="580" height="580" />
-      <rect x="130" y="130" width="460" height="460" />
-      <rect x="190" y="190" width="340" height="340" />
-      <rect x="250" y="250" width="220" height="220" />
-      <rect x="310" y="310" width="100" height="100" />
-    </svg>
-  );
-}
-
-/** Pulsing "live" indicator. */
-export function LiveDot({ className = "" }: { className?: string }) {
-  return (
-    <span
-      className={`mr-1.5 inline-block h-1.5 w-1.5 shrink-0 animate-live-pulse rounded-full bg-[#3FD08A] ${className}`}
-    />
-  );
-}
-
-/** Inline "learn more" link — the arrow slides out on hover. */
-export function More({
+/** "← back" link above a detail page. */
+export function BackLink({
   href,
-  children,
-  className = "",
+  mn,
+  en,
 }: {
   href: string;
-  children: Bi;
-  className?: string;
+  mn: string;
+  en: string;
 }) {
   return (
-    <a
-      href={href}
-      className={`inline-flex items-center gap-1.5 font-display text-sm font-semibold text-blue-text transition-all hover:gap-2.5 ${className}`}
-    >
-      <T>{children}</T>
+    <a href={href} className="guide-back">
+      ← <T mn={mn} en={en} />
     </a>
+  );
+}
+
+/** The paper-sheet shell every guide / FAQ / policy detail page sits on. */
+export function DetailPage({
+  back,
+  children,
+}: {
+  back: { href: string; mn: string; en: string };
+  children: ReactNode;
+}) {
+  return (
+    <section>
+      <div className="wrap" style={{ padding: "72px 0" }}>
+        <div className="modal-paper inline">
+          <BackLink {...back} />
+          {children}
+        </div>
+      </div>
+    </section>
   );
 }

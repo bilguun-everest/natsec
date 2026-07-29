@@ -80,23 +80,25 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
+    // `motion-ready` gates the scroll-reveal styles: an element starts hidden
+    // only because something is going to animate it back in. It ships in the
+    // server-rendered class list rather than being added by a script, so
+    // hydration stays clean — and the <noscript> block cancels the whole
+    // mechanism when nothing is around to run the animation.
     <html
       lang="mn"
       data-lang="mn"
-      className={`${inter.variable} ${display.variable} ${mono.variable}`}
+      className={`motion-ready ${inter.variable} ${display.variable} ${mono.variable}`}
     >
-      <body className="min-h-screen bg-white font-sans text-ink antialiased">
+      <body>
+        <noscript>
+          <style>{`.reveal{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[110] focus:rounded-lg focus:bg-blue focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-navy-900"
-        >
-          Үндсэн хэсэг рүү очих
-        </a>
 
         <LanguageProvider>{children}</LanguageProvider>
       </body>

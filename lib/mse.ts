@@ -8,7 +8,12 @@
  *
  * Everything here runs on the server only, and every call degrades to `null`
  * rather than throwing: the page must render even when the exchange is down.
- * Freshness is controlled by `export const revalidate` in `app/page.tsx`.
+ *
+ * Freshness is owned by `getMarketSnapshot()` at the bottom of this file — a
+ * single process-wide cache shared by the page render and `/api/market`, so a
+ * thousand polling browsers still produce one set of upstream requests per
+ * interval. Every payload carries the instant it was retrieved, because the
+ * exchange itself sends no timestamp.
  */
 
 const API = "https://mse.mn/api";
@@ -71,14 +76,26 @@ async function withTimeout(input: string, init: RequestInit) {
   }
 }
 
+/**
+ * Failures are logged rather than swallowed. A silent feed is the dangerous
+ * case: the page keeps rendering and nobody notices the numbers stopped.
+ */
+function warn(what: string, detail: unknown) {
+  console.warn(`[mse] ${what} failed:`, detail);
+}
+
 async function rest<T>(path: string): Promise<T | null> {
   try {
     const res = await withTimeout(`${API}/${path}`, {
       headers: { Accept: "application/json" },
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      warn(path, `HTTP ${res.status}`);
+      return null;
+    }
     return (await res.json()) as T;
-  } catch {
+  } catch (error) {
+    warn(path, error);
     return null;
   }
 }
@@ -86,6 +103,11 @@ async function rest<T>(path: string): Promise<T | null> {
 /**
  * Calls the mse.mn data action and unwraps the React Flight response — the
  * payload arrives as a `1:<json>` line.
+ *
+ * `ACTION_ID` is a build hash of the mse.mn front-end: when they redeploy, it
+ * changes and every call here starts returning null. That is why the failure is
+ * logged loudly and surfaced through `health.board` — the symptom is an empty
+ * board on a page that otherwise looks perfectly healthy.
  */
 async function board<T>(url: string, parameter: string): Promise<T | null> {
   try {
@@ -97,17 +119,24 @@ async function board<T>(url: string, parameter: string): Promise<T | null> {
       },
       body: JSON.stringify([{ url, parameter, config: { hasToken: false } }]),
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      warn(url, `HTTP ${res.status} — ACTION_ID may be stale`);
+      return null;
+    }
 
     const line = (await res.text())
       .split("\n")
       .find((candidate) => candidate.startsWith("1:"));
-    if (!line) return null;
+    if (!line) {
+      warn(url, "no flight payload — ACTION_ID may be stale");
+      return null;
+    }
 
     const payload = JSON.parse(line.slice(2));
     // Paginated endpoints wrap their rows in `{ data, total }`.
     return (payload?.data ?? payload) as T;
-  } catch {
+  } catch (error) {
+    warn(url, error);
     return null;
   }
 }
@@ -149,23 +178,21 @@ export function getIndexTable() {
   return rest<IndexTable>("index_table?lang=mn");
 }
 
-/** Shares, bonds and asset-backed securities — gainers, losers, turnover. */
-export async function getBoard(lang: "mn" | "en" = "mn"): Promise<Board> {
+/**
+ * Shares, bonds and asset-backed securities — gainers, losers, turnover.
+ *
+ * `reachable` distinguishes the two ways a board comes back empty: the exchange
+ * answered and there genuinely were no trades, or nothing answered at all. The
+ * UI must say different things in those two cases.
+ */
+export async function getBoard(
+  lang: "mn" | "en" = "mn",
+): Promise<{ board: Board; reachable: boolean }> {
   const shares = `?lang=${lang}&segments=[1,2,3]`;
   const bonds = `?lang=${lang}&type=BD`;
   const abs = `?lang=${lang}&type=IABS`;
 
-  const [
-    stockUp,
-    stockDown,
-    stockAmount,
-    bondUp,
-    bondDown,
-    bondAmount,
-    absUp,
-    absDown,
-    absAmount,
-  ] = await Promise.all([
+  const results = await Promise.all([
     board("stock_up", shares),
     board("stock_down", shares),
     board("stock_amount", shares),
@@ -177,18 +204,37 @@ export async function getBoard(lang: "mn" | "en" = "mn"): Promise<Board> {
     board("stock_amount_bond", abs),
   ]);
 
+  const [
+    stockUp,
+    stockDown,
+    stockAmount,
+    bondUp,
+    bondDown,
+    bondAmount,
+    absUp,
+    absDown,
+    absAmount,
+  ] = results;
+
   return {
-    stock: {
-      up: toRows(stockUp),
-      down: toRows(stockDown),
-      amount: toRows(stockAmount),
+    reachable: results.some((result) => result !== null),
+    board: {
+      stock: {
+        up: toRows(stockUp),
+        down: toRows(stockDown),
+        amount: toRows(stockAmount),
+      },
+      bond: {
+        up: toRows(bondUp),
+        down: toRows(bondDown),
+        amount: toRows(bondAmount),
+      },
+      abs: {
+        up: toRows(absUp),
+        down: toRows(absDown),
+        amount: toRows(absAmount),
+      },
     },
-    bond: {
-      up: toRows(bondUp),
-      down: toRows(bondDown),
-      amount: toRows(bondAmount),
-    },
-    abs: { up: toRows(absUp), down: toRows(absDown), amount: toRows(absAmount) },
   };
 }
 
@@ -196,17 +242,20 @@ export async function getBoard(lang: "mn" | "en" = "mn"): Promise<Board> {
 export async function getDisclosures(
   lang: "mn" | "en" = "mn",
   limit = 6,
-): Promise<Disclosure[]> {
+): Promise<{ disclosures: Disclosure[]; reachable: boolean }> {
   const raw = await rest<
     { companySymbol: string; description: string; type: string; date: string }[]
   >(`home_company_contents?lang=${lang}`);
-  if (!Array.isArray(raw)) return [];
-  return raw.slice(0, limit).map((item) => ({
-    symbol: item.companySymbol,
-    company: item.description,
-    type: item.type,
-    date: item.date,
-  }));
+  if (!Array.isArray(raw)) return { disclosures: [], reachable: false };
+  return {
+    reachable: true,
+    disclosures: raw.slice(0, limit).map((item) => ({
+      symbol: item.companySymbol,
+      company: item.description,
+      type: item.type,
+      date: item.date,
+    })),
+  };
 }
 
 /** The same payload in both site languages — company names are localised. */
@@ -215,17 +264,136 @@ export interface Bilingual<T> {
   en: T;
 }
 
-export async function getBoards(): Promise<Bilingual<Board>> {
-  const [mn, en] = await Promise.all([getBoard("mn"), getBoard("en")]);
-  return { mn, en };
+/* ------------------------------------------------------------- the snapshot */
+
+/**
+ * A payload plus the instant it was actually retrieved.
+ *
+ * `live: false` means the most recent attempt failed and `data` is the last
+ * copy we managed to get — still worth showing, but only alongside its real
+ * age. `fetchedAt: null` means we have never had data at all.
+ */
+export interface Feed<T> {
+  data: T;
+  fetchedAt: string | null;
+  live: boolean;
 }
 
-export async function getAllDisclosures(): Promise<Bilingual<Disclosure[]>> {
-  const [mn, en] = await Promise.all([
-    getDisclosures("mn"),
-    getDisclosures("en"),
-  ]);
-  return { mn, en };
+export interface MarketSnapshot {
+  index: Feed<IndexTable | null>;
+  boards: Feed<Bilingual<Board>>;
+  disclosures: Feed<Bilingual<Disclosure[]>>;
+  /** Instant of the most recent poll attempt, successful or not. */
+  polledAt: string;
+}
+
+const EMPTY_TABLES: BoardTables = { up: [], down: [], amount: [] };
+const EMPTY_BOARD: Board = {
+  stock: EMPTY_TABLES,
+  bond: EMPTY_TABLES,
+  abs: EMPTY_TABLES,
+};
+
+/** How long a retrieved snapshot is served before the exchange is polled again. */
+export const CACHE_TTL_MS = 60_000;
+
+interface CacheEntry {
+  snapshot: MarketSnapshot;
+  expiresAt: number;
+}
+
+// Process-wide, deliberately: the page render and every `/api/market` request
+// share one entry, so upstream load is a function of time rather than of how
+// many people have the site open. On a platform that runs several instances
+// each keeps its own copy — still bounded, just multiplied by instance count.
+let cache: CacheEntry | null = null;
+let inflight: Promise<MarketSnapshot> | null = null;
+
+/**
+ * Carries a previous feed forward when the latest attempt failed, so a blip
+ * downgrades the data's stated age instead of blanking the page.
+ */
+function retain<T>(previous: Feed<T> | undefined, empty: T): Feed<T> {
+  if (!previous || previous.fetchedAt === null) {
+    return { data: empty, fetchedAt: null, live: false };
+  }
+  return { ...previous, live: false };
+}
+
+async function poll(previous: MarketSnapshot | null): Promise<MarketSnapshot> {
+  const now = new Date().toISOString();
+
+  const [index, boardMn, boardEn, disclosuresMn, disclosuresEn] =
+    await Promise.all([
+      getIndexTable(),
+      getBoard("mn"),
+      getBoard("en"),
+      getDisclosures("mn"),
+      getDisclosures("en"),
+    ]);
+
+  const boardsOk = boardMn.reachable && boardEn.reachable;
+  const disclosuresOk = disclosuresMn.reachable && disclosuresEn.reachable;
+
+  return {
+    polledAt: now,
+    index: index
+      ? { data: index, fetchedAt: now, live: true }
+      : retain(previous?.index, null),
+    boards: boardsOk
+      ? {
+          data: { mn: boardMn.board, en: boardEn.board },
+          fetchedAt: now,
+          live: true,
+        }
+      : retain(previous?.boards, { mn: EMPTY_BOARD, en: EMPTY_BOARD }),
+    disclosures: disclosuresOk
+      ? {
+          data: {
+            mn: disclosuresMn.disclosures,
+            en: disclosuresEn.disclosures,
+          },
+          fetchedAt: now,
+          live: true,
+        }
+      : retain(previous?.disclosures, { mn: [], en: [] }),
+  };
+}
+
+/**
+ * The one entry point for market data. Serves the cached snapshot until it
+ * expires, then polls the exchange once — concurrent callers await the same
+ * request rather than each starting their own.
+ */
+export async function getMarketSnapshot(): Promise<MarketSnapshot> {
+  if (cache && cache.expiresAt > Date.now()) return cache.snapshot;
+  if (inflight) return inflight;
+
+  const previous = cache?.snapshot ?? null;
+
+  inflight = poll(previous)
+    .catch((error): MarketSnapshot => {
+      // `poll` catches per-request, so reaching here means something
+      // unexpected broke. Degrade to the retained snapshot rather than
+      // letting the page render throw.
+      warn("snapshot", error);
+      const now = new Date().toISOString();
+      return {
+        polledAt: now,
+        index: retain(previous?.index, null),
+        boards: retain(previous?.boards, { mn: EMPTY_BOARD, en: EMPTY_BOARD }),
+        disclosures: retain(previous?.disclosures, { mn: [], en: [] }),
+      };
+    })
+    .then((snapshot) => {
+      cache = { snapshot, expiresAt: Date.now() + CACHE_TTL_MS };
+      return snapshot;
+    })
+    .finally(() => {
+      inflight = null;
+    });
+
+  return inflight;
 }
 
 /* ------------------------------------------------------------- formatting */

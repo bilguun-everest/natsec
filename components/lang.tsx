@@ -9,7 +9,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { Bi } from "@/lib/content";
 
 export type Lang = "mn" | "en";
 
@@ -17,9 +16,10 @@ const STORAGE_KEY = "natsec_lang";
 
 interface LangValue {
   lang: Lang;
+  setLang: (lang: Lang) => void;
   toggle: () => void;
   /** Pick the active string — for attributes (alt, aria-label, title). */
-  t: (text: Bi) => string;
+  t: (mn: string, en: string) => string;
 }
 
 const LangContext = createContext<LangValue | null>(null);
@@ -30,7 +30,7 @@ const LangContext = createContext<LangValue | null>(null);
  * `lang`/`data-lang` attributes onto <html> the way the design does.
  */
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>("mn");
+  const [lang, setLangState] = useState<Lang>("mn");
 
   useEffect(() => {
     let saved: Lang = "mn";
@@ -39,7 +39,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     } catch {
       /* storage unavailable — stay on the default */
     }
-    if (saved === "en") setLang("en");
+    if (saved === "en") setLangState("en");
   }, []);
 
   useEffect(() => {
@@ -47,21 +47,28 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.documentElement.dataset.lang = lang;
   }, [lang]);
 
-  const toggle = useCallback(() => {
-    setLang((current) => {
-      const next: Lang = current === "mn" ? "en" : "mn";
-      try {
-        localStorage.setItem(STORAGE_KEY, next);
-      } catch {
-        /* ignore */
-      }
-      return next;
-    });
+  const setLang = useCallback((next: Lang) => {
+    setLangState(next);
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      /* ignore */
+    }
   }, []);
 
+  const toggle = useCallback(
+    () => setLang(lang === "mn" ? "en" : "mn"),
+    [lang, setLang],
+  );
+
   const value = useMemo<LangValue>(
-    () => ({ lang, toggle, t: (text: Bi) => text[lang] }),
-    [lang, toggle],
+    () => ({
+      lang,
+      setLang,
+      toggle,
+      t: (mn: string, en: string) => (lang === "en" ? en : mn),
+    }),
+    [lang, setLang, toggle],
   );
 
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
@@ -74,13 +81,12 @@ export function useLang(): LangValue {
 }
 
 /**
- * Renders a bilingual string. Two characters get special treatment:
- * `₮` is wrapped in a font that actually has the glyph, and `\n` becomes a
- * line break.
+ * Bilingual text. Two characters get special treatment: `₮` is wrapped in a
+ * font that actually has the glyph, and `\n` becomes a line break.
  */
-export function T({ children }: { children: Bi }) {
+export function T({ mn, en }: { mn: string; en: string }) {
   const { lang } = useLang();
-  return <>{rich(children[lang])}</>;
+  return <>{rich(lang === "en" ? en : mn)}</>;
 }
 
 /** Same rendering rules for plain (already-resolved) strings. */
@@ -90,7 +96,27 @@ export function Rich({ children }: { children: string }) {
 
 /** The tögrög sign, in a font that has it. */
 export function Tg() {
-  return <span className="font-tg">₮</span>;
+  return <span className="tg">₮</span>;
+}
+
+/** MN / EN segmented control, as it appears in the header. */
+export function LangSwitch({ id }: { id?: string }) {
+  const { lang, setLang } = useLang();
+  return (
+    <div className="lang-switch" id={id}>
+      {(["mn", "en"] as const).map((option) => (
+        <button
+          key={option}
+          type="button"
+          data-lang-opt={option}
+          className={lang === option ? "active" : undefined}
+          onClick={() => setLang(option)}
+        >
+          {option.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
 }
 
 function rich(text: string): ReactNode[] {
@@ -100,7 +126,7 @@ function rich(text: string): ReactNode[] {
     line.split("₮").forEach((part, partIndex) => {
       if (partIndex > 0) {
         nodes.push(
-          <span className="font-tg" key={`tg-${lineIndex}-${partIndex}`}>
+          <span className="tg" key={`tg-${lineIndex}-${partIndex}`}>
             ₮
           </span>,
         );

@@ -2,78 +2,211 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { T, useLang } from "@/components/lang";
-import { Btn, Wrap } from "@/components/ui";
-import { actions, isGroup, nav, LOGIN_URL } from "@/lib/content";
+import { LangSwitch, T, useLang } from "@/components/lang";
+import { TRADING_URL } from "@/lib/site";
 
-/**
- * Sticky header: hover/focus dropdowns on desktop, a full-height drawer below
- * the `nav` breakpoint.
- */
+interface DropItem {
+  href: string;
+  mn: string;
+  en: string;
+  /** Renders as a non-clickable group heading inside the dropdown. */
+  group?: boolean;
+}
+
+interface NavItem {
+  href: string;
+  mn: string;
+  en: string;
+  drop: DropItem[];
+  /** The last menu opens flush right so it can't overflow the viewport. */
+  alignRight?: boolean;
+}
+
+const NAV: NavItem[] = [
+  {
+    href: "#tanilcuulga",
+    mn: "Бидний тухай",
+    en: "About Us",
+    drop: [
+      { href: "#tanilcuulga", mn: "Танилцуулга", en: "Overview" },
+      {
+        href: "#udirdlaga",
+        mn: "Удирдах албан тушаалтан",
+        en: "Leadership",
+      },
+      { href: "#ololt", mn: "Ололт амжилт", en: "Achievements" },
+      { href: "#tailan", mn: "Санхүүгийн тайлан", en: "Financial Reports" },
+    ],
+  },
+  {
+    href: "#broker",
+    mn: "Үйлчилгээ",
+    en: "Services",
+    drop: [
+      { href: "", mn: "Брокер", en: "Broker", group: true },
+      {
+        href: TRADING_URL,
+        mn: "Дотоод арилжаанд оролцох",
+        en: "Domestic Trading",
+      },
+      {
+        href: "#broker",
+        mn: "Онлайн арилжааны систем",
+        en: "Online Trading System",
+      },
+      { href: "", mn: "Андеррайтер", en: "Underwriter", group: true },
+      {
+        href: "#anderraiter",
+        mn: "Хувьцааны санхүүжилт (IPO, FPO)",
+        en: "Equity Financing (IPO, FPO)",
+      },
+      {
+        href: "#anderraiter",
+        mn: "Бондын санхүүжилт",
+        en: "Bond Financing",
+      },
+      {
+        href: "",
+        mn: "Хөрөнгө оруулалтын зөвлөгөө",
+        en: "Investment Advisory",
+        group: true,
+      },
+      { href: "#zuvluh", mn: "Зөвлөх үйлчилгээ", en: "Advisory Services" },
+      { href: "#zuvluh", mn: "Хувийн санхүүжилт", en: "Personal Financing" },
+    ],
+  },
+  {
+    href: "#sudalgaa",
+    mn: "Судалгаа",
+    en: "Research",
+    drop: [
+      { href: "#sudalgaa", mn: "Макро орчны судалгаа", en: "Macro Research" },
+      {
+        href: "#sudalgaa",
+        mn: "Үнэт цаасны судалгаа",
+        en: "Securities Research",
+      },
+      {
+        href: "#sudalgaa-toim",
+        mn: "Долоо хоногийн тойм",
+        en: "Weekly Review",
+      },
+    ],
+  },
+  {
+    href: "#zaavar",
+    mn: "Харилцагчийн туслах",
+    en: "Customer Support",
+    drop: [
+      {
+        href: "#zaavar-dansneeh",
+        mn: "Данс нээх заавар",
+        en: "Account Opening Guide",
+      },
+      {
+        href: "#zaavar-mhb",
+        mn: "МХБ-ийн арилжаанд оролцох",
+        en: "Trading on the MSE",
+      },
+      {
+        href: "#zaavar-ipo",
+        mn: "IPO-д хэрхэн оролцох вэ",
+        en: "How to Participate in an IPO",
+      },
+      {
+        href: "#zaavar-mungu",
+        mn: "Мөнгө байршуулах, татах",
+        en: "Deposits & Withdrawals",
+      },
+      { href: "#zaavar-tsenegleh", mn: "Данс цэнэглэх", en: "Top Up Account" },
+      {
+        href: "#zaavar-nogdol",
+        mn: "Ногдол ашиг авах",
+        en: "Receiving Dividends",
+      },
+      { href: "#holboo-barih", mn: "Холбоо барих", en: "Contact" },
+    ],
+  },
+  {
+    href: "#tog-hugjil",
+    mn: "Тогтвортой хөгжил",
+    en: "Sustainability",
+    alignRight: true,
+    drop: [
+      {
+        href: "#tog-hugjil-esg",
+        mn: "Тогтвортой хөгжлийн бодлого (ESG)",
+        en: "Sustainability Policy (ESG)",
+      },
+      {
+        href: "#tog-hugjil-privacy",
+        mn: "Нууцлалын бодлого",
+        en: "Privacy Policy",
+      },
+      {
+        href: "#tog-hugjil-terms",
+        mn: "Үйлчилгээний нөхцөл",
+        en: "Terms of Service",
+      },
+    ],
+  },
+];
+
 export default function Header() {
   const { t } = useLang();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  // The drawer owns the viewport while it is open.
+  // Any route change closes the drawer.
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
+    const close = () => setOpen(false);
+    window.addEventListener("hashchange", close);
+    return () => window.removeEventListener("hashchange", close);
+  }, []);
 
+  // The header only asserts its edge once the page has moved under it.
   useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header className="sticky top-0 z-[100] border-b border-line bg-white/[.94] backdrop-blur-[12px]">
-      <Wrap className="flex h-[76px] items-center justify-between gap-[30px] max-sm:gap-3">
-        <a href="#" className="flex shrink-0 items-center gap-3">
+    <header data-scrolled={scrolled}>
+      <div className="wrap nav">
+        <a href="#home" className="logo">
           <Image
             src="/logo.png"
-            alt="NatSec"
-            width={184}
-            height={38}
+            alt="«Нэйшнл сэкюритис ҮЦК» ХХК"
+            width={765}
+            height={158}
             priority
-            className="h-[38px] w-auto max-sm:h-[30px]"
           />
         </a>
 
-        {/* ---------------------------------------------------- desktop nav */}
-        <ul className="flex flex-1 items-center justify-between px-6 max-nav:hidden">
-          {nav.map((item) => (
-            <li key={item.label.mn} className="group relative list-none">
-              <a
-                href="#"
-                className="block whitespace-nowrap rounded-md px-3 py-2.5 text-[14.5px] font-medium text-[#2C3040] transition-colors duration-150 group-hover:bg-blue-soft group-hover:text-navy"
-              >
-                <T>{item.label}</T>
+        <ul className={open ? "menu open" : "menu"}>
+          {NAV.map((item) => (
+            <li key={item.mn}>
+              <a href={item.href}>
+                <T mn={item.mn} en={item.en} />
               </a>
               <div
-                className={`invisible absolute top-[calc(100%+10px)] w-[250px] -translate-y-1.5 rounded-[10px] border border-line bg-white p-2 opacity-0 shadow-drop transition-all duration-200 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 ${
-                  item.alignRight ? "right-0" : "left-1/2 -ml-[125px]"
-                }`}
+                className="drop"
+                style={
+                  item.alignRight
+                    ? { left: "auto", right: 0, marginLeft: 0 }
+                    : undefined
+                }
               >
-                {item.items.map((entry) =>
-                  isGroup(entry) ? (
-                    <div
-                      key={entry.group.mn}
-                      className="px-3 pb-[5px] pt-3 font-mono text-[10.5px] uppercase tracking-[.13em] text-grey"
-                    >
-                      <T>{entry.group}</T>
+                {item.drop.map((entry, index) =>
+                  entry.group ? (
+                    <div className="grp" key={`${entry.mn}-${index}`}>
+                      <T mn={entry.mn} en={entry.en} />
                     </div>
                   ) : (
-                    <a
-                      key={entry.label.mn}
-                      href={entry.href}
-                      className="block rounded-md px-3 py-[9px] text-sm text-[#3A3F52] transition-colors hover:bg-blue-soft hover:text-navy"
-                    >
-                      <T>{entry.label}</T>
+                    <a href={entry.href} key={`${entry.mn}-${index}`}>
+                      <T mn={entry.mn} en={entry.en} />
                     </a>
                   ),
                 )}
@@ -82,64 +215,26 @@ export default function Header() {
           ))}
         </ul>
 
-        {/* -------------------------------------------------------- actions */}
-        <div className="flex shrink-0 items-center gap-2.5">
-          <Btn href={LOGIN_URL} variant="o" className="max-nav:hidden">
-            {actions.login}
-          </Btn>
-          <Btn href={LOGIN_URL} variant="p">
-            {actions.openAccount}
-          </Btn>
+        <div className="act">
+          <LangSwitch id="langSwitchHeader" />
+          <a href={TRADING_URL} className="btn btn-o">
+            <T mn="Нэвтрэх" en="Log In" />
+          </a>
+          <a href={TRADING_URL} className="btn btn-p">
+            <T mn="Данс нээх" en="Open Account" />
+          </a>
           <button
-            type="button"
-            aria-label={t(actions.menu)}
+            className="burger"
+            aria-label={t("Цэс нээх", "Open menu")}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
-            className="p-2 nav:hidden"
           >
-            <span className="my-1 block h-0.5 w-[22px] rounded-sm bg-navy" />
-            <span className="my-1 block h-0.5 w-[22px] rounded-sm bg-navy" />
-            <span className="my-1 block h-0.5 w-[22px] rounded-sm bg-navy" />
+            <span />
+            <span />
+            <span />
           </button>
         </div>
-      </Wrap>
-
-      {/* ----------------------------------------------------- mobile drawer */}
-      {open && (
-        <div className="absolute inset-x-0 top-full max-h-[calc(100vh-76px)] overflow-y-auto border-t border-line bg-white shadow-drop nav:hidden">
-          <Wrap className="py-6">
-            {nav.map((item) => (
-              <div key={item.label.mn} className="border-b border-line py-4">
-                <div className="mb-2 font-display text-[15px] font-bold text-navy">
-                  <T>{item.label}</T>
-                </div>
-                {item.items.map((entry) =>
-                  isGroup(entry) ? (
-                    <div
-                      key={entry.group.mn}
-                      className="px-1 pb-1 pt-3 font-mono text-[10.5px] uppercase tracking-[.13em] text-grey"
-                    >
-                      <T>{entry.group}</T>
-                    </div>
-                  ) : (
-                    <a
-                      key={entry.label.mn}
-                      href={entry.href}
-                      onClick={() => setOpen(false)}
-                      className="block rounded-md px-1 py-2 text-sm text-[#3A3F52] hover:text-blue-text"
-                    >
-                      <T>{entry.label}</T>
-                    </a>
-                  ),
-                )}
-              </div>
-            ))}
-            <Btn href={LOGIN_URL} variant="o" className="mt-6 w-full">
-              {actions.login}
-            </Btn>
-          </Wrap>
-        </div>
-      )}
+      </div>
     </header>
   );
 }
