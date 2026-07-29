@@ -3,14 +3,12 @@
 import { useEffect, useState } from "react";
 import { T, Tg, useLang } from "@/components/lang";
 import { useCountUp, useInView } from "@/components/motion";
+import MarketPanel from "@/components/MarketPanel";
+import { useIndices } from "@/components/market";
 import { Eyebrow } from "@/components/ui";
 import { TRADING_URL } from "@/lib/site";
 
 const HEADLINES: { mn: string; en: string }[] = [
-  {
-    mn: "МХБ-ийн ТОП-20 индекс өнөөдөр 45,182.6-д хүрлээ",
-    en: "MSE TOP-20 index closed at 45,182.6 today",
-  },
   {
     mn: "Шинэ IPO-ийн захиалга 7 хоногийн дараа хаагдана",
     en: "New IPO subscription window closes in 7 days",
@@ -29,53 +27,6 @@ const HEADLINES: { mn: string; en: string }[] = [
   },
 ];
 
-const TICKS: {
-  name: { mn: string; en: string };
-  sub: { mn: string; en: string };
-  value: string;
-  tugrug?: boolean;
-  change: { mn: string; en: string };
-  dir?: "u" | "d";
-}[] = [
-  {
-    name: { mn: "ТОП-20 индекс", en: "TOP-20 Index" },
-    sub: { mn: "MSE TOP-20", en: "MSE TOP-20" },
-    value: "45,182.60",
-    change: { mn: "▲ 0.84%", en: "▲ 0.84%" },
-    dir: "u",
-  },
-  {
-    name: { mn: "АПУ", en: "АПУ" },
-    sub: { mn: "APU · Хүнс, ундаа", en: "APU · Food & Beverage" },
-    value: "1,142",
-    tugrug: true,
-    change: { mn: "▲ 2.15%", en: "▲ 2.15%" },
-    dir: "u",
-  },
-  {
-    name: { mn: "Голомт банк", en: "Golomt Bank" },
-    sub: { mn: "GLMT · Санхүү", en: "GLMT · Finance" },
-    value: "3,890",
-    tugrug: true,
-    change: { mn: "▼ 0.51%", en: "▼ 0.51%" },
-    dir: "d",
-  },
-  {
-    name: { mn: "Эрдэнэ ресурс", en: "Erdene Resource" },
-    sub: { mn: "ERDN · Уул уурхай", en: "ERDN · Mining" },
-    value: "412",
-    tugrug: true,
-    change: { mn: "▲ 1.23%", en: "▲ 1.23%" },
-    dir: "u",
-  },
-  {
-    name: { mn: "Хөрөнгө оруулалт", en: "Trading Volume" },
-    sub: { mn: "Өдрийн нийт арилжаа", en: "Total daily turnover" },
-    value: "2.4 тэрбум",
-    tugrug: true,
-    change: { mn: "1,284 гүйлгээ", en: "1,284 transactions" },
-  },
-];
 
 const STATS: { value: string; mn: string; en: string }[] = [
   {
@@ -203,41 +154,7 @@ function Hero() {
             <HeroNews />
           </div>
 
-          <div className="panel">
-            <div className="panel-h">
-              <span>
-                <T mn="Зах зээл — өнөөдөр" en="Market — Today" />
-              </span>
-              <span style={{ color: "#4FD497" }}>
-                <span className="live-dot" />
-                <T mn="Арилжаа нээлттэй" en="Trading Open" />
-              </span>
-            </div>
-            {TICKS.map((tick) => (
-              <div className="tick" key={tick.sub.mn}>
-                <div>
-                  <div className="tick-n">
-                    <T mn={tick.name.mn} en={tick.name.en} />
-                  </div>
-                  <div className="tick-s">
-                    <T mn={tick.sub.mn} en={tick.sub.en} />
-                  </div>
-                </div>
-                <div className="tick-v">
-                  <b>
-                    {tick.value}
-                    {tick.tugrug && <Tg />}
-                  </b>
-                  <i
-                    className={tick.dir}
-                    style={tick.dir ? undefined : { color: "#8E98C4" }}
-                  >
-                    <T mn={tick.change.mn} en={tick.change.en} />
-                  </i>
-                </div>
-              </div>
-            ))}
-          </div>
+          <MarketPanel />
         </div>
       </div>
     </div>
@@ -247,14 +164,27 @@ function Hero() {
 /** The five headlines cycle in place, one every three seconds. */
 function HeroNews() {
   const [index, setIndex] = useState(0);
+  const indices = useIndices();
+
+  // The index headline reports the actual level rather than a number frozen
+  // into the copy. When the feed is down the line is simply dropped.
+  const headlines = indices
+    ? [
+        {
+          mn: `МХБ-ийн ТОП-20 индекс ${indices.top20.unit} байна`,
+          en: `MSE TOP-20 index at ${indices.top20.unit}`,
+        },
+        ...HEADLINES,
+      ]
+    : HEADLINES;
 
   useEffect(() => {
     const timer = setInterval(
-      () => setIndex((current) => (current + 1) % HEADLINES.length),
+      () => setIndex((current) => (current + 1) % headlines.length),
       3000,
     );
     return () => clearInterval(timer);
-  }, []);
+  }, [headlines.length]);
 
   return (
     <div className="hero-news" id="heroNews">
@@ -262,7 +192,7 @@ function HeroNews() {
         <T mn="Мэдээ" en="News" />
       </span>
       <div className="txt" id="heroNewsTxt">
-        {HEADLINES.map((headline, position) => (
+        {headlines.map((headline, position) => (
           <span
             key={headline.mn}
             className={position === index ? "active" : undefined}

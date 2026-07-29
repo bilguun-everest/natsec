@@ -794,3 +794,7 @@ header[data-scrolled="true"]{
   .reveal{opacity:1!important;transform:none!important}
   .mkt-ticker,.ticker-bar{display:none}
 }
+
+/* Names the bottom strip's figures, so a turnover number can't be misread as
+   a share price. */
+.mkt-ticker .mkt-label{color:#7E88B4;letter-spacing:.14em;font-size:10.5px}

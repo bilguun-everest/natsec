@@ -2,6 +2,7 @@
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { MarketProvider } from "@/components/market";
 import MarketTicker from "@/components/MarketTicker";
 import TickerBar from "@/components/TickerBar";
 import UtilityBar from "@/components/UtilityBar";
@@ -23,6 +24,8 @@ import WeeklyReview from "@/components/pages/WeeklyReview";
 import { useRoute, type Route } from "@/components/router";
 import { FAQ } from "@/lib/faq";
 import { GUIDES } from "@/lib/guides";
+import type { SessionState } from "@/lib/market-hours";
+import type { MarketSnapshot } from "@/lib/mse";
 import { POLICIES } from "@/lib/policies";
 
 function Page({ route }: { route: Route }) {
@@ -65,11 +68,17 @@ function Page({ route }: { route: Route }) {
   }
 }
 
-export default function App() {
+export default function App({
+  snapshot,
+  session,
+}: {
+  snapshot: MarketSnapshot;
+  session: SessionState;
+}) {
   const route = useRoute();
 
   return (
-    <>
+    <MarketProvider initial={snapshot} initialSession={session}>
       <UtilityBar />
       <Header />
       <TickerBar />
@@ -80,6 +89,6 @@ export default function App() {
       </main>
       <Footer />
       <MarketTicker />
-    </>
+    </MarketProvider>
   );
 }
