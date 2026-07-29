@@ -2,7 +2,7 @@
 
 import { T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
-import { SecHead } from "@/components/ui";
+import { PendingLink, SecHead } from "@/components/ui";
 
 const REPORTS: { mn: string; en: string; year: string }[] = [
   {
@@ -53,9 +53,9 @@ export default function Reports() {
                 </span>
                 <span className="yr">{report.year}</span>
               </div>
-              <a href="#" className="dl">
+              <PendingLink className="dl">
                 <T mn="Татах ↓" en="Download ↓" />
-              </a>
+              </PendingLink>
             </Reveal>
           ))}
         </ul>

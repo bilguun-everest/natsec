@@ -2,7 +2,9 @@
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { useLang } from "@/components/lang";
 import { MarketProvider } from "@/components/market";
+import { useEffect, useRef } from "react";
 import MarketTicker from "@/components/MarketTicker";
 import TickerBar from "@/components/TickerBar";
 import UtilityBar from "@/components/UtilityBar";
@@ -15,13 +17,14 @@ import GuideDetail from "@/components/pages/GuideDetail";
 import Guides from "@/components/pages/Guides";
 import Home from "@/components/pages/Home";
 import Leadership from "@/components/pages/Leadership";
+import NotFound from "@/components/pages/NotFound";
 import Reports from "@/components/pages/Reports";
 import Research from "@/components/pages/Research";
 import Services from "@/components/pages/Services";
 import Sustainability, { PolicyDetail } from "@/components/pages/Sustainability";
 import Underwriter from "@/components/pages/Underwriter";
 import WeeklyReview from "@/components/pages/WeeklyReview";
-import { useRoute, type Route } from "@/components/router";
+import { RouteProvider, useRoute, type Route } from "@/components/router";
 import { FAQ } from "@/lib/faq";
 import { GUIDES } from "@/lib/guides";
 import type { SessionState } from "@/lib/market-hours";
@@ -63,6 +66,8 @@ function Page({ route }: { route: Route }) {
       return <Sustainability />;
     case "holboo-barih":
       return <Contact />;
+    case "not-found":
+      return <NotFound />;
     default:
       return <Home />;
   }
@@ -76,19 +81,61 @@ export default function App({
   session: SessionState;
 }) {
   const route = useRoute();
+  const main = useRef<HTMLElement>(null);
+  const first = useRef(true);
+
+  // Hash routing swaps the document's contents without any of the signals a
+  // real navigation gives: focus stays wherever it was and assistive tech is
+  // told nothing. Moving focus to the new <main> restores both.
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    // `preventScroll` matters: focusing an element scrolls it into view by
+    // default, which would drop the reader past the utility bar and header
+    // on every navigation.
+    main.current?.focus({ preventScroll: true });
+  }, [route]);
 
   return (
     <MarketProvider initial={snapshot} initialSession={session}>
-      <UtilityBar />
-      <Header />
-      <TickerBar />
-      {/* Keyed on the route so React remounts on navigation — that restarts
-          both the enter animation and every scroll reveal on the new page. */}
-      <main id="main" className="app-page page-view" key={route}>
-        <Page route={route} />
-      </main>
-      <Footer />
-      <MarketTicker />
+      <RouteProvider value={route}>
+        <SkipLink target={main} />
+        <UtilityBar />
+        <Header />
+        <TickerBar />
+        {/* Keyed on the route so React remounts on navigation — that restarts
+            both the enter animation and every scroll reveal on the new page. */}
+        <main
+          id="main"
+          className="app-page page-view"
+          key={route}
+          ref={main}
+          tabIndex={-1}
+        >
+          <Page route={route} />
+        </main>
+        <Footer />
+        <MarketTicker />
+      </RouteProvider>
     </MarketProvider>
+  );
+}
+
+/**
+ * A button, not an anchor: `href="#main"` would set the fragment, and the
+ * fragment is the router — jumping to the content would navigate you home.
+ */
+function SkipLink({ target }: { target: React.RefObject<HTMLElement | null> }) {
+  const { t } = useLang();
+  return (
+    <button
+      type="button"
+      className="skip-link"
+      onClick={() => target.current?.focus({ preventScroll: true })}
+    >
+      {t("Үндсэн хэсэг рүү очих", "Skip to main content")}
+    </button>
   );
 }

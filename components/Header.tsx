@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { LangSwitch, T, useLang } from "@/components/lang";
+import { sectionOf, useCurrentRoute } from "@/components/router";
 import { TRADING_URL } from "@/lib/site";
 
 interface DropItem {
@@ -17,6 +18,8 @@ interface NavItem {
   href: string;
   mn: string;
   en: string;
+  /** Matches `sectionOf(route)` so the current section can be marked. */
+  section: string;
   drop: DropItem[];
   /** The last menu opens flush right so it can't overflow the viewport. */
   alignRight?: boolean;
@@ -25,6 +28,7 @@ interface NavItem {
 const NAV: NavItem[] = [
   {
     href: "#tanilcuulga",
+    section: "about",
     mn: "Бидний тухай",
     en: "About Us",
     drop: [
@@ -40,6 +44,7 @@ const NAV: NavItem[] = [
   },
   {
     href: "#broker",
+    section: "services",
     mn: "Үйлчилгээ",
     en: "Services",
     drop: [
@@ -77,6 +82,7 @@ const NAV: NavItem[] = [
   },
   {
     href: "#sudalgaa",
+    section: "research",
     mn: "Судалгаа",
     en: "Research",
     drop: [
@@ -95,6 +101,7 @@ const NAV: NavItem[] = [
   },
   {
     href: "#zaavar",
+    section: "support",
     mn: "Харилцагчийн туслах",
     en: "Customer Support",
     drop: [
@@ -129,6 +136,7 @@ const NAV: NavItem[] = [
   },
   {
     href: "#tog-hugjil",
+    section: "sustainability",
     mn: "Тогтвортой хөгжил",
     en: "Sustainability",
     alignRight: true,
@@ -154,14 +162,24 @@ const NAV: NavItem[] = [
 
 export default function Header() {
   const { t } = useLang();
+  const route = useCurrentRoute();
+  const active = sectionOf(route);
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Any route change closes the drawer.
+  // Any route change closes the drawer; so does Escape, which is the key
+  // people reach for and the only way out for keyboard users.
   useEffect(() => {
     const close = () => setOpen(false);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
     window.addEventListener("hashchange", close);
-    return () => window.removeEventListener("hashchange", close);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("hashchange", close);
+      window.removeEventListener("keydown", onKey);
+    };
   }, []);
 
   // The header only asserts its edge once the page has moved under it.
@@ -187,8 +205,11 @@ export default function Header() {
 
         <ul className={open ? "menu open" : "menu"}>
           {NAV.map((item) => (
-            <li key={item.mn}>
-              <a href={item.href}>
+            <li key={item.mn} className={item.section === active ? "is-current" : undefined}>
+              <a
+                href={item.href}
+                aria-current={item.section === active ? "page" : undefined}
+              >
                 <T mn={item.mn} en={item.en} />
               </a>
               <div
