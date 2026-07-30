@@ -164,6 +164,7 @@ function Hero() {
 /** The five headlines cycle in place, one every three seconds. */
 function HeroNews() {
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
   const indices = useIndices();
 
   // The index headline reports the actual level rather than a number frozen
@@ -178,16 +179,28 @@ function HeroNews() {
       ]
     : HEADLINES;
 
+  // Five seconds, not three: three is under the time it takes to read a
+  // Mongolian headline, so the line changed while you were still on it.
+  // Hovering or tabbing in stops it — auto-advancing content needs a way to
+  // be halted (WCAG 2.2.2).
   useEffect(() => {
+    if (paused) return;
     const timer = setInterval(
       () => setIndex((current) => (current + 1) % headlines.length),
-      3000,
+      5000,
     );
     return () => clearInterval(timer);
-  }, [headlines.length]);
+  }, [headlines.length, paused]);
 
   return (
-    <div className="hero-news" id="heroNews">
+    <div
+      className="hero-news"
+      id="heroNews"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
+    >
       <span className="tag">
         <T mn="Мэдээ" en="News" />
       </span>

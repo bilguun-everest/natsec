@@ -500,8 +500,6 @@ table.co tbody tr:hover{background:var(--blue-soft)}
 
 /* ---------- footer ---------- */
 footer{background:var(--navy);color:#B6BEDD;padding:64px 0 0;font-size:14px}
-.flogo-banner{display:flex;justify-content:center;margin-bottom:56px}
-.flogo-banner img{width:100%;max-width:900px;border-radius:14px;display:block}
 .fapps{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
 .fapps a{display:flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:8px 14px;transition:.18s;color:#fff}
 .fapps a:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.4)}
@@ -586,7 +584,6 @@ footer{background:var(--navy);color:#B6BEDD;padding:64px 0 0;font-size:14px}
 /* next/image emits width/height attributes, so rules that set only a height
    would stretch the bitmap to its intrinsic width. */
 .fbrand img{width:auto}
-.flogo-banner img{height:auto}
 
 /* ---------- small-screen header fit ---------- */
 /* At phone widths the source design's header is wider than the viewport, which
@@ -802,3 +799,149 @@ header[data-scrolled="true"]{
 /* Names the bottom strip's figures, so a turnover number can't be misread as
    a share price. */
 .mkt-ticker .mkt-label{color:#7E88B4;letter-spacing:.14em;font-size:10.5px}
+
+/* ---------- value cards: text fit ---------- */
+/* These sit in a ~200px column, and the design justifies their body copy.
+   Justification needs roughly 45 characters to distribute evenly; this column
+   holds about 22, so every line was padded out with rivers of whitespace.
+   Ragged-right plus a slightly smaller face and tighter box gets the text
+   sitting properly inside the card. */
+.value-card{padding:20px 18px}
+.value-card .icon-badge{width:38px;height:38px;margin-bottom:12px}
+.value-card .icon-badge svg{width:21px;height:21px}
+.value-card h4{font-size:14px;margin-bottom:6px}
+.value-card p{
+  text-align:left;
+  font-size:12.9px;
+  line-height:1.62;
+}
+
+/* ============================================================
+   RESPONSIVE FIXES
+   Desktop (≥1361px) is untouched — every rule below is bounded
+   by a max-width, or by a min/max band above the design's own
+   1160px breakpoint.
+   ============================================================ */
+
+/* Grid items default to `min-width:auto`, so a column can never shrink below
+   its longest word. Mongolian compounds are long enough to force these grids
+   wider than the phone they are on. */
+.value-grid > *,.svc > *,.subsvc-grid > *,.policy-grid > *,
+.deal-grid > *,.guide-tiles > *,.stats > *,.fgrid > *{min-width:0}
+
+/* `.about-split` is absent from both of the design's breakpoints, so it stayed
+   at 1.15fr/.85fr all the way down — at 320px that left the value grid 57px
+   wide with its text spilling across the page. It collapses with the other
+   two-column layouts. */
+@media(max-width:1160px){
+  .about-split{grid-template-columns:1fr;gap:38px}
+}
+
+@media(max-width:640px){
+  /* The design collapses every other grid at this width but leaves the value
+     cards at two columns. */
+  .value-grid{grid-template-columns:1fr}
+}
+
+/* The header fits its content at exactly 1124px and has no slack: at 1180px,
+   once a scrollbar is present, the action buttons are pushed off the page.
+   Tightening the nav through the laptop range keeps the full menu rather than
+   dropping to the burger early. */
+@media(min-width:1161px) and (max-width:1360px){
+  .menu{padding:0 10px}
+  .menu>li>a{padding:10px 9px;font-size:13.8px}
+  .menu>li>a::after{left:9px;right:9px}
+  .act{gap:8px}
+  .act .btn{padding:11px 14px;font-size:13.5px}
+}
+
+/* ---------- utility bar ---------- */
+/* The strip is a fixed 38px, but its four links wrap onto two and three lines
+   from ~1000px down, bursting the bar. They shorten progressively instead:
+   the sustainability link goes first (longest), then the rest of the right
+   group, leaving the index — the one thing worth the space. */
+.util a{white-space:nowrap}
+@media(max-width:1024px){
+  .util-r a:first-child{display:none}
+}
+@media(max-width:760px){
+  .util-r{display:none}
+  .util .wrap{justify-content:flex-start}
+}
+
+/* ---------- hero backdrop ---------- */
+/* Once the hero stacks, the concentric squares sit on top of the copy and the
+   market panel rather than beside them. The design already dims them on
+   phones; this extends that to the width where the stacking actually starts. */
+@media(max-width:1160px){
+  .rings{opacity:.3}
+}
+
+/* ---------- prose at narrow measure ---------- */
+/* Justification distributes leftover space between words, so it needs roughly
+   45 characters a line to spread evenly. A phone column holds about 30, which
+   turns every paragraph into rivers of whitespace. */
+@media(max-width:640px){
+  .lead,.about-copy p,.value-card p,.svc-c p,.qa p,.rbox>p,.disclaim,.sec-h p,
+  .subsvc-card p,.policy-card p,.notice-box p,.faq-box>p,
+  .modal-paper > .mp-lead,.bank-box > div{
+    text-align:left;
+  }
+}
+
+/* Footer contact lines: the phone and email are links now, so they need to
+   read as links against the muted address block above them. */
+.fcontact{display:flex;flex-direction:column;gap:4px;margin-bottom:16px}
+.fcontact a{color:#CFD6EC;border-bottom:1px solid rgba(255,255,255,.22)}
+.fcontact a:hover{color:#fff;border-bottom-color:var(--blue)}
+.contact-row a{color:var(--blue-text);border-bottom:1px solid transparent}
+.contact-row a:hover{border-bottom-color:currentColor}
+
+/* ---------- skip link ---------- */
+/* Off-screen until focused. It is a button because the fragment drives the
+   router — an anchor to #main would navigate the reader to the homepage. */
+.skip-link{
+  position:fixed;top:8px;left:8px;z-index:600;
+  transform:translateY(-160%);transition:transform .18s var(--ease);
+  background:var(--blue);color:var(--navy-900);border:none;cursor:pointer;
+  font-family:var(--font-display),var(--font-inter),sans-serif;
+  font-weight:600;font-size:14px;padding:11px 18px;border-radius:7px;
+}
+.skip-link:focus{transform:translateY(0)}
+/* The routed region takes focus on navigation; never show a ring for that. */
+#main:focus{outline:none}
+
+/* ---------- current section ---------- */
+/* Thirty pages behind five nav labels, and nothing said which one you were
+   looking at. The underline that appears on hover now stays put for the
+   section you are in. */
+.menu>li.is-current>a{color:var(--navy);font-weight:600}
+.menu>li.is-current>a::after{transform:scaleX(1)}
+@media(max-width:1160px){
+  .menu.open>li.is-current>a{
+    color:var(--blue-text);
+    box-shadow:inset 2px 0 0 var(--blue);padding-left:12px;
+  }
+}
+
+/* Visually hidden, still announced. */
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+/* Links with nowhere to go yet: keep the design's look, drop the pointer. */
+a[aria-disabled="true"]{cursor:default}
+
+/* The index and freshness readouts are statements, not destinations. */
+.util-fig{display:inline-flex;align-items:center;color:#A9B2D6}
+
+.nf-links{display:flex;gap:12px;flex-wrap:wrap}
+
+/* ---------- mobile chrome budget ---------- */
+/* Three stacked bars — utility, header, ticker — plus a fixed strip at the
+   bottom ate 184px of a 667px phone before any content appeared, and put two
+   marquees on screen competing for attention. The upper ticker goes; the
+   bottom one carries the same kind of data and stays. */
+@media(max-width:640px){
+  .ticker-bar{display:none}
+}

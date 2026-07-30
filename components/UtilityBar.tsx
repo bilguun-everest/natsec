@@ -12,7 +12,7 @@ export default function UtilityBar() {
       <div className="wrap">
         <div className="util-l">
           {indices && (
-            <a href="#">
+            <span className="util-fig">
               <span className="live-dot" />
               <T mn="МХБ ТОП-20: " en="MSE TOP-20: " />
               {indices.top20.unit}{" "}
@@ -24,7 +24,7 @@ export default function UtilityBar() {
                 {indices.top20.raw > 0 ? "+" : ""}
                 {indices.top20.raw.toFixed(2)}%
               </span>
-            </a>
+            </span>
           )}
           <Freshness />
         </div>
@@ -67,8 +67,8 @@ function Freshness() {
       : t("арилжаа хаалттай", "market closed");
 
   return (
-    <a
-      href="#"
+    <span
+      className="util-fig"
       title={t(
         `Мэдээлэл ${when}-ны байдлаар (mse.mn)`,
         `Data as of ${when} (mse.mn)`,
@@ -76,6 +76,6 @@ function Freshness() {
     >
       <T mn="Шинэчлэгдсэн: " en="Updated: " />
       {when} · {status}
-    </a>
+    </span>
   );
 }
