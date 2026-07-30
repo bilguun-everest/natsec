@@ -95,16 +95,6 @@ export default function Footer() {
   return (
     <footer>
       <div className="wrap">
-        <div className="flogo-banner">
-          <Image
-            src="/natsec-banner.png"
-            alt="«Нэйшнл сэкюритис ҮЦК» ХХК"
-            width={720}
-            height={432}
-            sizes="(max-width: 960px) 100vw, 900px"
-          />
-        </div>
-
         <div className="fgrid">
           <div className="fbrand">
             <Image
@@ -136,7 +126,13 @@ export default function Footer() {
               </a>
             </div>
             <div className="fapps">
-              <a href="#" aria-label={t("App Store-оос татах", "Download on the App Store")}>
+              <a
+                href="#"
+                aria-label={t(
+                  "App Store-оос татах",
+                  "Download on the App Store",
+                )}
+              >
                 <svg viewBox="0 0 24 24">
                   <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8.9-.15 1.5-.87 3.02-.66 1.83.16 3.2.98 4.12 2.72-.02.01-2.46 1.44-2.43 4.29.03 3.35 2.94 4.47 2.98 4.48-.02.09-.47 1.62-1.75 3.13l-.02.21zM12.32 6.68c-.19-1.79 1.29-3.55 3.06-3.65.24 2.09-1.63 3.65-3.06 3.65z" />
                 </svg>
@@ -147,7 +143,10 @@ export default function Footer() {
                   <b>App Store</b>
                 </span>
               </a>
-              <a href="#" aria-label={t("Google Play-ээс татах", "Get it on Google Play")}>
+              <a
+                href="#"
+                aria-label={t("Google Play-ээс татах", "Get it on Google Play")}
+              >
                 <svg viewBox="0 0 24 24">
                   <path d="M3.6 2.2c-.4.4-.6.9-.6 1.6v16.4c0 .7.2 1.2.6 1.6l.1.1L13 12.6v-.2L3.7 2.1l-.1.1z" />
                   <path

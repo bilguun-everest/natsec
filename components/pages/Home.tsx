@@ -41,8 +41,8 @@ const STATS: { value: string; mn: string; en: string }[] = [
   },
   {
     value: "640",
-    mn: "Жилийн арилжааны дүн (тэрбум₮)",
-    en: "Annual trading volume (billion ₮)",
+    mn: "Жилийн арилжааны дүн, тэрбум ₮",
+    en: "Annual trading volume, bn ₮",
   },
   {
     value: "27",
