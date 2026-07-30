@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 export const ROUTES = [
   "home",
@@ -35,7 +41,7 @@ export const ROUTES = [
   "faq-8",
 ] as const;
 
-export type Route = (typeof ROUTES)[number];
+export type Route = (typeof ROUTES)[number] | "not-found";
 
 const TITLES: Record<Route, string> = {
   home: "Нэйшнл сэкюритис ҮЦК | Хөрөнгийн зах зээлийн түнш",
@@ -68,12 +74,18 @@ const TITLES: Record<Route, string> = {
   "faq-6": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
   "faq-7": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
   "faq-8": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
+  "not-found": "Хуудас олдсонгүй | Нэйшнл сэкюритис ҮЦК",
 };
 
 function routeFromHash(): Route {
   if (typeof window === "undefined") return "home";
   const hash = window.location.hash.replace("#", "");
-  return (ROUTES as readonly string[]).includes(hash) ? (hash as Route) : "home";
+  if (!hash) return "home";
+  // A stale or mistyped link used to land silently on the homepage, leaving
+  // the reader to work out for themselves that the page they wanted is gone.
+  return (ROUTES as readonly string[]).includes(hash)
+    ? (hash as Route)
+    : "not-found";
 }
 
 /**
@@ -107,4 +119,25 @@ export function useRoute(): Route {
 
 export function navigate(route: Route) {
   window.location.hash = route;
+}
+
+/**
+ * The active route, shared. `useRoute()` owns a listener and the title/scroll
+ * side effects, so it must be called exactly once; anything else that needs to
+ * know where the reader is reads it from here.
+ */
+const RouteContext = createContext<Route>("home");
+export const RouteProvider = RouteContext.Provider;
+export const useCurrentRoute = () => useContext(RouteContext);
+
+/** True when `route` is the section owned by this top-level nav entry. */
+export function sectionOf(route: Route): string {
+  if (route === "home") return "home";
+  if (/^(tanilcuulga|udirdlaga|ololt|tailan)$/.test(route)) return "about";
+  if (/^(broker|anderraiter|zuvluh)$/.test(route)) return "services";
+  if (route.startsWith("sudalgaa")) return "research";
+  if (route.startsWith("zaavar") || route.startsWith("faq") ||
+      route === "holboo-barih") return "support";
+  if (route.startsWith("tog-hugjil")) return "sustainability";
+  return "home";
 }

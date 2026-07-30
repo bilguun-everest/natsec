@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { SecHead } from "@/components/ui";
@@ -28,13 +29,24 @@ export default function Contact() {
               <b>
                 <T mn="Утас" en="Phone" />
               </b>
-              <span>{CONTACT.phone}</span>
+              {/* Tappable: on a phone an unlinked number has to be memorised
+                  and retyped, which is where enquiries get lost. */}
+              <span>
+                {CONTACT.phones.map((phone, index) => (
+                  <Fragment key={phone.dial}>
+                    {index > 0 && ", "}
+                    <a href={`tel:${phone.dial}`}>{phone.label}</a>
+                  </Fragment>
+                ))}
+              </span>
             </div>
             <div className="contact-row">
               <b>
                 <T mn="И-мэйл" en="Email" />
               </b>
-              <span>{CONTACT.email}</span>
+              <span>
+                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+              </span>
             </div>
           </Reveal>
         </div>

@@ -2,7 +2,7 @@
 
 import { T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
-import { Eyebrow, SecHead } from "@/components/ui";
+import { Eyebrow, PendingLink, SecHead } from "@/components/ui";
 
 const ARTICLES: {
   date: string;
@@ -62,6 +62,12 @@ const REPORTS: { mn: string; en: string; size: string }[] = [
   },
 ];
 
+/** Two of the three research items have no page yet; the weekly review does. */
+function ArticleLink({ href, children }: { href: string; children: React.ReactNode }) {
+  if (href === "#") return <PendingLink>{children}</PendingLink>;
+  return <a href={href}>{children}</a>;
+}
+
 export default function Research() {
   return (
     <section id="sudalgaa">
@@ -75,7 +81,7 @@ export default function Research() {
           <ul className="nlist">
             {ARTICLES.map((article, index) => (
               <Reveal as="li" key={article.title.mn} delay={index * 80}>
-                <a href={article.href}>
+                <ArticleLink href={article.href}>
                   <time>{article.date}</time>
                   <div>
                     <h4>
@@ -85,17 +91,16 @@ export default function Research() {
                       <T mn={article.tag.mn} en={article.tag.en} />
                     </span>
                   </div>
-                </a>
+                </ArticleLink>
               </Reveal>
             ))}
           </ul>
-          <a
-            href="#"
+          <PendingLink
             className="more"
-            style={{ marginTop: 20, display: "inline-flex" }}
+            label={undefined}
           >
             <T mn="Бүх судалгаа →" en="All research →" />
-          </a>
+          </PendingLink>
         </div>
 
         <Reveal className="rbox" delay={120}>
@@ -112,12 +117,12 @@ export default function Research() {
           <ul className="rlist">
             {REPORTS.map((report) => (
               <li key={report.mn}>
-                <a href="#">
+                <PendingLink>
                   <span>
                     <T mn={report.mn} en={report.en} />
                   </span>
                   <span className="pdf">{report.size}</span>
-                </a>
+                </PendingLink>
               </li>
             ))}
           </ul>

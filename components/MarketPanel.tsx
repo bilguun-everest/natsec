@@ -11,7 +11,7 @@ import { localDateTime, localTime, sameLocalDay } from "@/lib/market-hours";
  */
 export default function MarketPanel() {
   const indices = useIndices();
-  const movers = useMovers(4);
+  const movers = useMovers(3);
   const { snapshot, session, live } = useMarket();
   const { t } = useLang();
 

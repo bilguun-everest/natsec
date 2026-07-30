@@ -15,10 +15,11 @@ export default function MarketTicker() {
 
   if (leaders.length === 0) return null;
 
-  const items = leaders.map((quote) => (
+  const items = (hidden: boolean) => leaders.map((quote) => (
     <span
       className="item"
       key={`${quote.symbol}-${quote.percent}`}
+      aria-hidden={hidden || undefined}
       title={t(
         `${quote.name} — өдрийн эргэлт`,
         `${quote.name} — traded today`,
@@ -37,14 +38,18 @@ export default function MarketTicker() {
   ));
 
   return (
-    <div className="mkt-ticker" aria-label="Market ticker">
+    <div
+      className="mkt-ticker"
+      aria-label={t("Өдрийн эргэлтээр тэргүүлэгчид", "Today's turnover leaders")}
+    >
       <div className="track">
         <span className="item mkt-label">
           <T mn="ӨДРИЙН ЭРГЭЛТ" en="TRADED TODAY" />
         </span>
-        {/* Duplicated for a seamless loop. */}
+        {/* Duplicated for a seamless loop; the copy is hidden from assistive
+            tech so the figures are not announced twice. */}
         {[0, 1].map((copy) => (
-          <Fragment key={copy}>{items}</Fragment>
+          <Fragment key={copy}>{items(copy === 1)}</Fragment>
         ))}
       </div>
     </div>

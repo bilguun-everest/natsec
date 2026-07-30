@@ -177,6 +177,37 @@ export function StepDots({
   );
 }
 
+/**
+ * A link whose destination does not exist yet.
+ *
+ * `href="#"` is not harmless here: the fragment *is* the router, so clicking
+ * one emptied the hash and threw the reader to the homepage. On a page of
+ * financial disclosures, a download button that silently navigates away is
+ * worse than one that plainly does nothing.
+ */
+export function PendingLink({
+  className,
+  children,
+  label,
+}: {
+  className?: string;
+  children: ReactNode;
+  label?: string;
+}) {
+  const { t } = useLang();
+  return (
+    <a
+      href="#"
+      className={className}
+      aria-disabled="true"
+      title={label ?? t("Удахгүй нэмэгдэнэ", "Coming soon")}
+      onClick={(event) => event.preventDefault()}
+    >
+      {children}
+    </a>
+  );
+}
+
 /** "← back" link above a detail page. */
 export function BackLink({
   href,
