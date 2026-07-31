@@ -11,7 +11,11 @@ export default function FaqDetail({ entry }: { entry: FaqEntry }) {
 
   return (
     <DetailPage
-      back={{ href: "#zaavar", mn: "Бүх зааврууд руу буцах", en: "All guides" }}
+      back={{
+        href: "#faq",
+        mn: "Бүх асуулт руу буцах",
+        en: "All questions",
+      }}
     >
       <div className="modal-num">
         <T mn="ТҮГЭЭМЭЛ АСУУЛТ" en="FAQ" />

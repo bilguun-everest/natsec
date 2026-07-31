@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { T, Tg, useLang } from "@/components/lang";
-import { useCountUp, useInView } from "@/components/motion";
+import { Reveal, useCountUp, useInView } from "@/components/motion";
 import MarketPanel from "@/components/MarketPanel";
 import { useIndices } from "@/components/market";
-import { Eyebrow } from "@/components/ui";
+import { Eyebrow, SecHead } from "@/components/ui";
+import { FAQ } from "@/lib/faq";
 import { TRADING_URL } from "@/lib/site";
 
 const HEADLINES: { mn: string; en: string }[] = [
@@ -51,6 +52,46 @@ const STATS: { value: string; mn: string; en: string }[] = [
   },
 ];
 
+/**
+ * The three things a new client actually has to do, in order, each opening the
+ * guide that walks through it. The time against each step is the point: the
+ * question people arrive with is "how long until I can trade?".
+ */
+const STEPS: {
+  href: string;
+  time: { mn: string; en: string };
+  title: { mn: string; en: string };
+  body: { mn: string; en: string };
+}[] = [
+  {
+    href: "#zaavar-dansneeh",
+    time: { mn: "10 минут", en: "10 minutes" },
+    title: { mn: "Данс нээх", en: "Open an account" },
+    body: {
+      mn: "Онлайнаар бүртгэлээ бөглөж, иргэний үнэмлэхээ хавсаргана. Баталгаажуулалт 24 цагийн дотор.",
+      en: "Fill in the form online and attach your ID. Verification takes place within 24 hours.",
+    },
+  },
+  {
+    href: "#zaavar-tsenegleh",
+    time: { mn: "Тэр өдөртөө", en: "Same day" },
+    title: { mn: "Мөнгө байршуулах", en: "Add money" },
+    body: {
+      mn: "Арилжааны дансаа банкны шилжүүлгээр цэнэглэснээр худалдан авах хүч бэлэн болно.",
+      en: "Fund your trading account by bank transfer and your buying power is ready.",
+    },
+  },
+  {
+    href: "#zaavar-mhb",
+    time: { mn: "Бодит цагт", en: "Real time" },
+    title: { mn: "Арилжаа эхлүүлэх", en: "Start trading" },
+    body: {
+      mn: "Онлайн систем эсвэл аппаараа эхний захиалгаа өгч, гүйцэтгэлээ бодит цагт хянана.",
+      en: "Place your first order in the online system or the app and track it in real time.",
+    },
+  },
+];
+
 export default function Home() {
   return (
     <>
@@ -64,7 +105,95 @@ export default function Home() {
           </div>
         </section>
       </div>
+      <StartSteps />
+      <HomeFaq />
     </>
+  );
+}
+
+/** "Start in three steps", the landing page's answer to "where do I begin?". */
+function StartSteps() {
+  return (
+    <section>
+      <div className="wrap">
+        <SecHead
+          eyebrow={{ mn: "Хэрхэн эхлэх", en: "Getting Started" }}
+          title={{ mn: "Гурван алхмаар эхэлнэ", en: "Start in three steps" }}
+          lead={{
+            mn: "Данс нээхээс эхний захиалга хүртэл ихэвчлэн нэг ажлын өдөрт багтана.",
+            en: "From opening an account to your first order — usually inside one working day.",
+          }}
+          style={{ marginBottom: 30 }}
+        />
+
+        <div className="start-steps">
+          {STEPS.map((step, index) => (
+            <Reveal
+              as="a"
+              className="start-step"
+              href={step.href}
+              key={step.href}
+              delay={index * 90}
+            >
+              <div className="head">
+                <span className="num">{index + 1}</span>
+                <span className="time">
+                  <T mn={step.time.mn} en={step.time.en} />
+                </span>
+              </div>
+              <h4>
+                <T mn={step.title.mn} en={step.title.en} />
+              </h4>
+              <p>
+                <T mn={step.body.mn} en={step.body.en} />
+              </p>
+              <span className="more">
+                <T mn="Заавар үзэх →" en="Read the guide →" />
+              </span>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="start-cta" delay={280}>
+          <a href={TRADING_URL} className="btn btn-p">
+            <T mn="Данс нээх — 10 минут" en="Open Account — 10 min" />
+          </a>
+          <a href="#zaavar" className="btn btn-o">
+            <T mn="Бүх заавар" en="All guides" />
+          </a>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** The five questions we are asked most, ahead of the full list on #faq. */
+function HomeFaq() {
+  return (
+    <div className="band">
+      <section>
+        <div className="wrap" style={{ maxWidth: 880 }}>
+          <SecHead
+            eyebrow={{ mn: "Харилцагчийн туслах", en: "Customer Support" }}
+            title={{ mn: "Түгээмэл асуулт", en: "Frequently asked questions" }}
+            style={{ marginBottom: 26 }}
+          />
+          <Reveal className="faq-box" delay={60}>
+            {FAQ.slice(0, 5).map((entry) => (
+              <a className="faq-tile" href={`#${entry.route}`} key={entry.route}>
+                <span className="q">
+                  <T mn={entry.question.mn} en={entry.question.en} />
+                </span>
+                <span className="arrow">→</span>
+              </a>
+            ))}
+            <a className="faq-more" href="#faq">
+              <T mn="Бүх асуулт үзэх →" en="See all questions →" />
+            </a>
+          </Reveal>
+        </div>
+      </section>
+    </div>
   );
 }
 

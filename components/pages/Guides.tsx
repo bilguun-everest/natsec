@@ -12,7 +12,7 @@ export default function Guides() {
       <div className="wrap split">
         <div>
           <SecHead
-            eyebrow={{ mn: "Харилцагчийн туслах", en: "Customer Support" }}
+            eyebrow={{ mn: "Хэрхэн эхлэх", en: "Getting Started" }}
             title={{ mn: "Алхам алхмаар заавар", en: "Step-by-step guides" }}
             lead={{
               mn: "Данс нээхээс эхлээд арилжаанд оролцох, ногдол ашиг авах хүртэл танд хэрэгтэй бүх зүйл.",

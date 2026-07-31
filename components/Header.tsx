@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { LangSwitch, T, useLang } from "@/components/lang";
 import { sectionOf, useCurrentRoute } from "@/components/router";
+import { PendingLink } from "@/components/ui";
 import { TRADING_URL } from "@/lib/site";
 
 interface DropItem {
@@ -12,6 +13,8 @@ interface DropItem {
   en: string;
   /** Renders as a non-clickable group heading inside the dropdown. */
   group?: boolean;
+  /** No page behind it yet — shown, but inert rather than dead-ending. */
+  pending?: boolean;
 }
 
 interface NavItem {
@@ -25,21 +28,28 @@ interface NavItem {
   alignRight?: boolean;
 }
 
+/**
+ * Ordered the way a first-time visitor moves through the site: how to start,
+ * what we do, what we publish, where to get help, then the company itself.
+ */
 const NAV: NavItem[] = [
   {
-    href: "#tanilcuulga",
-    section: "about",
-    mn: "Бидний тухай",
-    en: "About Us",
+    href: "#zaavar",
+    section: "start",
+    mn: "Хэрхэн эхлэх",
+    en: "Getting Started",
     drop: [
-      { href: "#tanilcuulga", mn: "Танилцуулга", en: "Overview" },
+      { href: "#zaavar-dansneeh", mn: "Данс нээх", en: "Opening an account" },
+      { href: "#zaavar-tsenegleh", mn: "Мөнгө байршуулах", en: "Add money" },
+      { href: "#zaavar-mungu", mn: "Мөнгө татах", en: "Withdraw money" },
+      // No app guide exists yet — the apps themselves are still "coming soon"
+      // in the footer, so the entry is shown but goes nowhere on purpose.
       {
-        href: "#udirdlaga",
-        mn: "Удирдах албан тушаалтан",
-        en: "Leadership",
+        href: "",
+        mn: "Аппликейшны заавар",
+        en: "App user guide",
+        pending: true,
       },
-      { href: "#ololt", mn: "Ололт амжилт", en: "Achievements" },
-      { href: "#tailan", mn: "Санхүүгийн тайлан", en: "Financial Reports" },
     ],
   },
   {
@@ -85,6 +95,7 @@ const NAV: NavItem[] = [
     section: "research",
     mn: "Судалгаа",
     en: "Research",
+    // Placeholder categories: the real list is still being decided.
     drop: [
       { href: "#sudalgaa", mn: "Макро орчны судалгаа", en: "Macro Research" },
       {
@@ -100,38 +111,18 @@ const NAV: NavItem[] = [
     ],
   },
   {
-    href: "#zaavar",
+    href: "#faq",
     section: "support",
     mn: "Харилцагчийн туслах",
     en: "Customer Support",
     drop: [
+      { href: "#faq", mn: "Түгээмэл асуулт", en: "FAQ" },
+      { href: "#holboo-barih", mn: "Холбоо барих", en: "Contact us" },
       {
-        href: "#zaavar-dansneeh",
-        mn: "Данс нээх заавар",
-        en: "Account Opening Guide",
+        href: "#tog-hugjil-terms",
+        mn: "Үйлчилгээний нөхцөл",
+        en: "Terms of Service",
       },
-      {
-        href: "#zaavar-mhb",
-        mn: "МХБ-ийн арилжаанд оролцох",
-        en: "Trading on the MSE",
-      },
-      {
-        href: "#zaavar-ipo",
-        mn: "IPO-д хэрхэн оролцох вэ",
-        en: "How to Participate in an IPO",
-      },
-      {
-        href: "#zaavar-mungu",
-        mn: "Мөнгө байршуулах, татах",
-        en: "Deposits & Withdrawals",
-      },
-      { href: "#zaavar-tsenegleh", mn: "Данс цэнэглэх", en: "Top Up Account" },
-      {
-        href: "#zaavar-nogdol",
-        mn: "Ногдол ашиг авах",
-        en: "Receiving Dividends",
-      },
-      { href: "#holboo-barih", mn: "Холбоо барих", en: "Contact" },
     ],
   },
   {
@@ -139,7 +130,6 @@ const NAV: NavItem[] = [
     section: "sustainability",
     mn: "Тогтвортой хөгжил",
     en: "Sustainability",
-    alignRight: true,
     drop: [
       {
         href: "#tog-hugjil-esg",
@@ -151,11 +141,23 @@ const NAV: NavItem[] = [
         mn: "Нууцлалын бодлого",
         en: "Privacy Policy",
       },
+    ],
+  },
+  {
+    href: "#tanilcuulga",
+    section: "about",
+    mn: "Бидний тухай",
+    en: "About Us",
+    alignRight: true,
+    drop: [
+      { href: "#tanilcuulga", mn: "Танилцуулга", en: "Overview" },
       {
-        href: "#tog-hugjil-terms",
-        mn: "Үйлчилгээний нөхцөл",
-        en: "Terms of Service",
+        href: "#udirdlaga",
+        mn: "Удирдах албан тушаалтан",
+        en: "Leadership",
       },
+      { href: "#ololt", mn: "Ололт амжилт", en: "Achievements" },
+      { href: "#tailan", mn: "Санхүүгийн тайлан", en: "Financial Reports" },
     ],
   },
 ];
@@ -225,6 +227,13 @@ export default function Header() {
                     <div className="grp" key={`${entry.mn}-${index}`}>
                       <T mn={entry.mn} en={entry.en} />
                     </div>
+                  ) : entry.pending ? (
+                    <PendingLink
+                      key={`${entry.mn}-${index}`}
+                      label={t("Удахгүй нэмэгдэнэ", "Coming soon")}
+                    >
+                      <T mn={entry.mn} en={entry.en} />
+                    </PendingLink>
                   ) : (
                     <a href={entry.href} key={`${entry.mn}-${index}`}>
                       <T mn={entry.mn} en={entry.en} />

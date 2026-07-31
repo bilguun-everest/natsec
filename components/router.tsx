@@ -31,6 +31,7 @@ export const ROUTES = [
   "tog-hugjil-privacy",
   "tog-hugjil-terms",
   "holboo-barih",
+  "faq",
   "faq-1",
   "faq-2",
   "faq-3",
@@ -54,7 +55,7 @@ const TITLES: Record<Route, string> = {
   zuvluh: "Хөрөнгө оруулалтын зөвлөгөө | Нэйшнл сэкюритис ҮЦК",
   sudalgaa: "Судалгаа | Нэйшнл сэкюритис ҮЦК",
   "sudalgaa-toim": "Долоо хоногийн тойм | Нэйшнл сэкюритис ҮЦК",
-  zaavar: "Харилцагчийн туслах | Нэйшнл сэкюритис ҮЦК",
+  zaavar: "Хэрхэн эхлэх | Нэйшнл сэкюритис ҮЦК",
   "zaavar-dansneeh": "Данс нээх | Нэйшнл сэкюритис ҮЦК",
   "zaavar-mhb": "МХБ-ийн арилжаанд оролцох | Нэйшнл сэкюритис ҮЦК",
   "zaavar-ipo": "IPO-д хэрхэн оролцох вэ | Нэйшнл сэкюритис ҮЦК",
@@ -66,6 +67,7 @@ const TITLES: Record<Route, string> = {
   "tog-hugjil-privacy": "Нууцлалын бодлого | Нэйшнл сэкюритис ҮЦК",
   "tog-hugjil-terms": "Үйлчилгээний нөхцөл | Нэйшнл сэкюритис ҮЦК",
   "holboo-barih": "Холбоо барих | Нэйшнл сэкюритис ҮЦК",
+  faq: "Түгээмэл асуулт хариулт | Нэйшнл сэкюритис ҮЦК",
   "faq-1": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
   "faq-2": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
   "faq-3": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
@@ -136,8 +138,11 @@ export function sectionOf(route: Route): string {
   if (/^(tanilcuulga|udirdlaga|ololt|tailan)$/.test(route)) return "about";
   if (/^(broker|anderraiter|zuvluh)$/.test(route)) return "services";
   if (route.startsWith("sudalgaa")) return "research";
-  if (route.startsWith("zaavar") || route.startsWith("faq") ||
-      route === "holboo-barih") return "support";
+  if (route.startsWith("zaavar")) return "start";
+  // Terms of Service is a policy page, but it is reached from Customer
+  // Support — so that is the menu that should light up on it.
+  if (route.startsWith("faq") || route === "holboo-barih" ||
+      route === "tog-hugjil-terms") return "support";
   if (route.startsWith("tog-hugjil")) return "sustainability";
   return "home";
 }

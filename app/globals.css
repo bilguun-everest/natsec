@@ -21,20 +21,21 @@ body{
   background:#fff;
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
-  padding-bottom:34px;
 }
+/* The page's one marquee, sitting in the flow under the footer rather than
+   floating over the content: nothing is hidden behind it and it stays put
+   while you read. Sized like the old upper ticker it replaced. */
 .mkt-ticker{
-  position:fixed;left:0;right:0;bottom:0;z-index:500;height:34px;
   background:var(--navy-900);border-top:1px solid rgba(255,255,255,.1);overflow:hidden;
 }
-.mkt-ticker .track{display:flex;align-items:center;height:34px;white-space:nowrap;animation:mktScroll 32s linear infinite}
+.mkt-ticker .track{display:flex;align-items:center;height:40px;white-space:nowrap;animation:mktScroll 32s linear infinite}
 .mkt-ticker:hover .track{animation-play-state:paused}
-.mkt-ticker .item{display:inline-flex;align-items:center;gap:8px;padding:0 22px;font-family:var(--font-mono),monospace;font-size:12px;color:#C7CEE8;border-right:1px solid rgba(255,255,255,.09)}
+.mkt-ticker .item{display:inline-flex;align-items:center;gap:8px;padding:0 26px;font-family:var(--font-mono),monospace;font-size:12.5px;color:#C7CEE8;border-right:1px solid rgba(255,255,255,.09)}
 .mkt-ticker .item b{color:#fff;font-weight:600}
 .mkt-ticker .up{color:#4FD497}
 .mkt-ticker .down{color:#F17171}
 @keyframes mktScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(max-width:640px){.mkt-ticker .item{padding:0 14px;font-size:11px}}
+@media(max-width:640px){.mkt-ticker .item{padding:0 16px;font-size:11.5px}}
 h1,h2,h3,h4,.display{font-family:var(--font-display),var(--font-inter),sans-serif;letter-spacing:-0.02em;line-height:1.12}
 .mono{font-family:var(--font-mono),monospace}
 a{color:inherit;text-decoration:none}
@@ -411,6 +412,38 @@ section{padding:86px 0}
 .stat b{display:block;font-family:var(--font-display),var(--font-inter),sans-serif;font-size:clamp(26px,2.6vw,44px);font-weight:800;color:var(--navy);letter-spacing:-0.04em;line-height:1;white-space:nowrap}
 .stat span{display:block;margin:8px auto 0;max-width:22ch;font-size:13.5px;line-height:1.45;color:var(--grey);text-wrap:balance}
 
+/* ---------- home: start in three steps ---------- */
+/* Three cards, each the entry point to the guide that covers that step. The
+   time sits next to the number because "how long until I can trade?" is the
+   question the section exists to answer. */
+.start-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.start-step{
+  display:block;background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:26px 24px;transition:.2s;color:inherit;
+}
+.start-step:hover{border-color:var(--blue);box-shadow:0 14px 32px rgba(20,31,93,.1);transform:translateY(-2px)}
+.start-step .head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.start-step .num{
+  width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display),var(--font-inter),sans-serif;font-weight:800;font-size:17px;
+}
+.start-step .time{
+  font-family:var(--font-mono),monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--blue-text);background:var(--blue-soft);padding:4px 9px;border-radius:4px;white-space:nowrap;
+}
+.start-step h4{font-size:17.5px;font-weight:700;color:var(--navy);margin-bottom:7px}
+.start-step p{font-size:13.8px;color:var(--grey);line-height:1.65}
+.start-step .more{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:600;color:var(--blue-text)}
+.start-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.start-step .num,.start-step .more{transition:transform .24s var(--ease)}
+.start-step:hover .more{transform:translateX(4px)}
+@media(max-width:900px){.start-steps{grid-template-columns:1fr}}
+
+/* The landing page shows the first five questions; this opens the rest. */
+.faq-more{display:inline-block;margin-top:18px;font-size:14px;font-weight:600;color:#48BEE6}
+.faq-more:hover{color:#fff}
+
 /* ---------- quick actions ---------- */
 .quick{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:760px}
 .qa{
@@ -474,20 +507,9 @@ table.co tbody tr:hover{background:var(--blue-soft)}
 /* ---------- partners ---------- */
 .partners{overflow:hidden;padding:38px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .ptrack{display:flex;gap:56px;animation:slide 34s linear infinite;width:max-content}
-.ticker-bar{background:var(--navy-900);overflow:hidden;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:76px;z-index:99}
-.ticker-track{display:flex;gap:0;animation:tickerSlide 28s linear infinite;width:max-content}
-.ticker-track:hover{animation-play-state:paused}
-@keyframes tickerSlide{to{transform:translateX(-50%)}}
-.ticker-cell{
-  display:flex;align-items:center;gap:8px;padding:9px 26px;border-right:1px solid rgba(255,255,255,.08);
-  font-family:var(--font-mono),monospace;font-size:12.5px;white-space:nowrap;
-}
-.ticker-cell b{color:#fff;font-weight:600}
-.ticker-cell .u{color:#4FD497}
-.ticker-cell .d{color:#FF7B7B}
 @keyframes slide{to{transform:translateX(-50%)}}
 .ptrack span{font-family:var(--font-display),var(--font-inter),sans-serif;font-weight:700;font-size:17px;color:#B4B9C7;white-space:nowrap;letter-spacing:-0.01em}
-@media (prefers-reduced-motion:reduce){.ptrack{animation:none}.live-dot{animation:none}.ticker-track{animation:none}}
+@media (prefers-reduced-motion:reduce){.ptrack{animation:none}.live-dot{animation:none}}
 
 /* ---------- CTA ---------- */
 .cta{background:var(--navy-900);color:#fff;position:relative;overflow:hidden}
@@ -507,7 +529,9 @@ footer{background:var(--navy);color:#B6BEDD;padding:64px 0 0;font-size:14px}
 .fapps .txt{display:flex;flex-direction:column;line-height:1.15}
 .fapps .txt small{font-size:9.5px;color:#B6BEDD;text-transform:uppercase;letter-spacing:.06em}
 .fapps .txt b{font-size:13px;font-weight:600}
-.fgrid{display:grid;grid-template-columns:1.35fr repeat(5,1fr);gap:30px;padding-bottom:44px}
+/* Six link columns now the menu has six sections; the brand block keeps a
+   wider track so the logo and address never wrap mid-word. */
+.fgrid{display:grid;grid-template-columns:1.5fr repeat(6,minmax(0,1fr));gap:26px 20px;padding-bottom:44px}
 .fbrand img{height:34px;filter:brightness(0) invert(1);margin-bottom:18px}
 .fbrand p{font-size:13.5px;line-height:1.75;color:#99A2C6;margin-bottom:16px}
 .fbrand .soc{display:flex;gap:10px}
@@ -563,8 +587,10 @@ footer{background:var(--navy);color:#B6BEDD;padding:64px 0 0;font-size:14px}
 
 /* ---------- mobile navigation ---------- */
 /* The burger has no drawer in the source design — the menu simply disappears
-   below 1160px. This gives it one, in the same idiom as the desktop menu. */
-@media(max-width:1160px){
+   below 1160px. This gives it one, in the same idiom as the desktop menu.
+   Six sections need ~1250px before the row fits, so the drawer now covers the
+   1161–1249 band too (see the rules just below it). */
+@media(max-width:1249px){
   .menu.open{
     display:block;position:absolute;left:0;right:0;top:100%;
     background:#fff;border-bottom:1px solid var(--line);
@@ -579,6 +605,13 @@ footer{background:var(--navy);color:#B6BEDD;padding:64px 0 0;font-size:14px}
     margin:0 0 10px;border:none;box-shadow:none;padding:0 0 0 10px;
   }
   .menu.open .drop a{padding:8px 8px}
+}
+/* Between the old breakpoint and the new one, hand over to that drawer: at
+   these widths the six-section row would run off the right of the page. */
+@media(min-width:1161px) and (max-width:1249px){
+  .menu{display:none}
+  .act .btn-o{display:none}
+  .burger{display:block}
 }
 
 /* next/image emits width/height attributes, so rules that set only a height
@@ -793,7 +826,7 @@ header[data-scrolled="true"]{
 /* Printing must never lose content to an animation that hasn't run. */
 @media print{
   .reveal{opacity:1!important;transform:none!important}
-  .mkt-ticker,.ticker-bar{display:none}
+  .mkt-ticker{display:none}
 }
 
 /* Names the bottom strip's figures, so a turnover number can't be misread as
@@ -843,14 +876,16 @@ header[data-scrolled="true"]{
   .value-grid{grid-template-columns:1fr}
 }
 
-/* The header fits its content at exactly 1124px and has no slack: at 1180px,
-   once a scrollbar is present, the action buttons are pushed off the page.
-   Tightening the nav through the laptop range keeps the full menu rather than
-   dropping to the burger early. */
-@media(min-width:1161px) and (max-width:1360px){
-  .menu{padding:0 10px}
-  .menu>li>a{padding:10px 9px;font-size:13.8px}
-  .menu>li>a::after{left:9px;right:9px}
+/* The header has no slack: its content needs every one of the wrap's 1124px,
+   and with six menu sections the untightened metrics push the action buttons
+   clean off the page. These apply across the whole desktop range now, not
+   just the laptop end of it — the alternative is dropping to the burger on
+   screens with room for the full menu. */
+@media(min-width:1250px){
+  .nav{gap:20px}
+  .menu{padding:0 6px}
+  .menu>li>a{padding:10px 8px;font-size:13.8px}
+  .menu>li>a::after{left:8px;right:8px}
   .act{gap:8px}
   .act .btn{padding:11px 14px;font-size:13.5px}
 }
@@ -931,17 +966,18 @@ header[data-scrolled="true"]{
 }
 /* Links with nowhere to go yet: keep the design's look, drop the pointer. */
 a[aria-disabled="true"]{cursor:default}
+/* In a menu they also need to read as "not yet" rather than as a link that
+   swallowed your click: muted, and none of the hover travel. */
+.drop a[aria-disabled="true"]{color:#9CA3B4}
+.drop a[aria-disabled="true"]:hover{background:none;color:#9CA3B4;padding-left:12px}
 
 /* The index and freshness readouts are statements, not destinations. */
 .util-fig{display:inline-flex;align-items:center;color:#A9B2D6}
 
 .nf-links{display:flex;gap:12px;flex-wrap:wrap}
 
-/* ---------- mobile chrome budget ---------- */
-/* Three stacked bars — utility, header, ticker — plus a fixed strip at the
-   bottom ate 184px of a 667px phone before any content appeared, and put two
-   marquees on screen competing for attention. The upper ticker goes; the
-   bottom one carries the same kind of data and stays. */
-@media(max-width:640px){
-  .ticker-bar{display:none}
-}
+/* ---------- chrome budget ---------- */
+/* Two marquees competed for attention and, on a phone, three stacked bars plus
+   a fixed strip ate 184px of a 667px screen before any content appeared. The
+   upper ticker is gone site-wide; the bottom one carries the same kind of data
+   and stays, in the flow at the end of the page. */

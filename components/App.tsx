@@ -6,12 +6,12 @@ import { useLang } from "@/components/lang";
 import { MarketProvider } from "@/components/market";
 import { useEffect, useRef } from "react";
 import MarketTicker from "@/components/MarketTicker";
-import TickerBar from "@/components/TickerBar";
 import UtilityBar from "@/components/UtilityBar";
 import About from "@/components/pages/About";
 import Achievements from "@/components/pages/Achievements";
 import Advisory from "@/components/pages/Advisory";
 import Contact from "@/components/pages/Contact";
+import Faq from "@/components/pages/Faq";
 import FaqDetail from "@/components/pages/FaqDetail";
 import GuideDetail from "@/components/pages/GuideDetail";
 import Guides from "@/components/pages/Guides";
@@ -62,6 +62,8 @@ function Page({ route }: { route: Route }) {
       return <WeeklyReview />;
     case "zaavar":
       return <Guides />;
+    case "faq":
+      return <Faq />;
     case "tog-hugjil":
       return <Sustainability />;
     case "holboo-barih":
@@ -104,7 +106,6 @@ export default function App({
         <SkipLink target={main} />
         <UtilityBar />
         <Header />
-        <TickerBar />
         {/* Keyed on the route so React remounts on navigation — that restarts
             both the enter animation and every scroll reveal on the new page. */}
         <main

@@ -6,19 +6,20 @@ import { T, useLang } from "@/components/lang";
 import { PendingLink } from "@/components/ui";
 import { CONTACT } from "@/lib/site";
 
+/** Same order, same contents as the header menu — one site map, not two. */
 const COLUMNS: {
   mn: string;
   en: string;
   links: { href: string; mn: string; en: string }[];
 }[] = [
   {
-    mn: "БИДНИЙ ТУХАЙ",
-    en: "ABOUT US",
+    mn: "ХЭРХЭН ЭХЛЭХ",
+    en: "GETTING STARTED",
     links: [
-      { href: "#tanilcuulga", mn: "Танилцуулга", en: "Overview" },
-      { href: "#udirdlaga", mn: "Удирдах албан тушаалтан", en: "Leadership" },
-      { href: "#ololt", mn: "Ололт амжилт", en: "Achievements" },
-      { href: "#tailan", mn: "Санхүүгийн тайлан", en: "Financial Reports" },
+      { href: "#zaavar-dansneeh", mn: "Данс нээх", en: "Opening an account" },
+      { href: "#zaavar-tsenegleh", mn: "Мөнгө байршуулах", en: "Add money" },
+      { href: "#zaavar-mungu", mn: "Мөнгө татах", en: "Withdraw money" },
+      { href: "#zaavar", mn: "Бүх заавар", en: "All guides" },
     ],
   },
   {
@@ -55,18 +56,13 @@ const COLUMNS: {
     mn: "ХАРИЛЦАГЧИЙН ТУСЛАХ",
     en: "CUSTOMER SUPPORT",
     links: [
-      { href: "#zaavar", mn: "Заавар", en: "Guides" },
+      { href: "#faq", mn: "Түгээмэл асуулт", en: "FAQ" },
+      { href: "#holboo-barih", mn: "Холбоо барих", en: "Contact us" },
       {
-        href: "#zaavar-mungu",
-        mn: "Мөнгө байршуулах, татах",
-        en: "Deposits & Withdrawals",
+        href: "#tog-hugjil-terms",
+        mn: "Үйлчилгээний нөхцөл",
+        en: "Terms of Service",
       },
-      {
-        href: "#zaavar-nogdol",
-        mn: "Ногдол ашиг авах",
-        en: "Receiving Dividends",
-      },
-      { href: "#holboo-barih", mn: "Холбоо барих", en: "Contact" },
     ],
   },
   {
@@ -83,11 +79,16 @@ const COLUMNS: {
         mn: "Нууцлалын бодлого",
         en: "Privacy Policy",
       },
-      {
-        href: "#tog-hugjil-terms",
-        mn: "Үйлчилгээний нөхцөл",
-        en: "Terms of Service",
-      },
+    ],
+  },
+  {
+    mn: "БИДНИЙ ТУХАЙ",
+    en: "ABOUT US",
+    links: [
+      { href: "#tanilcuulga", mn: "Танилцуулга", en: "Overview" },
+      { href: "#udirdlaga", mn: "Удирдах албан тушаалтан", en: "Leadership" },
+      { href: "#ololt", mn: "Ололт амжилт", en: "Achievements" },
+      { href: "#tailan", mn: "Санхүүгийн тайлан", en: "Financial Reports" },
     ],
   },
 ];

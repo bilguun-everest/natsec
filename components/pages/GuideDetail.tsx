@@ -22,7 +22,7 @@ export default function GuideDetail({ guide }: { guide: Guide }) {
       back={{ href: "#zaavar", mn: "Бүх зааврууд руу буцах", en: "All guides" }}
     >
       <StepDots steps={GUIDE_ROUTES} active={guide.route} />
-      <Eyebrow mn="Харилцагчийн туслах" en="Customer Support" />
+      <Eyebrow mn="Хэрхэн эхлэх" en="Getting Started" />
       <h2>
         <T mn={guide.title.mn} en={guide.title.en} />
       </h2>
