@@ -92,7 +92,29 @@ function formatSize(bytes: number | null | undefined): string | null {
  */
 const publishedOnly = { _status: { equals: "published" } } as const;
 
+const EMPTY: SiteContent = { research: [], reports: [], weekly: null };
+
+/**
+ * The dashboard is not deployed while this runs as a static landing page, and
+ * `.env` still carries the connection string from `.env.example`. Attempting
+ * the connection anyway costs every render a timeout and a stack trace in the
+ * logs for a result that is always empty.
+ *
+ * The test is on the placeholder rather than on a flag we would have to
+ * remember to flip: the moment a real `DATABASE_URL` is set — locally or in
+ * Vercel's dashboard — the collections start being read again, no code change.
+ */
+const PLACEHOLDER_DATABASE_URL = /\/\/user:password@|@host[:/]/;
+
+function cmsConfigured(): boolean {
+  const url = process.env.DATABASE_URL;
+  if (!url) return false;
+  return !PLACEHOLDER_DATABASE_URL.test(url);
+}
+
 export async function getSiteContent(): Promise<SiteContent> {
+  if (!cmsConfigured()) return EMPTY;
+
   try {
     const payload = await getPayload({ config });
 
@@ -169,6 +191,6 @@ export async function getSiteContent(): Promise<SiteContent> {
     // A database that is unreachable should cost the reader the research
     // listings, not the whole site — every other page is static.
     console.error("[content] failed to load from Payload:", error);
-    return { research: [], reports: [], weekly: null };
+    return EMPTY;
   }
 }
