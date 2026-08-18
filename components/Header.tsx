@@ -42,8 +42,8 @@ const NAV: NavItem[] = [
       { href: "#zaavar-dansneeh", mn: "Данс нээх", en: "Opening an account" },
       { href: "#zaavar-tsenegleh", mn: "Мөнгө байршуулах", en: "Add money" },
       { href: "#zaavar-mungu", mn: "Мөнгө татах", en: "Withdraw money" },
-      // No app guide exists yet — the apps themselves are still "coming soon"
-      // in the footer, so the entry is shown but goes nowhere on purpose.
+      // The iOS app ships (the footer links to it), but no written guide for
+      // it exists yet, so the entry is shown and goes nowhere on purpose.
       {
         href: "",
         mn: "Аппликейшны заавар",

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Fragment } from "react";
 import { T, useLang } from "@/components/lang";
 import { PendingLink } from "@/components/ui";
-import { CONTACT } from "@/lib/site";
+import { APP_STORE_URL, CONTACT } from "@/lib/site";
 
 /** Same order, same contents as the header menu — one site map, not two. */
 const COLUMNS: {
@@ -150,8 +150,10 @@ export default function Footer() {
               </PendingLink>
             </div>
             <div className="fapps">
-              <PendingLink
-                label={t("App Store — удахгүй", "App Store — coming soon")}
+              <a
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8.9-.15 1.5-.87 3.02-.66 1.83.16 3.2.98 4.12 2.72-.02.01-2.46 1.44-2.43 4.29.03 3.35 2.94 4.47 2.98 4.48-.02.09-.47 1.62-1.75 3.13l-.02.21zM12.32 6.68c-.19-1.79 1.29-3.55 3.06-3.65.24 2.09-1.63 3.65-3.06 3.65z" />
@@ -162,7 +164,7 @@ export default function Footer() {
                   </small>
                   <b>App Store</b>
                 </span>
-              </PendingLink>
+              </a>
               <PendingLink
                 label={t("Google Play — удахгүй", "Google Play — coming soon")}
               >
@@ -209,7 +211,7 @@ export default function Footer() {
         <div className="fbot">
           <span>
             <T
-              mn="© 2026 «Нэйшнл сэкюритис ҮЦК» ХХК. Бүх эрх хуулиар хамгаалагдсан."
+              mn="© 2026 «Нэйшнл сэкюритис ҮЦК» ХХК."
               en="© 2026 National Securities LLC. All rights reserved."
             />
           </span>
