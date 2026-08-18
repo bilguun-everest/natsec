@@ -25,13 +25,14 @@ import Sustainability, { PolicyDetail } from "@/components/pages/Sustainability"
 import Underwriter from "@/components/pages/Underwriter";
 import WeeklyReview from "@/components/pages/WeeklyReview";
 import { RouteProvider, useRoute, type Route } from "@/components/router";
+import type { SiteContent } from "@/lib/content";
 import { FAQ } from "@/lib/faq";
 import { GUIDES } from "@/lib/guides";
 import type { SessionState } from "@/lib/market-hours";
 import type { MarketSnapshot } from "@/lib/mse";
 import { POLICIES } from "@/lib/policies";
 
-function Page({ route }: { route: Route }) {
+function Page({ route, content }: { route: Route; content: SiteContent }) {
   const guide = GUIDES.find((entry) => entry.route === route);
   if (guide) return <GuideDetail guide={guide} />;
 
@@ -49,7 +50,7 @@ function Page({ route }: { route: Route }) {
     case "ololt":
       return <Achievements />;
     case "tailan":
-      return <Reports />;
+      return <Reports reports={content.reports} />;
     case "broker":
       return <Services />;
     case "anderraiter":
@@ -57,9 +58,9 @@ function Page({ route }: { route: Route }) {
     case "zuvluh":
       return <Advisory />;
     case "sudalgaa":
-      return <Research />;
+      return <Research research={content.research} weekly={content.weekly} />;
     case "sudalgaa-toim":
-      return <WeeklyReview />;
+      return <WeeklyReview weekly={content.weekly} />;
     case "zaavar":
       return <Guides />;
     case "faq":
@@ -78,9 +79,11 @@ function Page({ route }: { route: Route }) {
 export default function App({
   snapshot,
   session,
+  content,
 }: {
   snapshot: MarketSnapshot;
   session: SessionState;
+  content: SiteContent;
 }) {
   const route = useRoute();
   const main = useRef<HTMLElement>(null);
@@ -115,7 +118,7 @@ export default function App({
           ref={main}
           tabIndex={-1}
         >
-          <Page route={route} />
+          <Page route={route} content={content} />
         </main>
         <Footer />
         <MarketTicker />

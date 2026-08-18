@@ -3,31 +3,9 @@
 import { T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { PendingLink, SecHead } from "@/components/ui";
+import type { ReportItem } from "@/lib/content";
 
-const REPORTS: { mn: string; en: string; year: string }[] = [
-  {
-    mn: "Жилийн санхүүгийн тайлан",
-    en: "Annual Financial Statement",
-    year: "2025",
-  },
-  {
-    mn: "4-р улирлын санхүүгийн тайлан",
-    en: "Q4 Financial Statement",
-    year: "2025",
-  },
-  {
-    mn: "3-р улирлын санхүүгийн тайлан",
-    en: "Q3 Financial Statement",
-    year: "2025",
-  },
-  {
-    mn: "Жилийн санхүүгийн тайлан",
-    en: "Annual Financial Statement",
-    year: "2024",
-  },
-];
-
-export default function Reports() {
+export default function Reports({ reports }: { reports: ReportItem[] }) {
   return (
     <section id="tailan">
       <div className="wrap">
@@ -39,26 +17,36 @@ export default function Reports() {
             en: "Our audited annual and quarterly financial statements, published in accordance with regulatory requirements.",
           }}
         />
-        <ul className="report-list" style={{ maxWidth: 640 }}>
-          {REPORTS.map((report, index) => (
-            <Reveal
-              as="li"
-              className="report-row"
-              key={`${report.mn}-${report.year}`}
-              delay={index * 70}
-            >
-              <div>
-                <span className="name">
-                  <T mn={report.mn} en={report.en} />
-                </span>
-                <span className="yr">{report.year}</span>
-              </div>
-              <PendingLink className="dl">
-                <T mn="Татах ↓" en="Download ↓" />
-              </PendingLink>
-            </Reveal>
-          ))}
-        </ul>
+        {reports.length === 0 ? (
+          <p className="empty-note">
+            <T
+              mn="Тайлан удахгүй нэмэгдэнэ."
+              en="Reports will be published here shortly."
+            />
+          </p>
+        ) : (
+          <ul className="report-list" style={{ maxWidth: 640 }}>
+            {reports.map((report, index) => (
+              <Reveal as="li" className="report-row" key={report.id} delay={index * 70}>
+                <div>
+                  <span className="name">
+                    <T mn={report.title.mn} en={report.title.en} />
+                  </span>
+                  <span className="yr">{report.year}</span>
+                </div>
+                {report.url ? (
+                  <a className="dl" href={report.url} download>
+                    <T mn="Татах ↓" en="Download ↓" />
+                  </a>
+                ) : (
+                  <PendingLink className="dl">
+                    <T mn="Татах ↓" en="Download ↓" />
+                  </PendingLink>
+                )}
+              </Reveal>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );

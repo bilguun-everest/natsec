@@ -3,72 +3,63 @@
 import { T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { Eyebrow, PendingLink, SecHead } from "@/components/ui";
+import type { ResearchItem, WeeklyItem } from "@/lib/content";
 
-const ARTICLES: {
-  date: string;
-  href: string;
-  title: { mn: string; en: string };
-  tag: { mn: string; en: string };
-}[] = [
-  {
-    date: "2026.07.20",
-    href: "#",
-    title: {
-      mn: "Макро орчны судалгаа — инфляци, бодлогын хүү, төсвийн тэнцэл",
-      en: "Macro research — inflation, policy rate, fiscal balance",
-    },
-    tag: { mn: "Макро орчин", en: "Macro" },
-  },
-  {
-    date: "2026.07.14",
-    href: "#",
-    title: {
-      mn: "Үнэт цаасны судалгаа — компани тус бүрийн үнэлгээ, зорилтот үнэ",
-      en: "Securities research — company valuations, target prices",
-    },
-    tag: { mn: "Үнэт цаас", en: "Securities" },
-  },
-  {
-    date: "2026.07.22",
-    href: "#sudalgaa-toim",
-    title: {
-      mn: "Долоо хоногийн тойм — арилжааны идэвх, гол хөдөлгөөн",
-      en: "Weekly review — trading activity, key movements",
-    },
-    tag: { mn: "7 хоног", en: "Weekly" },
-  },
-];
+const CATEGORY_LABEL: Record<ResearchItem["category"], { mn: string; en: string }> = {
+  macro: { mn: "Макро орчин", en: "Macro" },
+  securities: { mn: "Үнэт цаас", en: "Securities" },
+  weekly: { mn: "7 хоног", en: "Weekly" },
+};
 
-const REPORTS: { mn: string; en: string; size: string }[] = [
-  {
-    mn: "Монголын эдийн засгийн макро орчны тойм",
-    en: "Mongolia's macroeconomic review",
-    size: "PDF · 2.1MB",
-  },
-  {
-    mn: "МХБ-д бүртгэлтэй компаниудын үнэт цаасны судалгаа",
-    en: "Securities research on MSE-listed companies",
-    size: "PDF · 1.6MB",
-  },
-  {
-    mn: "Бондын зах зээлийн өгөөжийн муруй",
-    en: "Bond market yield curve",
-    size: "PDF · 940KB",
-  },
-  {
-    mn: "Долоо хоногийн тойм — 07/22",
-    en: "Weekly review — 07/22",
-    size: "PDF · 620KB",
-  },
-];
-
-/** Two of the three research items have no page yet; the weekly review does. */
-function ArticleLink({ href, children }: { href: string; children: React.ReactNode }) {
-  if (href === "#") return <PendingLink>{children}</PendingLink>;
+/** An entry with no file yet stays inert rather than linking nowhere. */
+function ItemLink({ href, children }: { href: string | null; children: React.ReactNode }) {
+  if (!href) return <PendingLink>{children}</PendingLink>;
   return <a href={href}>{children}</a>;
 }
 
-export default function Research() {
+export default function Research({
+  research,
+  weekly,
+}: {
+  research: ResearchItem[];
+  weekly: WeeklyItem | null;
+}) {
+  // The heading promises three levels of analysis, so the list shows the most
+  // recent of each rather than the three newest overall — which could all be
+  // macro. The weekly slot points at the review page, not a PDF.
+  const latestMacro = research.find((item) => item.category === "macro");
+  const latestSecurities = research.find((item) => item.category === "securities");
+
+  const highlights = [
+    latestMacro && {
+      key: `macro-${latestMacro.id}`,
+      date: latestMacro.date,
+      href: latestMacro.url,
+      title: latestMacro.title,
+      tag: CATEGORY_LABEL.macro,
+    },
+    latestSecurities && {
+      key: `securities-${latestSecurities.id}`,
+      date: latestSecurities.date,
+      href: latestSecurities.url,
+      title: latestSecurities.title,
+      tag: CATEGORY_LABEL.securities,
+    },
+    weekly && {
+      key: `weekly-${weekly.id}`,
+      date: weekly.date,
+      href: "#sudalgaa-toim",
+      title: weekly.title,
+      tag: CATEGORY_LABEL.weekly,
+    },
+  ].filter(Boolean) as {
+    key: string;
+    date: string;
+    href: string | null;
+    title: { mn: string; en: string };
+    tag: { mn: string; en: string };
+  }[];
+
   return (
     <section id="sudalgaa">
       <div className="wrap split">
@@ -78,27 +69,35 @@ export default function Research() {
             title={{ mn: "Гурван түвшний шинжилгээ", en: "Three levels of analysis" }}
             style={{ marginBottom: 22 }}
           />
-          <ul className="nlist">
-            {ARTICLES.map((article, index) => (
-              <Reveal as="li" key={article.title.mn} delay={index * 80}>
-                <ArticleLink href={article.href}>
-                  <time>{article.date}</time>
-                  <div>
-                    <h4>
-                      <T mn={article.title.mn} en={article.title.en} />
-                    </h4>
-                    <span className="tag">
-                      <T mn={article.tag.mn} en={article.tag.en} />
-                    </span>
-                  </div>
-                </ArticleLink>
-              </Reveal>
-            ))}
-          </ul>
-          <PendingLink
-            className="more"
-            label={undefined}
-          >
+          {highlights.length === 0 ? (
+            <p className="empty-note">
+              <T
+                mn="Судалгаа удахгүй нэмэгдэнэ."
+                en="Research will be published here shortly."
+              />
+            </p>
+          ) : (
+            <ul className="nlist">
+              {highlights.map((item, index) => (
+                <Reveal as="li" key={item.key} delay={index * 80}>
+                  <ItemLink href={item.href}>
+                    <time>{item.date}</time>
+                    <div>
+                      <h4>
+                        <T mn={item.title.mn} en={item.title.en} />
+                      </h4>
+                      <span className="tag">
+                        <T mn={item.tag.mn} en={item.tag.en} />
+                      </span>
+                    </div>
+                  </ItemLink>
+                </Reveal>
+              ))}
+            </ul>
+          )}
+          {/* Still inert: there is no archive route yet, so this would have
+              nowhere to land once the collection outgrows three highlights. */}
+          <PendingLink className="more">
             <T mn="Бүх судалгаа →" en="All research →" />
           </PendingLink>
         </div>
@@ -114,18 +113,24 @@ export default function Research() {
               en="Our research team publishes macro, securities, and weekly market reviews every month."
             />
           </p>
-          <ul className="rlist">
-            {REPORTS.map((report) => (
-              <li key={report.mn}>
-                <PendingLink>
-                  <span>
-                    <T mn={report.mn} en={report.en} />
-                  </span>
-                  <span className="pdf">{report.size}</span>
-                </PendingLink>
-              </li>
-            ))}
-          </ul>
+          {research.length === 0 ? (
+            <p className="rlist-empty">
+              <T mn="Тайлан удахгүй нэмэгдэнэ." en="Reports coming soon." />
+            </p>
+          ) : (
+            <ul className="rlist">
+              {research.slice(0, 6).map((item) => (
+                <li key={item.id}>
+                  <ItemLink href={item.url}>
+                    <span>
+                      <T mn={item.title.mn} en={item.title.en} />
+                    </span>
+                    {item.size ? <span className="pdf">{item.size}</span> : null}
+                  </ItemLink>
+                </li>
+              ))}
+            </ul>
+          )}
         </Reveal>
       </div>
     </section>

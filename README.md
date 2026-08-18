@@ -9,8 +9,8 @@ Mongolian Stock Exchange** at build / revalidate time.
 
 ## Design system
 
-| Token        | Value                                                        |
-| ------------ | ------------------------------------------------------------ |
+| Token        | Value                                                         |
+| ------------ | ------------------------------------------------------------- |
 | Navy         | `#14225F` · deep navy `#0C1440` (hero, footer, dark panels)   |
 | Brand blue   | `#48BEE6` · text blue `#0E7EAE` · soft `#E9F6FC`              |
 | Ink / grey   | `#1A1D26` / `#6B7180`                                         |
@@ -66,9 +66,9 @@ stored preference is applied on mount and mirrored onto `<html lang>`.
 
 | Data                                         | Source                                                                                                                |
 | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| TOP-20 / MSE-A / MSE-B index levels           | `GET https://mse.mn/api/index_table`                                                                                  |
-| Company disclosures                           | `GET https://mse.mn/api/home_company_contents`                                                                        |
-| Shares, bonds, ABS — gainers/losers/turnover  | `stock_up` / `stock_down` / `stock_amount` (+ `_bond` with `type=BD\|IABS`), the endpoints the mse.mn front-end calls |
+| TOP-20 / MSE-A / MSE-B index levels          | `GET https://mse.mn/api/index_table`                                                                                  |
+| Company disclosures                          | `GET https://mse.mn/api/home_company_contents`                                                                        |
+| Shares, bonds, ABS — gainers/losers/turnover | `stock_up` / `stock_down` / `stock_amount` (+ `_bond` with `type=BD\|IABS`), the endpoints the mse.mn front-end calls |
 
 Each dataset is fetched in both languages (the exchange localises company
 names), every call is timeout-bounded, and **any failure degrades to `null`** —
@@ -87,12 +87,62 @@ the FAQ and drawer, `aria-pressed` on board tabs, anchor `scroll-margin` under
 the sticky header, and a full `prefers-reduced-motion` fallback. The only
 animation is the pulsing "live" dot.
 
+## Content management (Payload CMS)
+
+Research reports, financial statements and the weekly review are edited in a
+dashboard at **`/admin`**, not in code. Payload 3 runs inside this same Next
+app — same repo, same deploy, same domain — backed by Postgres for content and
+Vercel Blob for the PDFs.
+
+| Collection | Slug | What it holds |
+| --- | --- | --- |
+| Судалгаа | `research` | Research PDFs — category (macro / securities / weekly), date, optional summary |
+| Санхүүгийн тайлан | `reports` | Audited statements — year, period, PDF |
+| Долоо хоногийн тойм | `weekly` | The weekly review *page* — rich text, not a file |
+| Зураг | `media` | Images placed inside weekly articles |
+| Хэрэглэгчид | `users` | Admin accounts |
+
+Notes on how it is wired:
+
+- **Publishing is one action.** `research` and `reports` are upload-enabled
+  collections, so creating an entry *is* uploading the PDF — no separate media
+  step.
+- **Drafts are enabled** on all three content collections. Anonymous readers
+  only ever see `_status: published`, enforced in two places: `publishedOrStaff`
+  in `collections/access.ts` for the REST API, and an explicit `where` clause in
+  `lib/content.ts` because the Local API bypasses access control.
+- **Locales are `mn` / `en`** at the Payload level. Editors get a language
+  switcher rather than paired fields. `lib/content.ts` queries with
+  `locale: "all"` and hands components `{ mn, en }` pairs, because the language
+  switch happens in the browser.
+- **File sizes are measured**, not typed — `PDF · 2.1MB` is derived from
+  `filesize`.
+- Admin chrome is English: Payload ships no Mongolian translation. Field labels
+  and descriptions are Mongolian.
+
+Content appears on the site within a minute of publishing (`revalidate = 60`).
+
 ## Getting started
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
+cp .env.example .env    # fill in DATABASE_URL and PAYLOAD_SECRET
+npm run dev             # site at /, dashboard at /admin
 npm run build && npm run start
+```
+
+Without `BLOB_READ_WRITE_TOKEN`, uploads fall back to local disk
+(`/research`, `/reports`, `/media` — all gitignored), which is what you want
+for local development. On Vercel, both `DATABASE_URL` and
+`BLOB_READ_WRITE_TOKEN` are injected by the Storage tab; `vercel env pull .env`
+brings them down.
+
+Payload CLI helpers:
+
+```bash
+npm run generate:types      # regenerate payload-types.ts after a schema change
+npm run generate:importmap  # regenerate the admin import map
+npm run migrate:create      # create a migration (push is off in production)
 ```
 
 ## TODO — picking this up on another device
@@ -108,9 +158,14 @@ Next, roughly in priority order:
    `https://natsec.istock.mn/auth/login` (login / open account) and mse.mn.
    Sub-pages (Танилцуулга, Судалгаа, Тогтвортой хөгжил, ESG, privacy, terms)
    don't exist yet — decide route structure (`app/(pages)/...`) or external URLs.
-2. **Research & analyst reports are placeholder content.** `lib/content.ts →
-   research` holds sample titles, dates and PDF sizes. Swap in the real reports
-   and host the PDFs (`public/reports/…`), or feed them from a CMS.
+2. ~~**Research & analyst reports are placeholder content.**~~ Done — they now
+   come from Payload (see *Content management* above). Still outstanding:
+   **no email adapter is configured**, so a staff member who forgets their
+   password cannot reset it (Payload logs the mail to the console instead).
+   Wire `@payloadcms/email-nodemailer` to real SMTP before handing the
+   dashboard to anyone. Also undecided: whether research needs an approval
+   step before publish, and there is still no archive route for
+   "Бүх судалгаа →".
 3. **Static stats need confirming.** `lib/content.ts → stats` (12 years,
    18,400+ accounts, 640bn ₮, 27 IPOs/bonds) came from the design mock — the
    About copy says 12,951 active clients as of 2025-04, so these disagree. Get

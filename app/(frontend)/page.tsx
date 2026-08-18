@@ -1,4 +1,5 @@
 import App from "@/components/App";
+import { getSiteContent } from "@/lib/content";
 import { sessionState } from "@/lib/market-hours";
 import { getMarketSnapshot } from "@/lib/mse";
 
@@ -11,11 +12,17 @@ import { getMarketSnapshot } from "@/lib/mse";
  * hard ceiling on that regardless of instance count or traffic, and the first
  * paint is at worst a minute old because the browser then polls `/api/market`
  * directly.
+ *
+ * The same window applies to editable content: a report published in the
+ * dashboard appears on the site within a minute.
  */
 export const revalidate = 60;
 
 export default async function Page() {
-  const snapshot = await getMarketSnapshot();
+  const [snapshot, content] = await Promise.all([
+    getMarketSnapshot(),
+    getSiteContent(),
+  ]);
 
-  return <App snapshot={snapshot} session={sessionState()} />;
+  return <App snapshot={snapshot} session={sessionState()} content={content} />;
 }

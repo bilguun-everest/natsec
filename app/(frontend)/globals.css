@@ -981,3 +981,44 @@ a[aria-disabled="true"]{cursor:default}
    a fixed strip ate 184px of a 667px screen before any content appeared. The
    upper ticker is gone site-wide; the bottom one carries the same kind of data
    and stays, in the flow at the end of the page. */
+
+/* ---------- editable content ---------- */
+/* Lists that used to be hardcoded now come from the dashboard, so they can
+   legitimately be empty — on a fresh install, or if the database is briefly
+   unreachable. The note keeps the section from collapsing to a bare heading. */
+.empty-note{
+  font-size:14.5px;color:var(--grey);line-height:1.75;
+  padding:18px 0;max-width:56ch;
+}
+.rlist-empty{font-size:13.5px;color:#8E98C4;padding:14px 0 0}
+
+/* Weekly review article. The body is editor-authored rich text, so it styles
+   element selectors rather than classes — there is no markup to hook onto. */
+.article-date{
+  font-family:var(--font-mono),monospace;font-size:12px;
+  color:var(--grey);margin:-8px 0 26px;
+}
+.article-body{max-width:68ch}
+.article-body h2,.article-body h3,.article-body h4{
+  color:var(--navy);margin:34px 0 12px;line-height:1.35;
+}
+.article-body h2{font-size:22px}
+.article-body h3{font-size:18px}
+.article-body h4{font-size:15.5px}
+.article-body p{font-size:15px;line-height:1.85;color:#3A4152;margin-bottom:16px}
+.article-body ul,.article-body ol{margin:0 0 18px 20px}
+.article-body li{font-size:15px;line-height:1.85;color:#3A4152;margin-bottom:6px}
+.article-body a{color:var(--navy);text-decoration:underline;text-underline-offset:2px}
+.article-body blockquote{
+  border-left:2px solid var(--blue);padding-left:16px;margin:0 0 18px;
+  color:var(--grey);font-style:italic;
+}
+.article-body img{max-width:100%;height:auto;border-radius:6px;margin:8px 0 20px}
+.article-body table{
+  width:100%;border-collapse:collapse;margin:0 0 20px;font-size:14px;
+  display:block;overflow-x:auto;
+}
+.article-body th,.article-body td{
+  border:1px solid var(--line);padding:8px 12px;text-align:left;
+}
+.article-body th{background:var(--blue-soft);color:var(--navy);font-weight:600}

@@ -20,7 +20,14 @@ yarn-debug.log*
 yarn-error.log*
 
 # env files
+.env
 .env*.local
+
+# payload — local upload fallback when BLOB_READ_WRITE_TOKEN is unset.
+# In production these live in Vercel Blob, never on disk.
+/media
+/research
+/reports
 
 # typescript
 *.tsbuildinfo
