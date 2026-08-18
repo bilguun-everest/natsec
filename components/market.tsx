@@ -44,6 +44,14 @@ interface MarketValue {
   live: boolean;
 }
 
+/**
+ * The snapshot endpoint. A PHP file rather than a Next route handler: the site
+ * is exported as static files onto cPanel hosting, where nothing server-side
+ * runs except PHP. `public/market.php` is the twin of `lib/mse.ts` and answers
+ * with the same `MarketSnapshot` shape.
+ */
+const MARKET_ENDPOINT = "/market.php";
+
 const MarketContext = createContext<MarketValue | null>(null);
 
 export function MarketProvider({
@@ -63,7 +71,7 @@ export function MarketProvider({
 
   const refresh = useCallback(async () => {
     try {
-      const response = await fetch("/api/market", { cache: "no-store" });
+      const response = await fetch(MARKET_ENDPOINT, { cache: "no-store" });
       if (!response.ok) return;
       const next = (await response.json()) as MarketSnapshot;
       if (next.polledAt === lastPolledAt.current) return;
@@ -77,8 +85,10 @@ export function MarketProvider({
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
+    let cancelled = false;
 
     const tick = () => {
+      if (cancelled) return;
       const now = new Date();
       setSession(sessionState(now));
       // Interval is recomputed each time, so crossing the open or the close
@@ -88,8 +98,16 @@ export function MarketProvider({
       }, pollInterval(now));
     };
 
-    tick();
-    return () => clearTimeout(timer);
+    // The page is a static file: the prices in the markup were written when the
+    // site was built, not when it was opened. So the first poll happens now
+    // rather than one interval from now — waiting would leave a closed-market
+    // visitor looking at build-time numbers for a quarter of an hour.
+    void refresh().finally(tick);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, [refresh]);
 
   // A tab left open in the background stops polling; catch up on return.
