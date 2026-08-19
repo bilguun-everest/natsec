@@ -104,8 +104,8 @@ export default function Footer() {
             <Image
               src="/logo.png"
               alt="«Нэйшнл сэкюритис ҮЦК» ХХК"
-              width={765}
-              height={158}
+              width={495}
+              height={109}
             />
             {/* Split out of the single run of text it used to be, so the
                 phone and email are reachable from every page rather than
@@ -190,22 +190,34 @@ export default function Footer() {
             </div>
           </div>
 
-          {COLUMNS.map((column) => (
-            <div className="fcol" key={column.mn}>
-              <h5>
-                <T mn={column.mn} en={column.en} />
-              </h5>
-              <ul>
-                {column.links.map((link) => (
-                  <li key={`${link.href}-${link.mn}`}>
-                    <a href={link.href}>
-                      <T mn={link.mn} en={link.en} />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* The six link columns share one track, so the brand block keeps a
+              readable measure instead of being squeezed to a seventh of the
+              row alongside them. */}
+          <div className="fcols">
+            {COLUMNS.map((column) => (
+              <div className="fcol" key={column.mn}>
+                <h5>
+                  <T mn={column.mn} en={column.en} />
+                </h5>
+                <ul>
+                  {column.links.map((link) => (
+                    <li key={`${link.href}-${link.mn}`}>
+                      <a href={link.href}>
+                        <T mn={link.mn} en={link.en} />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="disclaim">
+          <T
+            mn="Үнэт цаасны арилжаанд оролцоход зах зээлийн эрсдэл дагалддаг бөгөөд хөрөнгө оруулалтын өнгөрсөн үр дүн ирээдүйн өгөөжийн баталгаа болохгүй. Энэ хуудсанд байрлуулсан зах зээлийн үзүүлэлт нь Монголын хөрөнгийн биржийн нийтэлсэн мэдээлэлд тулгуурласан лавлагаа мэдээлэл юм."
+            en="Trading securities carries market risk, and past investment performance is no guarantee of future returns. The market figures shown on this page are reference data drawn from the Mongolian Stock Exchange's own published feed."
+          />
         </div>
 
         <div className="fbot">
@@ -213,6 +225,12 @@ export default function Footer() {
             <T
               mn="© 2026 «Нэйшнл сэкюритис ҮЦК» ХХК."
               en="© 2026 National Securities LLC. All rights reserved."
+            />
+          </span>
+          <span>
+            <T
+              mn="Санхүүгийн зохицуулах хорооны тусгай зөвшөөрөлтэй"
+              en="Licensed by the Financial Regulatory Commission"
             />
           </span>
         </div>

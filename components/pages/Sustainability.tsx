@@ -1,10 +1,39 @@
 "use client";
 
-import Image from "next/image";
 import { T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { DetailPage, Eyebrow, List, PageNav, SecHead } from "@/components/ui";
 import { POLICIES, type Policy } from "@/lib/policies";
+
+/**
+ * One drawn icon per policy.
+ *
+ * All three cards used to carry the same company mark as their "icon", which
+ * told the reader nothing and made the three look interchangeable.
+ */
+const ICONS: Record<Policy["route"], React.ReactNode> = {
+  "tog-hugjil-esg": (
+    <>
+      <path d="M12 21c0-6 3.5-10 8-11-.5 6-3.5 9.5-8 11z" />
+      <path d="M12 21c0-4.5-2.6-7.6-6-8.5.4 4.6 2.6 7.2 6 8.5z" />
+      <path d="M12 21v-4" />
+    </>
+  ),
+  "tog-hugjil-privacy": (
+    <>
+      <rect x="4" y="10" width="16" height="10" rx="2" />
+      <path d="M8 10V7a4 4 0 018 0v3" />
+      <path d="M12 14v2" />
+    </>
+  ),
+  "tog-hugjil-terms": (
+    <>
+      <path d="M6 3h8l4 4v14H6z" />
+      <path d="M14 3v4h4" />
+      <path d="M9 13h6M9 17h4" />
+    </>
+  ),
+};
 
 export default function Sustainability() {
   return (
@@ -30,13 +59,11 @@ export default function Sustainability() {
               key={policy.route}
               delay={index * 100}
             >
-              <Image
-                className="mark"
-                src="/mark.png"
-                alt=""
-                width={158}
-                height={158}
-              />
+              <span className="mark">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  {ICONS[policy.route]}
+                </svg>
+              </span>
               <h4>
                 <T mn={policy.title.mn} en={policy.title.en} />
               </h4>

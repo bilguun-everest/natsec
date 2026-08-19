@@ -10,7 +10,7 @@ export default function Reports({ reports }: { reports: ReportItem[] }) {
     <section id="tailan">
       <div className="wrap">
         <SecHead
-          eyebrow={{ mn: "Бидний тухай", en: "About Us" }}
+          eyebrow={{ mn: "Ил тод байдал", en: "Disclosure" }}
           title={{ mn: "Санхүүгийн тайлан", en: "Financial Reports" }}
           lead={{
             mn: "Зохицуулагчийн шаардлагын дагуу нийтэлдэг, аудит хийгдсэн жил болон улирлын санхүүгийн тайлангууд.",

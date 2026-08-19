@@ -235,7 +235,10 @@ export function DetailPage({
 }) {
   return (
     <section>
-      <div className="wrap" style={{ padding: "72px 0" }}>
+      {/* No extra padding here: `section` already sets the page's vertical
+          rhythm, and stacking a second 72px on top of it pushed the first
+          line of every guide a screen-and-a-bit down the page. */}
+      <div className="wrap">
         <div className="modal-paper inline">
           <BackLink {...back} />
           {children}

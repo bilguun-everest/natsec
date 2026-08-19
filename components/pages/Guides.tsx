@@ -62,7 +62,7 @@ export default function Guides() {
         </div>
 
         <Reveal className="faq-box" delay={120}>
-          <Eyebrow mn="Түгээмэл асуулт" en="FAQ" style={{ color: "#48BEE6" }} />
+          <Eyebrow mn="Түгээмэл асуулт" en="FAQ" />
           <h3>
             <T mn="Түгээмэл асуулт хариулт" en="Frequently Asked Questions" />
           </h3>

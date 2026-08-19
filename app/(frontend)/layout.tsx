@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { LanguageProvider } from "@/components/lang";
 import "./globals.css";
 
@@ -9,11 +9,20 @@ const inter = Inter({
   display: "swap",
 });
 
-// Display grotesque. Archivo has no Cyrillic, so the font stack in
-// `tailwind.config.ts` hands Mongolian headings to Inter.
-const display = Archivo({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+/**
+ * Editorial voice — every heading, and the headline figures.
+ *
+ * It replaces Archivo, which had no Cyrillic: on a Mongolian-first site that
+ * meant the display face silently fell back to Inter for the primary language
+ * and the site had no typographic voice of its own. Source Serif 4 ships
+ * Cyrillic, so the same heading reads the same way in both languages.
+ */
+const display = Source_Serif_4({
+  subsets: ["latin", "cyrillic"],
+  // No `weight`: both of these are variable fonts, so leaving the axis open
+  // ships one file per subset and style instead of one per cut. On a 10GB-a-
+  // month shared host that is the difference between 728KB and 260KB of face.
+  style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
 });
@@ -21,7 +30,6 @@ const display = Archivo({
 // Data face — indices, prices, labels.
 const mono = JetBrains_Mono({
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "700"],
   variable: "--font-mono",
   display: "swap",
 });

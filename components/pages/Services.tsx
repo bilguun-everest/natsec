@@ -1,17 +1,30 @@
 "use client";
 
-import Image from "next/image";
 import { T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { List, SecHead } from "@/components/ui";
 
+/**
+ * Each service carries its own drawn icon. They all used to show the same
+ * company mark, which made four different businesses look like one repeated
+ * one and gave the reader nothing to scan by.
+ */
 const SERVICES: {
+  icon: React.ReactNode;
   title: { mn: string; en: string };
   lead: { mn: string; en: string };
   items: { mn: string; en: string }[];
   href: string;
 }[] = [
   {
+    icon: (
+      <>
+        <path d="M3 20h18" />
+        <path d="M7 20V9" />
+        <path d="M12 20V4" />
+        <path d="M17 20v-7" />
+      </>
+    ),
     title: { mn: "Брокер", en: "Broker" },
     lead: {
       mn: "МХБ-ийн арилжааны системтэй шууд холбогдсон платформоор хоцрогдолгүй арилжаа хийнэ.",
@@ -28,6 +41,14 @@ const SERVICES: {
     href: "#zaavar",
   },
   {
+    icon: (
+      <>
+        <path d="M4 21h16" />
+        <path d="M6 21V8l6-4 6 4v13" />
+        <path d="M10 21v-5h4v5" />
+        <path d="M10 11h4" />
+      </>
+    ),
     title: { mn: "Андеррайтер", en: "Underwriter" },
     lead: {
       mn: "Компанийн хувьцаа, бондыг зах зээлд гаргах бүх үе шатыг хариуцна.",
@@ -43,6 +64,12 @@ const SERVICES: {
     href: "#anderraiter",
   },
   {
+    icon: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M15.5 8.5l-2 5.5-5.5 2 2-5.5z" />
+      </>
+    ),
     title: {
       mn: "Хөрөнгө оруулалтын зөвлөгөө",
       en: "Investment Advisory",
@@ -66,6 +93,15 @@ const SERVICES: {
     href: "#zuvluh",
   },
   {
+    icon: (
+      <>
+        <path d="M12 3a7 7 0 00-7 7v4" />
+        <path d="M19 14v-4a7 7 0 00-3.5-6" />
+        <rect x="3" y="13" width="4" height="6" rx="1.5" />
+        <rect x="17" y="13" width="4" height="6" rx="1.5" />
+        <path d="M19 19v1a2 2 0 01-2 2h-3" />
+      </>
+    ),
     title: { mn: "Харилцагчийн туслах", en: "Customer Support" },
     lead: {
       mn: "Данс нээхээс ногдол ашиг авах хүртэл алхам бүрийн заавар.",
@@ -109,13 +145,11 @@ export default function Services() {
               key={service.title.mn}
               delay={index * 110}
             >
-              <Image
-                className="mark"
-                src="/mark.png"
-                alt=""
-                width={158}
-                height={158}
-              />
+              <span className="mark">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  {service.icon}
+                </svg>
+              </span>
               <h3>
                 <T mn={service.title.mn} en={service.title.en} />
               </h3>

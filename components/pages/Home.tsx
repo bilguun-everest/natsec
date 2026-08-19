@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { T, Tg, useLang } from "@/components/lang";
+import { T, useLang } from "@/components/lang";
 import { Reveal, useCountUp, useInView } from "@/components/motion";
 import MarketPanel from "@/components/MarketPanel";
 import { useIndices } from "@/components/market";
 import { Eyebrow, SecHead } from "@/components/ui";
 import { FAQ } from "@/lib/faq";
-import { TRADING_URL } from "@/lib/site";
+import { CONTACT, TRADING_URL } from "@/lib/site";
 
 const HEADLINES: { mn: string; en: string }[] = [
   {
@@ -28,7 +28,6 @@ const HEADLINES: { mn: string; en: string }[] = [
   },
 ];
 
-
 const STATS: { value: string; mn: string; en: string }[] = [
   {
     value: "19",
@@ -42,13 +41,90 @@ const STATS: { value: string; mn: string; en: string }[] = [
   },
   {
     value: "640",
-    mn: "Жилийн арилжааны дүн, тэрбум ₮",
-    en: "Annual trading volume, bn ₮",
+    mn: "Жилийн арилжааны дүн, тэрбум\u00A0₮",
+    en: "Annual trading volume, bn\u00A0₮",
   },
   {
     value: "27",
     mn: "Зохион байгуулсан IPO, бонд",
     en: "IPOs & bonds arranged",
+  },
+];
+
+/**
+ * What the firm actually does, on the page that has to answer it first.
+ *
+ * The landing page used to go hero → figures → "how to start" without ever
+ * saying what it was you would be starting, which left the three licensed
+ * businesses buried two clicks deep in a dropdown.
+ */
+const OFFER: {
+  href: string;
+  icon: React.ReactNode;
+  title: { mn: string; en: string };
+  body: { mn: string; en: string };
+  items: { mn: string; en: string }[];
+}[] = [
+  {
+    href: "#broker",
+    icon: (
+      <>
+        <path d="M3 20h18" />
+        <path d="M7 20V9" />
+        <path d="M12 20V4" />
+        <path d="M17 20v-7" />
+      </>
+    ),
+    title: { mn: "Брокер", en: "Broker" },
+    body: {
+      mn: "МХБ-ийн арилжааны системтэй шууд холбогдсон платформоор хоцрогдолгүй арилжаа хийнэ.",
+      en: "Trade without delay through a platform connected directly to the MSE trading system.",
+    },
+    items: [
+      { mn: "Онлайн арилжааны систем", en: "Online trading system" },
+      { mn: "Хувьцаа, бонд, ЗГҮЦ", en: "Equities, bonds, government paper" },
+      { mn: "Номинал дансны үйлчилгээ", en: "Nominee account services" },
+    ],
+  },
+  {
+    href: "#anderraiter",
+    icon: (
+      <>
+        <path d="M4 21h16" />
+        <path d="M6 21V8l6-4 6 4v13" />
+        <path d="M10 21v-5h4v5" />
+        <path d="M10 11h4" />
+      </>
+    ),
+    title: { mn: "Андеррайтер", en: "Underwriter" },
+    body: {
+      mn: "Компанийн хувьцаа, бондыг зах зээлд гаргах бүх үе шатыг хариуцна.",
+      en: "We manage every stage of bringing a company's shares or bonds to market.",
+    },
+    items: [
+      { mn: "Хувьцааны санхүүжилт (IPO, FPO)", en: "Equity financing (IPO, FPO)" },
+      { mn: "Бондын санхүүжилт", en: "Bond financing" },
+      { mn: "Зах зээлд бүртгүүлэх бэлтгэл", en: "Listing preparation" },
+    ],
+  },
+  {
+    href: "#zuvluh",
+    icon: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M15.5 8.5l-2 5.5-5.5 2 2-5.5z" />
+      </>
+    ),
+    title: { mn: "Хөрөнгө оруулалтын зөвлөх", en: "Investment Advisory" },
+    body: {
+      mn: "Эрсдэл даах чадвар, зорилгод тань тохирсон багц бүрдүүлж, тогтмол хянана.",
+      en: "We build a portfolio suited to your risk tolerance and goals, and monitor it continuously.",
+    },
+    items: [
+      { mn: "Багцын зөвлөх үйлчилгээ", en: "Portfolio advisory" },
+      { mn: "Хувийн санхүүжилт", en: "Personal financing" },
+      { mn: "Нэгдэл, өөрчлөн байгуулалт", en: "M&A and restructuring" },
+    ],
   },
 ];
 
@@ -97,7 +173,7 @@ export default function Home() {
     <>
       <Hero />
       <div className="band">
-        <section style={{ padding: "56px 0" }}>
+        <section style={{ padding: "clamp(48px,5vw,68px) 0" }}>
           <div className="wrap stats">
             {STATS.map((stat, index) => (
               <Stat key={stat.value} stat={stat} delay={index * 90} />
@@ -105,9 +181,61 @@ export default function Home() {
           </div>
         </section>
       </div>
-      <StartSteps />
+      <Offer />
+      <div className="band">
+        <StartSteps />
+      </div>
       <HomeFaq />
+      <ClosingCta />
     </>
+  );
+}
+
+/** The three licensed businesses, said plainly and once. */
+function Offer() {
+  return (
+    <section>
+      <div className="wrap">
+        <SecHead
+          eyebrow={{ mn: "Үйлчилгээ", en: "What we do" }}
+          title={{
+            mn: "Хөрөнгө оруулалтын бүх шатанд",
+            en: "At every stage of investing",
+          }}
+          lead={{
+            mn: "МХБ-ийн 52 гишүүнээс бүх 5 төрлийн тусгай зөвшөөрлийг бүрэн эзэмшдэг 9 компанийн нэг нь бид.",
+            en: "One of nine firms among the exchange's 52 members holding all five categories of licence.",
+          }}
+        />
+        <div className="offer">
+          {OFFER.map((entry, index) => (
+            <Reveal className="offer-c" key={entry.href} delay={index * 100}>
+              <span className="offer-ico">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  {entry.icon}
+                </svg>
+              </span>
+              <h3>
+                <T mn={entry.title.mn} en={entry.title.en} />
+              </h3>
+              <p>
+                <T mn={entry.body.mn} en={entry.body.en} />
+              </p>
+              <ul>
+                {entry.items.map((item) => (
+                  <li key={item.mn}>
+                    <T mn={item.mn} en={item.en} />
+                  </li>
+                ))}
+              </ul>
+              <a href={entry.href} className="more">
+                <T mn="Дэлгэрэнгүй" en="Learn more" /> →
+              </a>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -123,7 +251,6 @@ function StartSteps() {
             mn: "Данс нээхээс эхний захиалга хүртэл ихэвчлэн нэг ажлын өдөрт багтана.",
             en: "From opening an account to your first order — usually inside one working day.",
           }}
-          style={{ marginBottom: 30 }}
         />
 
         <div className="start-steps">
@@ -148,7 +275,7 @@ function StartSteps() {
                 <T mn={step.body.mn} en={step.body.en} />
               </p>
               <span className="more">
-                <T mn="Заавар үзэх →" en="Read the guide →" />
+                <T mn="Заавар үзэх" en="Read the guide" /> →
               </span>
             </Reveal>
           ))}
@@ -167,30 +294,95 @@ function StartSteps() {
   );
 }
 
-/** The five questions we are asked most, ahead of the full list on #faq. */
+/**
+ * The five questions we are asked most, ahead of the full list on #faq.
+ *
+ * Ruled and light rather than the dark card it used to be: between a dark hero
+ * and a dark footer, a third navy slab in the middle of the page left nowhere
+ * for the eye to rest.
+ */
 function HomeFaq() {
   return (
-    <div className="band">
-      <section>
-        <div className="wrap" style={{ maxWidth: 880 }}>
-          <SecHead
-            eyebrow={{ mn: "Харилцагчийн туслах", en: "Customer Support" }}
-            title={{ mn: "Түгээмэл асуулт", en: "Frequently asked questions" }}
-            style={{ marginBottom: 26 }}
-          />
-          <Reveal className="faq-box" delay={60}>
-            {FAQ.slice(0, 5).map((entry) => (
-              <a className="faq-tile" href={`#${entry.route}`} key={entry.route}>
-                <span className="q">
-                  <T mn={entry.question.mn} en={entry.question.en} />
-                </span>
-                <span className="arrow">→</span>
-              </a>
-            ))}
-            <a className="faq-more" href="#faq">
-              <T mn="Бүх асуулт үзэх →" en="See all questions →" />
+    <section>
+      <div className="wrap">
+        <SecHead
+          eyebrow={{ mn: "Харилцагчийн туслах", en: "Customer Support" }}
+          title={{ mn: "Түгээмэл асуулт", en: "Frequently asked questions" }}
+        />
+        <Reveal className="faq-list" delay={60}>
+          {FAQ.slice(0, 5).map((entry) => (
+            <a className="faq-row" href={`#${entry.route}`} key={entry.route}>
+              <span className="q">
+                <T mn={entry.question.mn} en={entry.question.en} />
+              </span>
+              <span className="arrow" aria-hidden="true">
+                →
+              </span>
             </a>
-          </Reveal>
+          ))}
+        </Reveal>
+        <Reveal delay={140} style={{ marginTop: 28 }}>
+          <a className="more" href="#faq">
+            <T mn="Бүх асуулт үзэх" en="See all questions" /> →
+          </a>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** Closing band: the one action, and the two ways to reach a person. */
+function ClosingCta() {
+  return (
+    <div className="cta">
+      <Rings className="rings2" />
+      <section>
+        <div className="wrap">
+          <Eyebrow mn="Эхлэх цаг" en="Get started" />
+          <h2>
+            <T
+              mn="Хөрөнгө оруулалтаа өнөөдөр эхлүүлээрэй"
+              en="Start investing today"
+            />
+          </h2>
+          <p>
+            <T
+              mn="Данс нээх хүсэлтээ онлайнаар илгээгээд 24 цагийн дотор баталгаажуулалтаа аваарай. Асуух зүйл байвал брокертой шууд ярина уу."
+              en="Send your account application online and get verified within 24 hours. If anything is unclear, talk to a broker directly."
+            />
+          </p>
+          <div className="cta-b">
+            <a href={TRADING_URL} className="btn btn-w btn-lg">
+              <T mn="Данс нээх" en="Open an account" />
+            </a>
+            <a href="#holboo-barih" className="btn btn-g btn-lg">
+              <T mn="Холбоо барих" en="Contact us" />
+            </a>
+          </div>
+          <div className="cta-meta">
+            <div>
+              <small>
+                <T mn="Утас" en="Phone" />
+              </small>
+              <a href={`tel:${CONTACT.phones[0].dial}`}>
+                {CONTACT.phones[0].label}
+              </a>
+            </div>
+            <div>
+              <small>
+                <T mn="И-мэйл" en="Email" />
+              </small>
+              <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+            </div>
+            <div>
+              <small>
+                <T mn="Хаяг" en="Office" />
+              </small>
+              <span>
+                <T mn="Eco Tower, 9 давхарт 904" en="Eco Tower, 9F, Room 904" />
+              </span>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -259,10 +451,10 @@ function Hero() {
               />
             </p>
             <div className="hero-cta">
-              <a href={TRADING_URL} className="btn btn-w">
+              <a href={TRADING_URL} className="btn btn-w btn-lg">
                 <T mn="Данс нээх — 10 минут" en="Open Account — 10 min" />
               </a>
-              <a href={TRADING_URL} className="btn btn-g">
+              <a href={TRADING_URL} className="btn btn-g btn-lg">
                 <T mn="Данс шалгах" en="Check Account" />
               </a>
             </div>
@@ -279,6 +471,12 @@ function Hero() {
                   <T mn="Гишүүн байгууллага" en="Member Organization" />
                 </span>
               </div>
+              <div>
+                <strong>5 / 5</strong>
+                <span>
+                  <T mn="Тусгай зөвшөөрөл" en="Licence categories" />
+                </span>
+              </div>
             </div>
             <HeroNews />
           </div>
@@ -290,7 +488,7 @@ function Hero() {
   );
 }
 
-/** The five headlines cycle in place, one every three seconds. */
+/** The five headlines cycle in place, one every five seconds. */
 function HeroNews() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -361,166 +559,34 @@ function Rings({ className = "rings" }: { className?: string }) {
   );
 }
 
-/** Skyline + rising market line behind the hero copy. */
+/**
+ * The market line along the base of the hero.
+ *
+ * This used to be a drawn skyline — thirty hand-placed towers with lit windows,
+ * which read as clip art at any size and had nothing to do with the business.
+ * What remains is the one figure that does: a rising series, its axis, and the
+ * points on it, drawn in once on load.
+ */
 function HeroBackdrop() {
-  // [x, y, width, height] per building; `windows` marks the lit floors.
-  const towers: { rect: number[]; windows?: number[][] }[] = [
-    {
-      rect: [0, 210, 54, 110],
-      windows: [
-        [10, 230],
-        [30, 230],
-        [10, 256],
-        [30, 256],
-      ],
-    },
-    { rect: [60, 240, 40, 80] },
-    {
-      rect: [106, 180, 58, 140],
-      windows: [
-        [118, 200],
-        [140, 200],
-        [118, 226],
-        [140, 226],
-        [118, 252],
-        [140, 252],
-      ],
-    },
-    { rect: [170, 250, 36, 70] },
-    {
-      rect: [212, 150, 50, 170],
-      windows: [
-        [222, 168],
-        [240, 168],
-        [222, 194],
-        [240, 194],
-        [222, 220],
-        [240, 220],
-      ],
-    },
-    { rect: [268, 230, 42, 90] },
-    { rect: [316, 270, 34, 50] },
-    {
-      rect: [356, 120, 60, 200],
-      windows: [
-        [368, 140],
-        [392, 140],
-        [368, 166],
-        [392, 166],
-        [368, 192],
-        [392, 192],
-        [368, 218],
-        [392, 218],
-      ],
-    },
-    { rect: [422, 255, 38, 65] },
-    {
-      rect: [466, 200, 46, 120],
-      windows: [
-        [478, 216],
-        [498, 216],
-        [478, 242],
-        [498, 242],
-      ],
-    },
-    { rect: [518, 245, 34, 75] },
-    {
-      rect: [558, 160, 56, 160],
-      windows: [
-        [570, 178],
-        [592, 178],
-        [570, 204],
-        [592, 204],
-        [570, 230],
-        [592, 230],
-      ],
-    },
-    { rect: [620, 235, 40, 85] },
-    { rect: [666, 270, 34, 50] },
-    {
-      rect: [706, 140, 58, 180],
-      windows: [
-        [718, 158],
-        [740, 158],
-        [718, 184],
-        [740, 184],
-        [718, 210],
-        [740, 210],
-      ],
-    },
-    { rect: [770, 250, 40, 70] },
-    {
-      rect: [816, 195, 46, 125],
-      windows: [
-        [828, 212],
-        [848, 212],
-        [828, 238],
-        [848, 238],
-      ],
-    },
-    { rect: [868, 260, 34, 60] },
-    {
-      rect: [908, 110, 62, 210],
-      windows: [
-        [922, 130],
-        [946, 130],
-        [922, 156],
-        [946, 156],
-        [922, 182],
-        [946, 182],
-        [922, 208],
-        [946, 208],
-      ],
-    },
-    { rect: [976, 245, 38, 75] },
-    {
-      rect: [1020, 205, 46, 115],
-      windows: [
-        [1032, 222],
-        [1052, 222],
-        [1032, 248],
-        [1052, 248],
-      ],
-    },
-    { rect: [1072, 260, 34, 60] },
-    {
-      rect: [1112, 165, 56, 155],
-      windows: [
-        [1124, 182],
-        [1146, 182],
-        [1124, 208],
-        [1146, 208],
-        [1124, 234],
-        [1146, 234],
-      ],
-    },
-    { rect: [1174, 240, 40, 80] },
-    { rect: [1220, 275, 34, 45] },
-    {
-      rect: [1260, 185, 50, 135],
-      windows: [
-        [1272, 202],
-        [1292, 202],
-        [1272, 228],
-        [1292, 228],
-      ],
-    },
-    { rect: [1316, 250, 38, 70] },
-    {
-      rect: [1360, 220, 46, 100],
-      windows: [
-        [1372, 236],
-        [1392, 236],
-      ],
-    },
-    { rect: [1412, 260, 28, 60] },
+  const points: [number, number][] = [
+    [0, 244],
+    [110, 208],
+    [220, 220],
+    [330, 168],
+    [440, 186],
+    [550, 132],
+    [660, 148],
+    [770, 100],
+    [880, 124],
+    [990, 74],
+    [1100, 92],
+    [1210, 48],
+    [1320, 62],
+    [1440, 26],
   ];
 
-  const line =
-    "0,230 120,190 240,205 360,145 480,165 600,105 720,120 840,70 960,95 1080,45 1200,60 1320,20 1440,40";
-  const area =
-    "M0,230 L120,190 L240,205 L360,145 L480,165 L600,105 L720,120 L840,70 " +
-    "L960,95 L1080,45 L1200,60 L1320,20 L1440,40 L1440,320 L0,320 Z";
+  const line = points.map(([x, y]) => `${x},${y}`).join(" ");
+  const area = `M${line.replace(/ /g, " L")} L1440,320 L0,320 Z`;
 
   return (
     <svg
@@ -531,39 +597,41 @@ function HeroBackdrop() {
     >
       <defs>
         <linearGradient id="heroChartFade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#48BEE6" stopOpacity=".35" />
-          <stop offset="100%" stopColor="#48BEE6" stopOpacity="0" />
+          <stop offset="0%" stopColor="#6FB2FF" stopOpacity=".22" />
+          <stop offset="100%" stopColor="#6FB2FF" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="heroBottomFade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#0C1440" stopOpacity="0" />
-          <stop offset="55%" stopColor="#0C1440" stopOpacity=".55" />
-          <stop offset="100%" stopColor="#0C1440" stopOpacity="1" />
+          <stop offset="0%" stopColor="#080E30" stopOpacity="0" />
+          <stop offset="62%" stopColor="#080E30" stopOpacity=".45" />
+          <stop offset="100%" stopColor="#080E30" stopOpacity=".92" />
         </linearGradient>
       </defs>
-      <g className="skyline">
-        {towers.map((tower) => (
-          <g key={tower.rect.join("-")}>
-            <rect
-              x={tower.rect[0]}
-              y={tower.rect[1]}
-              width={tower.rect[2]}
-              height={tower.rect[3]}
-            />
-            {tower.windows?.map(([x, y]) => (
-              <rect
-                key={`${x}-${y}`}
-                x={x}
-                y={y}
-                width="10"
-                height="14"
-                className="win"
-              />
-            ))}
-          </g>
-        ))}
-      </g>
+
+      {/* Axis rules, so the series reads as a chart rather than a squiggle. */}
+      {[120, 180, 240].map((y) => (
+        <line className="axis" key={y} x1="0" y1={y} x2="1440" y2={y} />
+      ))}
+
       <path className="chart-fill" d={area} />
+      <polyline className="chart-glow" points={line} />
       <polyline className="chart-line" points={line} />
+
+      {/* Squares, not circles: preserveAspectRatio="none" scales x and y by
+          different factors, which turns a circle into a visibly wrong ellipse
+          and a square into a rectangle that still reads as a marker. */}
+      {points
+        .filter((_, index) => index % 3 === 0)
+        .map(([x, y]) => (
+          <rect
+            className="chart-dot"
+            key={`${x}-${y}`}
+            x={x - 3}
+            y={y - 3}
+            width="6"
+            height="6"
+          />
+        ))}
+
       <rect className="fade" x="0" y="0" width="1440" height="320" />
     </svg>
   );

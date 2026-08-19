@@ -103,7 +103,7 @@ export default function Research({
         </div>
 
         <Reveal className="rbox" delay={120}>
-          <Eyebrow mn="Судалгаа" en="Research" style={{ color: "#48BEE6" }} />
+          <Eyebrow mn="Судалгаа" en="Research" />
           <h3>
             <T mn="Шинжээчийн тайлан" en="Analyst Reports" />
           </h3>

@@ -8,7 +8,6 @@ import { useEffect, useRef } from "react";
 import MarketTicker from "@/components/MarketTicker";
 import UtilityBar from "@/components/UtilityBar";
 import About from "@/components/pages/About";
-import Achievements from "@/components/pages/Achievements";
 import Advisory from "@/components/pages/Advisory";
 import Contact from "@/components/pages/Contact";
 import Faq from "@/components/pages/Faq";
@@ -16,9 +15,7 @@ import FaqDetail from "@/components/pages/FaqDetail";
 import GuideDetail from "@/components/pages/GuideDetail";
 import Guides from "@/components/pages/Guides";
 import Home from "@/components/pages/Home";
-import Leadership from "@/components/pages/Leadership";
 import NotFound from "@/components/pages/NotFound";
-import Reports from "@/components/pages/Reports";
 import Research from "@/components/pages/Research";
 import Services from "@/components/pages/Services";
 import Sustainability, { PolicyDetail } from "@/components/pages/Sustainability";
@@ -43,14 +40,13 @@ function Page({ route, content }: { route: Route; content: SiteContent }) {
   if (policy) return <PolicyDetail policy={policy} />;
 
   switch (route) {
+    // One About page, reached by four routes: the footer still links to each
+    // part by name, and <About> scrolls to whichever one was asked for.
     case "tanilcuulga":
-      return <About />;
     case "udirdlaga":
-      return <Leadership />;
     case "ololt":
-      return <Achievements />;
     case "tailan":
-      return <Reports reports={content.reports} />;
+      return <About reports={content.reports} />;
     case "broker":
       return <Services />;
     case "anderraiter":

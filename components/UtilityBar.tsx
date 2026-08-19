@@ -3,6 +3,7 @@
 import { T, useLang } from "@/components/lang";
 import { useIndices, useMarket } from "@/components/market";
 import { localDateTime, localTime, sameLocalDay } from "@/lib/market-hours";
+import { TRADING_URL } from "@/lib/site";
 
 export default function UtilityBar() {
   const indices = useIndices();
@@ -14,13 +15,9 @@ export default function UtilityBar() {
           {indices && (
             <span className="util-fig">
               <span className="live-dot" />
-              <T mn="МХБ ТОП-20: " en="MSE TOP-20: " />
-              {indices.top20.unit}{" "}
-              <span
-                style={{
-                  color: indices.top20.dir === "down" ? "#F17171" : "#4FD497",
-                }}
-              >
+              <T mn="МХБ ТОП-20" en="MSE TOP-20" />
+              <b>{indices.top20.unit}</b>
+              <span className={indices.top20.dir === "down" ? "d" : "u"}>
                 {indices.top20.raw > 0 ? "+" : ""}
                 {indices.top20.raw.toFixed(2)}%
               </span>
@@ -34,6 +31,14 @@ export default function UtilityBar() {
           </a>
           <a href="#holboo-barih">
             <T mn="Холбоо барих" en="Contact" />
+          </a>
+          <a href={TRADING_URL} className="util-login">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10 17l5-5-5-5" />
+              <path d="M15 12H3" />
+              <path d="M15 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4" />
+            </svg>
+            <T mn="Нэвтрэх" en="Log In" />
           </a>
         </div>
       </div>

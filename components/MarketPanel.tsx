@@ -29,7 +29,7 @@ export default function MarketPanel() {
         <span>
           <T mn="Зах зээл — өнөөдөр" en="Market — Today" />
         </span>
-        <span style={{ color: statusColour(live, session.open) }}>
+        <span className="status" style={{ color: statusColour(live, session.open) }}>
           {live && session.open && <span className="live-dot" />}
           {!live ? (
             <T mn="Холбогдож байна" en="Reconnecting" />
@@ -67,7 +67,7 @@ export default function MarketPanel() {
           sub={`${quote.symbol} · ${t("сүүлийн ханш", "last price")}`}
           value={quote.price}
           tugrug
-          note={`${quote.percent > 0 ? "▲" : quote.percent < 0 ? "▼" : "—"} ${Math.abs(
+          note={`${quote.percent > 0 ? "▲" : quote.percent < 0 ? "▼" : "–"} ${Math.abs(
             quote.percent,
           ).toFixed(2)}%`}
           dir={quote.dir}
@@ -75,18 +75,14 @@ export default function MarketPanel() {
       ))}
 
       {when && (
-        <div className="tick">
-          <div>
-            <div className="tick-s">
-              <T mn="Эх сурвалж: mse.mn" en="Source: mse.mn" />
-            </div>
-          </div>
-          <div className="tick-v">
-            <i style={{ color: "#8E98C4" }}>
-              <T mn="Шинэчлэгдсэн " en="Updated " />
-              {when}
-            </i>
-          </div>
+        <div className="panel-f">
+          <span>
+            <T mn="Эх сурвалж: mse.mn" en="Source: mse.mn" />
+          </span>
+          <span>
+            <T mn="Шинэчлэгдсэн " en="Updated " />
+            {when}
+          </span>
         </div>
       )}
     </div>
@@ -124,10 +120,7 @@ function Row({
           {value}
           {tugrug && <Tg />}
         </b>
-        <i
-          className={dir === "up" ? "u" : dir === "down" ? "d" : undefined}
-          style={dir === "flat" ? { color: "#8E98C4" } : undefined}
-        >
+        <i className={dir === "up" ? "u" : dir === "down" ? "d" : undefined}>
           {note}
         </i>
       </div>

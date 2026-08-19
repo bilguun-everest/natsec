@@ -44,7 +44,7 @@ export default function Achievements() {
     <section id="ololt">
       <div className="wrap">
         <SecHead
-          eyebrow={{ mn: "Бидний тухай", en: "About Us" }}
+          eyebrow={{ mn: "Туршлага", en: "Track Record" }}
           title={{ mn: "Ололт амжилт", en: "Achievements" }}
           lead={{
             mn: "Бид амжилттай зохион байгуулсан бонд болон зөвлөх үйлчилгээний туршлагаас.",

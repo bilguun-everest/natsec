@@ -29,10 +29,19 @@ interface NavItem {
 }
 
 /**
- * Ordered the way a first-time visitor moves through the site: how to start,
- * what we do, what we publish, where to get help, then the company itself.
+ * Who we are first, then the way a first-time visitor moves through the site:
+ * how to start, what we do, what we publish, where to get help.
  */
 const NAV: NavItem[] = [
+  {
+    href: "#tanilcuulga",
+    section: "about",
+    mn: "Бидний тухай",
+    en: "About Us",
+    // No dropdown: the overview, leadership, track record and financial
+    // reports are short, and all four now sit on the one page this opens.
+    drop: [],
+  },
   {
     href: "#zaavar",
     section: "start",
@@ -130,6 +139,7 @@ const NAV: NavItem[] = [
     section: "sustainability",
     mn: "Тогтвортой хөгжил",
     en: "Sustainability",
+    alignRight: true,
     drop: [
       {
         href: "#tog-hugjil-esg",
@@ -141,23 +151,6 @@ const NAV: NavItem[] = [
         mn: "Нууцлалын бодлого",
         en: "Privacy Policy",
       },
-    ],
-  },
-  {
-    href: "#tanilcuulga",
-    section: "about",
-    mn: "Бидний тухай",
-    en: "About Us",
-    alignRight: true,
-    drop: [
-      { href: "#tanilcuulga", mn: "Танилцуулга", en: "Overview" },
-      {
-        href: "#udirdlaga",
-        mn: "Удирдах албан тушаалтан",
-        en: "Leadership",
-      },
-      { href: "#ololt", mn: "Ололт амжилт", en: "Achievements" },
-      { href: "#tailan", mn: "Санхүүгийн тайлан", en: "Financial Reports" },
     ],
   },
 ];
@@ -192,6 +185,17 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // The drawer covers the page, so the page behind it must not scroll — on
+  // iOS a scrollable body under an overlay is how readers lose their place.
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
+
   return (
     <header data-scrolled={scrolled}>
       <div className="wrap nav">
@@ -199,57 +203,90 @@ export default function Header() {
           <Image
             src="/logo.png"
             alt="«Нэйшнл сэкюритис ҮЦК» ХХК"
-            width={765}
-            height={158}
+            width={495}
+            height={109}
             priority
           />
         </a>
 
-        <ul className={open ? "menu open" : "menu"}>
-          {NAV.map((item) => (
-            <li key={item.mn} className={item.section === active ? "is-current" : undefined}>
-              <a
-                href={item.href}
-                aria-current={item.section === active ? "page" : undefined}
-              >
-                <T mn={item.mn} en={item.en} />
-              </a>
-              <div
-                className="drop"
-                style={
-                  item.alignRight
-                    ? { left: "auto", right: 0, marginLeft: 0 }
-                    : undefined
-                }
-              >
-                {item.drop.map((entry, index) =>
-                  entry.group ? (
-                    <div className="grp" key={`${entry.mn}-${index}`}>
-                      <T mn={entry.mn} en={entry.en} />
-                    </div>
-                  ) : entry.pending ? (
-                    <PendingLink
-                      key={`${entry.mn}-${index}`}
-                      label={t("Удахгүй нэмэгдэнэ", "Coming soon")}
-                    >
-                      <T mn={entry.mn} en={entry.en} />
-                    </PendingLink>
-                  ) : (
-                    <a href={entry.href} key={`${entry.mn}-${index}`}>
-                      <T mn={entry.mn} en={entry.en} />
-                    </a>
-                  ),
+        {/* `display:contents` on the drawer keeps the menu a direct flex item
+            of the nav row on desktop; below the breakpoint the same wrapper
+            becomes the overlay panel and the two extra children appear. */}
+        <div className="drawer" data-open={open || undefined}>
+          <div className="drawer-top">
+            <span className="drawer-title">
+              <T mn="Цэс" en="Menu" />
+            </span>
+            <button
+              type="button"
+              className="drawer-close"
+              aria-label={t("Цэс хаах", "Close menu")}
+              onClick={() => setOpen(false)}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            </button>
+          </div>
+
+          <ul className="menu">
+            {NAV.map((item) => (
+              <li key={item.mn} className={item.section === active ? "is-current" : undefined}>
+                <a
+                  href={item.href}
+                  aria-current={item.section === active ? "page" : undefined}
+                >
+                  <T mn={item.mn} en={item.en} />
+                </a>
+                {item.drop.length > 0 && (
+                  <div
+                    className="drop"
+                    data-align={item.alignRight ? "right" : undefined}
+                  >
+                    {item.drop.map((entry, index) =>
+                      entry.group ? (
+                        <div className="grp" key={`${entry.mn}-${index}`}>
+                          <T mn={entry.mn} en={entry.en} />
+                        </div>
+                      ) : entry.pending ? (
+                        <PendingLink
+                          key={`${entry.mn}-${index}`}
+                          label={t("Удахгүй нэмэгдэнэ", "Coming soon")}
+                        >
+                          <T mn={entry.mn} en={entry.en} />
+                        </PendingLink>
+                      ) : (
+                        <a href={entry.href} key={`${entry.mn}-${index}`}>
+                          <T mn={entry.mn} en={entry.en} />
+                        </a>
+                      ),
+                    )}
+                  </div>
                 )}
-              </div>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+
+          {/* The two account actions the header cannot always show: below
+              420px the primary button is dropped from the bar entirely, and
+              "Log In" lives in the utility strip, which is itself thinned out
+              on a phone. Both belong here, where there is room for them. */}
+          <div className="drawer-foot">
+            <a href={TRADING_URL} className="btn btn-p">
+              <T mn="Данс нээх" en="Open Account" />
+            </a>
+            <a href={TRADING_URL} className="btn btn-o">
+              <T mn="Нэвтрэх" en="Log In" />
+            </a>
+          </div>
+        </div>
 
         <div className="act">
           <LangSwitch id="langSwitchHeader" />
-          <a href={TRADING_URL} className="btn btn-o">
-            <T mn="Нэвтрэх" en="Log In" />
-          </a>
+          {/* "Log In" lives in the utility bar now. Six Mongolian section
+              labels plus two buttons did not fit the row at any width, and of
+              the two actions, the one worth the header is the one for people
+              who do not have an account yet. */}
           <a href={TRADING_URL} className="btn btn-p">
             <T mn="Данс нээх" en="Open Account" />
           </a>
@@ -265,6 +302,15 @@ export default function Header() {
           </button>
         </div>
       </div>
+
+      {/* Tapping the page behind the drawer closes it — the gesture everyone
+          tries first, alongside Escape and the panel's own close button. */}
+      <div
+        className="nav-scrim"
+        data-open={open || undefined}
+        aria-hidden="true"
+        onClick={() => setOpen(false)}
+      />
     </header>
   );
 }
