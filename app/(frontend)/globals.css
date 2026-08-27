@@ -663,15 +663,21 @@ header .wrap,.util .wrap{max-width:1340px}
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
   gap:0;
 }
+/* The gutter is padding-RIGHT only, and the rule hangs in it.
+
+   It used to be padding on both sides with the first cell's left padding
+   removed, so that cell's content sat flush at 0 while every other cell's sat
+   30px into its column — the first gap was 330px and the rest were 300px, and
+   the row read as mis-set. With the padding on one side only, all four cells
+   start exactly on their column edge. */
 .stat{
   position:relative;min-width:0;
-  padding:6px clamp(16px,2.2vw,30px);
+  padding:6px clamp(24px,3vw,40px) 6px 0;
 }
-.stat+.stat::before{
-  content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;
+.stat:not(:last-child)::after{
+  content:"";position:absolute;right:clamp(11px,1.5vw,20px);top:6px;bottom:6px;width:1px;
   background:linear-gradient(180deg,transparent,var(--line) 22%,var(--line) 78%,transparent);
 }
-.stat:first-child{padding-left:0}
 .stat:last-child{padding-right:0}
 .stat b{
   display:block;font-family:var(--display);
@@ -680,7 +686,7 @@ header .wrap,.util .wrap{max-width:1340px}
   white-space:nowrap;
 }
 .stat>span{
-  display:block;margin-top:12px;max-width:24ch;
+  display:block;margin-top:12px;
   font-size:13.5px;line-height:1.5;color:var(--grey);text-wrap:balance;
 }
 
@@ -883,11 +889,10 @@ header .wrap,.util .wrap{max-width:1340px}
   padding:26px 0;margin-bottom:clamp(36px,4vw,52px);
   border-top:1px solid var(--line);border-bottom:1px solid var(--line);
 }
-.about-fig{position:relative;min-width:0;padding:0 clamp(14px,2vw,28px)}
-.about-fig+.about-fig::before{
-  content:"";position:absolute;left:0;top:2px;bottom:2px;width:1px;background:var(--line);
+.about-fig{position:relative;min-width:0;padding:0 clamp(22px,2.6vw,36px) 0 0}
+.about-fig:not(:last-child)::after{
+  content:"";position:absolute;right:clamp(10px,1.3vw,18px);top:2px;bottom:2px;width:1px;background:var(--line);
 }
-.about-fig:first-child{padding-left:0}
 .about-fig:last-child{padding-right:0}
 .about-fig b{
   display:block;font-family:var(--display);
@@ -895,8 +900,8 @@ header .wrap,.util .wrap{max-width:1340px}
   color:var(--navy-900);letter-spacing:-0.03em;line-height:1;white-space:nowrap;
 }
 .about-fig>span{
-  display:block;margin-top:9px;max-width:22ch;
-  font-size:12.8px;line-height:1.5;color:var(--grey);
+  display:block;margin-top:9px;
+  font-size:12.8px;line-height:1.5;color:var(--grey);text-wrap:balance;
 }
 
 /* Milestones. The chronology is a rail rather than a column: four dates that
@@ -1568,10 +1573,10 @@ footer{
 @media(max-width:960px){
   .offer,.start-steps{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 0}
-  /* On two columns the divider belongs between the pair, not before every
-     cell — the third item starts a new row. */
-  .stat:nth-child(odd){padding-left:0}
-  .stat:nth-child(odd)::before{display:none}
+  /* On two columns the rule belongs between the pair, so it comes off the
+     cell that now ends a row. */
+  .stat:nth-child(even){padding-right:0}
+  .stat:nth-child(even)::after{display:none}
   .fgrid{grid-template-columns:1fr;gap:44px}
   .fcols{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
@@ -1593,8 +1598,8 @@ footer{
   .policy-grid,.deal-grid,.edu{grid-template-columns:1fr}
   .value-grid{grid-template-columns:1fr}
   .about-figs{grid-template-columns:1fr 1fr;gap:24px 0}
-  .about-fig:nth-child(odd){padding-left:0}
-  .about-fig:nth-child(odd)::before{display:none}
+  .about-fig:nth-child(even){padding-right:0}
+  .about-fig:nth-child(even)::after{display:none}
   .fcols{grid-template-columns:1fr}
   .contact-card{padding:6px 22px}
   .rbox,.faq-box{padding:28px 22px}

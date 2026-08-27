@@ -28,11 +28,17 @@ const HEADLINES: { mn: string; en: string }[] = [
   },
 ];
 
+/**
+ * Four figures on one row, so the labels are kept to a similar length (mn
+ * 24–27 characters) and short enough to sit on a single line. They used to run
+ * 26–30: two of them wrapped and two did not, which left the row with a ragged
+ * bottom edge and no obvious reason for it.
+ */
 const STATS: { value: string; mn: string; en: string }[] = [
   {
     value: "19",
-    mn: "Жил тасралтгүй үйл ажиллагаа",
-    en: "Years of continuous operation",
+    mn: "Жил тасралтгүй ажилласан",
+    en: "Years in operation",
   },
   {
     value: "18,400+",
@@ -41,13 +47,13 @@ const STATS: { value: string; mn: string; en: string }[] = [
   },
   {
     value: "640",
-    mn: "Жилийн арилжааны дүн, тэрбум\u00A0₮",
-    en: "Annual trading volume, bn\u00A0₮",
+    mn: "Жилийн арилжаа, тэрбум\u00A0₮",
+    en: "Annual trading, bn\u00A0₮",
   },
   {
     value: "27",
     mn: "Зохион байгуулсан IPO, бонд",
-    en: "IPOs & bonds arranged",
+    en: "IPOs and bonds arranged",
   },
 ];
 

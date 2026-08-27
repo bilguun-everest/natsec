@@ -78,10 +78,10 @@ const VALUES: {
  * are repeated rather than moved: the prose still reads as prose.
  */
 const FIGURES: { value: string; mn: string; en: string }[] = [
-  { value: "2007", mn: "Байгуулагдсан он", en: "Founded" },
+  { value: "2007", mn: "Үүсгэн байгуулагдсан он", en: "Year founded" },
   { value: "5 / 5", mn: "Тусгай зөвшөөрөл бүрэн", en: "Licence categories held" },
-  { value: "9 / 52", mn: "МХБ-ийн гишүүдээс", en: "Of the exchange's members" },
-  { value: "12,951", mn: "Идэвхтэй харилцагч (2025.04)", en: "Active clients (Apr 2025)" },
+  { value: "9 / 52", mn: "МХБ-ийн гишүүн компаниас", en: "Of the exchange's members" },
+  { value: "12,951", mn: "Идэвхтэй харилцагч, 2025.04", en: "Active clients, Apr 2025" },
 ];
 
 /**
