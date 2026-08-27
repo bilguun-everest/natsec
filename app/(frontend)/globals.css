@@ -718,7 +718,7 @@ header .wrap,.util .wrap{max-width:1340px}
 .offer-c:hover .offer-ico{transform:translateY(-2px) rotate(-3deg)}
 .offer-ico svg{width:22px;height:22px;stroke:var(--blue-300);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .offer-c h3{font-size:20px;font-weight:600;margin-bottom:9px}
-.offer-c p{font-size:14.2px;color:var(--grey);line-height:1.65;margin-bottom:18px}
+.offer-c p{font-size:14.2px;color:var(--grey);line-height:1.65;margin-bottom:18px;text-wrap:pretty}
 .offer-c ul{margin-bottom:22px}
 .offer-c li{
   position:relative;padding-left:18px;margin-bottom:7px;
@@ -759,7 +759,7 @@ header .wrap,.util .wrap{max-width:1340px}
   padding:4px 9px;border-radius:var(--r-xs);white-space:nowrap;
 }
 .start-step h4{font-size:18px;font-weight:600;margin-bottom:8px}
-.start-step p{font-size:13.8px;color:var(--grey);line-height:1.65}
+.start-step p{font-size:13.8px;color:var(--grey);line-height:1.65;text-wrap:pretty}
 .start-step .more{margin-top:16px;font-size:13.5px}
 .start-step:hover .more{gap:11px}
 .start-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px;align-items:center}
@@ -861,7 +861,7 @@ header .wrap,.util .wrap{max-width:1340px}
 .svc-c:hover .mark{transform:translateY(-2px) rotate(-3deg)}
 .svc-c .mark svg{width:22px;height:22px;stroke:var(--blue-300);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .svc-c h3{font-size:20px;font-weight:600;margin-bottom:10px}
-.svc-c p{font-size:14.4px;color:var(--grey);margin-bottom:18px;line-height:1.65}
+.svc-c p{font-size:14.4px;color:var(--grey);margin-bottom:18px;line-height:1.65;text-wrap:pretty}
 .svc-c ul{margin-bottom:22px}
 .svc-c li{position:relative;padding-left:18px;margin-bottom:7px;font-size:13.6px;color:var(--ink-2)}
 .svc-c li::before{content:"";position:absolute;left:0;top:8.5px;width:6px;height:6px;border-radius:1px;border:1.4px solid var(--blue)}
@@ -922,7 +922,7 @@ header .wrap,.util .wrap{max-width:1340px}
   letter-spacing:.08em;color:var(--blue-700);margin-bottom:9px;
 }
 .tl-item h4{font-size:15.5px;font-weight:600;margin-bottom:7px;line-height:1.35}
-.tl-item p{font-size:13.2px;color:var(--grey);line-height:1.62;max-width:30ch}
+.tl-item p{font-size:13.2px;color:var(--grey);line-height:1.62;max-width:30ch;text-wrap:pretty}
 
 .value-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .value-card{
@@ -939,7 +939,7 @@ header .wrap,.util .wrap{max-width:1340px}
 }
 .value-card .icon-badge svg{width:19px;height:19px;stroke:var(--blue-300);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .value-card h4{font-size:15px;font-weight:600;margin-bottom:7px}
-.value-card p{font-size:13px;color:var(--grey);line-height:1.62;text-align:left}
+.value-card p{font-size:13px;color:var(--grey);line-height:1.62;text-align:left;text-wrap:pretty}
 
 .motto{
   margin-top:30px;padding:26px 28px;
@@ -1084,8 +1084,16 @@ header .wrap,.util .wrap{max-width:1340px}
 .modal-paper h2,.modal-paper h3{
   font-size:clamp(26px,3vw,36px);font-weight:600;margin-bottom:18px;letter-spacing:-.02em;
 }
+/* Balanced, not greedy. Default wrapping fills each line to the measure and
+   breaks late, so a paragraph of three lines can run short, full, short — and
+   the full one reads as sticking out to the right of the two around it.
+   Mongolian makes it worse: words like "Зөвшөөрөлгүйгээр" are long enough that
+   whether one lands before or after a break swings the line by a wide margin.
+   `balance` evens the lines instead. It caps out around six lines in Chrome,
+   above which it quietly does nothing — which is the right failure for a lead. */
 .modal-paper>.mp-lead{
   font-size:17px;color:var(--ink-2);line-height:1.8;margin-bottom:24px;
+  text-wrap:balance;
 }
 .modal-paper ul{margin-bottom:6px}
 .modal-paper ul li{
@@ -1196,7 +1204,11 @@ header .wrap,.util .wrap{max-width:1340px}
 .policy-card:hover .mark{transform:translateY(-2px) rotate(-3deg)}
 .policy-card .mark svg{width:20px;height:20px;stroke:var(--blue-300);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .policy-card h4{font-size:16.5px;font-weight:600;margin-bottom:10px}
-.policy-card p{font-size:13.5px;color:var(--grey);line-height:1.7;margin-bottom:16px}
+/* Card bodies wrap ragged by default: a greedy break fills one line to the
+   edge and leaves the next half empty, which across a row of three cards
+   reads as a broken comb. `pretty` costs nothing and applies at any length —
+   unlike `balance`, which stops working past about six lines. */
+.policy-card p{font-size:13.5px;color:var(--grey);line-height:1.7;margin-bottom:16px;text-wrap:pretty}
 .policy-card .more{font-size:13px}
 
 .report-list{max-width:720px}

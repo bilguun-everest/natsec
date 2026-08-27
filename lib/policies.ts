@@ -20,8 +20,8 @@ export const POLICIES: Policy[] = [
       en: "Sustainability Policy (ESG)",
     },
     card: {
-      mn: "Байгаль орчин, нийгэм, засаглалын зарчмуудыг үйл ажиллагаандаа тусган ажилладаг — хариуцлагатай хөрөнгө оруулалтын дадлагаас эхлээд харилцагчдад шударгаар хандах, компанийн засаглалыг ил тод байлгах хүртэл.",
-      en: "We integrate environmental, social, and governance principles into our operations — from responsible investment practices to fair treatment of clients and transparent corporate governance.",
+      mn: "Байгаль орчин, нийгэм, засаглалын зарчмыг үйл ажиллагаандаа тусган ажилладаг — хариуцлагатай хөрөнгө оруулалтаас эхлээд харилцагчдад шударгаар хандах, засаглалыг ил тод байлгах хүртэл.",
+      en: "We build environmental, social and governance principles into how we operate — from responsible investment practice to fair treatment of clients and transparent corporate governance.",
     },
     cta: { mn: "Бодлоготой танилцах →", en: "Read the policy →" },
     lead: {
@@ -47,8 +47,8 @@ export const POLICIES: Policy[] = [
     route: "tog-hugjil-privacy",
     title: { mn: "Нууцлалын бодлого", en: "Privacy Policy" },
     card: {
-      mn: "Таны хувийн болон санхүүгийн мэдээллийг зөвхөн үйлчилгээгээ үзүүлэх, хууль тогтоомжийн шаардлагыг хангах зорилгоор цуглуулж, хадгалдаг бөгөөд хууль тогтоомжийн дагуу хамгаалж, таны зөвшөөрөлгүйгээр гуравдагч этгээдэд дамжуулдаггүй.",
-      en: "Your personal and financial information is collected and used only to provide our services and meet regulatory requirements, and is protected in accordance with applicable law and never shared with third parties without your consent.",
+      mn: "Таны хувийн болон санхүүгийн мэдээллийг зөвхөн үйлчилгээ үзүүлэх, хуулийн шаардлага хангах зорилгоор цуглуулж, хадгална. Зөвшөөрөлгүйгээр гуравдагч этгээдэд хэзээ ч дамжуулдаггүй.",
+      en: "Your personal and financial information is collected and held only to provide our services and meet regulatory requirements, and is never shared without your consent.",
     },
     cta: { mn: "Бодлоготой танилцах →", en: "Read the policy →" },
     lead: {
@@ -74,8 +74,8 @@ export const POLICIES: Policy[] = [
     route: "tog-hugjil-terms",
     title: { mn: "Үйлчилгээний нөхцөл", en: "Terms of Service" },
     card: {
-      mn: "Үйлчилгээний нөхцөл нь брокер, андеррайтер, зөвлөх үйлчилгээг ашиглахад компани болон харилцагчийн аль алиных нь эрх, үүргийг тодорхойлно.",
-      en: "Our terms of service set out the rights and obligations of both the company and the client when using our brokerage, underwriting, and advisory services.",
+      mn: "Үйлчилгээний нөхцөл нь брокер, андеррайтер, зөвлөх үйлчилгээг ашиглахад компани болон харилцагчийн аль алиных нь эрх, үүрэг, хариуцлагыг тодорхой заасан баримт бичиг юм.",
+      en: "Our terms of service set out the rights, obligations and responsibilities of both the company and the client when using our brokerage, underwriting and advisory services.",
     },
     cta: { mn: "Нөхцөлтэй танилцах →", en: "Read the terms →" },
     lead: {
