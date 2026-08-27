@@ -21,23 +21,30 @@ export function Eyebrow({
   );
 }
 
-/** Eyebrow + heading + optional standfirst, the opener of every section. */
+/**
+ * Eyebrow + heading + optional standfirst, the opener of every section.
+ *
+ * There is no `style` escape hatch on purpose. Six callers used to pass their
+ * own `marginBottom` — 0, 22, 26, 28 — so the gap under a section heading was
+ * a different size on almost every page. `tight` is the one alternative to the
+ * default, for sections whose first row is a list or a rail of cards.
+ */
 export function SecHead({
   eyebrow,
   title,
   lead,
-  style,
+  tight = false,
   level = 2,
 }: {
   eyebrow: { mn: string; en: string };
   title: { mn: string; en: string };
   lead?: { mn: string; en: string };
-  style?: CSSProperties;
+  tight?: boolean;
   level?: 2 | 3;
 }) {
   const Heading = level === 3 ? "h3" : "h2";
   return (
-    <Reveal className="sec-h" style={style}>
+    <Reveal className={tight ? "sec-h tight" : "sec-h"}>
       <Eyebrow mn={eyebrow.mn} en={eyebrow.en} />
       <Heading>
         <T mn={title.mn} en={title.en} />

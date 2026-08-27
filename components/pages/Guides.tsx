@@ -18,7 +18,7 @@ export default function Guides() {
               mn: "Данс нээхээс эхлээд арилжаанд оролцох, ногдол ашиг авах хүртэл танд хэрэгтэй бүх зүйл.",
               en: "Everything you need, from opening an account to trading and receiving your dividends.",
             }}
-            style={{ marginBottom: 22 }}
+            tight
           />
 
           <div className="guide-tiles">
@@ -44,20 +44,16 @@ export default function Guides() {
             ))}
           </div>
 
-          <Reveal className="bank-box" style={{ marginTop: 24 }} delay={80}>
-            <div
-              style={{
-                fontSize: "13.5px",
-                color: "var(--ink)",
-                textAlign: "justify",
-                textJustify: "inter-word",
-              }}
-            >
+          {/* Ragged right, like every other block of copy on the site. This
+              one was justified, and at this measure that meant rivers of white
+              running down a paragraph sitting next to six left-aligned tiles. */}
+          <Reveal className="bank-box" delay={80}>
+            <p>
               <T
                 mn="Мөн түүнчлэн таны эзэмшиж буй үнэт цаасыг шилжүүлэх, бусдад бэлэглэх, өв залгамжлуулах, дансандаа итгэмжлэгч томилох зэрэг холбогдох үйлчилгээг үзүүлнэ."
                 en="In addition, we support related account services such as transferring, gifting, and inheriting securities you hold, as well as setting up power of attorney over your account."
               />
-            </div>
+            </p>
           </Reveal>
         </div>
 

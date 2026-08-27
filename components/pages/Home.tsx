@@ -173,7 +173,7 @@ export default function Home() {
     <>
       <Hero />
       <div className="band">
-        <section style={{ padding: "clamp(48px,5vw,68px) 0" }}>
+        <section className="stack">
           <div className="wrap stats">
             {STATS.map((stat, index) => (
               <Stat key={stat.value} stat={stat} delay={index * 90} />
@@ -210,7 +210,7 @@ function Offer() {
         <div className="offer">
           {OFFER.map((entry, index) => (
             <Reveal className="offer-c" key={entry.href} delay={index * 100}>
-              <span className="offer-ico">
+              <span className="mark">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   {entry.icon}
                 </svg>
@@ -321,7 +321,7 @@ function HomeFaq() {
             </a>
           ))}
         </Reveal>
-        <Reveal delay={140} style={{ marginTop: 28 }}>
+        <Reveal className="faq-list-more" delay={140}>
           <a className="more" href="#faq">
             <T mn="Бүх асуулт үзэх" en="See all questions" /> →
           </a>

@@ -9,12 +9,12 @@ import { CONTACT } from "@/lib/site";
 export default function Contact() {
   return (
     <div className="band">
-      <section id="holboo-barih" style={{ padding: "64px 0" }}>
+      <section id="holboo-barih">
         <div className="wrap">
           <SecHead
             eyebrow={{ mn: "Харилцагчийн туслах", en: "Customer Support" }}
             title={{ mn: "Холбоо барих", en: "Contact" }}
-            style={{ marginBottom: 28 }}
+            tight
           />
           <Reveal className="contact-card" delay={60}>
             <div className="contact-row">

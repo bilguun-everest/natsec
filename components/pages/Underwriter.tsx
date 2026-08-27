@@ -7,7 +7,7 @@ import { List, SecHead } from "@/components/ui";
 export default function Underwriter() {
   return (
     <div className="band">
-      <section id="anderraiter" style={{ padding: "72px 0" }}>
+      <section id="anderraiter">
         <div className="wrap">
           <SecHead
             eyebrow={{ mn: "Үйлчилгээ", en: "Services" }}
@@ -76,7 +76,7 @@ export default function Underwriter() {
                   { mn: "Хөрөнгө оруулагчдад байршуулах", en: "Investor placement" },
                 ]}
               />
-              <p style={{ marginTop: 14, fontSize: "12.5px" }}>
+              <p className="note">
                 <T
                   mn="Тэмдэглэл: бондын төрлөөс хамааран хүүгийн орлогын албан татвар ялгаатай — ихэвчлэн нээлттэй бондод 5%, хаалттай бондод 10%, мөн хаалттай бондод голцуу мэргэжлийн хөрөнгө оруулагч оролцох шаардлагатай байдаг."
                   en="Note: interest income tax differs by bond type — generally 5% for open-market bonds versus 10% for closed-market bonds, and closed bonds are typically limited to professional investors."

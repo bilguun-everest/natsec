@@ -105,15 +105,9 @@ function BankBox() {
       </div>
       <CopyButton
         className="more"
-        style={{
-          border: "none",
-          background: "none",
-          cursor: "pointer",
-          marginTop: 4,
-        }}
         text={`${BANK.nameMn} / ${BANK.holder} / ${BANK.account}`}
       >
-        <T mn="Бүх мэдээллийг хуулах ⧉" en="Copy all account details ⧉" />
+        <T mn="Бүх мэдээллийг хуулах" en="Copy all account details" /> ⧉
       </CopyButton>
     </>
   );

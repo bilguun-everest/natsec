@@ -7,7 +7,7 @@ import type { ReportItem } from "@/lib/content";
 
 export default function Reports({ reports }: { reports: ReportItem[] }) {
   return (
-    <section id="tailan">
+    <section id="tailan" className="stack">
       <div className="wrap">
         <SecHead
           eyebrow={{ mn: "Ил тод байдал", en: "Disclosure" }}
@@ -25,7 +25,7 @@ export default function Reports({ reports }: { reports: ReportItem[] }) {
             />
           </p>
         ) : (
-          <ul className="report-list" style={{ maxWidth: 640 }}>
+          <ul className="report-list">
             {reports.map((report, index) => (
               <Reveal as="li" className="report-row" key={report.id} delay={index * 70}>
                 <div>
@@ -36,11 +36,11 @@ export default function Reports({ reports }: { reports: ReportItem[] }) {
                 </div>
                 {report.url ? (
                   <a className="dl" href={report.url} download>
-                    <T mn="Татах ↓" en="Download ↓" />
+                    <T mn="Татах" en="Download" /> ↓
                   </a>
                 ) : (
                   <PendingLink className="dl">
-                    <T mn="Татах ↓" en="Download ↓" />
+                    <T mn="Татах" en="Download" /> ↓
                   </PendingLink>
                 )}
               </Reveal>

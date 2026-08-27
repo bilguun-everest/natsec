@@ -41,7 +41,7 @@ const ADVISORY: Deal[] = [
 
 export default function Achievements() {
   return (
-    <section id="ololt">
+    <section id="ololt" className="stack">
       <div className="wrap">
         <SecHead
           eyebrow={{ mn: "Туршлага", en: "Track Record" }}
@@ -50,7 +50,6 @@ export default function Achievements() {
             mn: "Бид амжилттай зохион байгуулсан бонд болон зөвлөх үйлчилгээний туршлагаас.",
             en: "A track record of bond issuances and advisory mandates we have successfully arranged.",
           }}
-          style={{ marginBottom: 0 }}
         />
 
         <DealGroup

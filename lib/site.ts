@@ -14,13 +14,10 @@ export const CONTACT = {
   /**
    * Split so each number can be its own `tel:` link — on a phone, a number you
    * cannot tap is a number you have to memorise and retype.
-   *
-   * NOTE: "7706 707" is seven digits; Mongolian landlines are eight. It is
-   * reproduced exactly as supplied, but it looks like a typo worth checking.
    */
   phones: [
     { label: "7709 7070", dial: "+97677097070" },
-    { label: "7706 707", dial: "+9767706707" },
+    { label: "7706 7070", dial: "+97677067070" },
   ],
   email: "info@natsec.mn",
 };
