@@ -158,7 +158,7 @@ export default function Services() {
               </p>
               <List items={service.items} />
               <a href={service.href} className="more">
-                <T mn="Дэлгэрэнгүй" en="Learn more" /> →
+                <T mn="Дэлгэрэнгүй →" en="Learn more →" />
               </a>
             </Reveal>
           ))}

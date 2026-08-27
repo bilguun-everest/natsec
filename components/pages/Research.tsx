@@ -67,7 +67,7 @@ export default function Research({
           <SecHead
             eyebrow={{ mn: "Судалгаа, шинжилгээ", en: "Research & Analysis" }}
             title={{ mn: "Гурван түвшний шинжилгээ", en: "Three levels of analysis" }}
-            tight
+            style={{ marginBottom: 22 }}
           />
           {highlights.length === 0 ? (
             <p className="empty-note">
@@ -98,7 +98,7 @@ export default function Research({
           {/* Still inert: there is no archive route yet, so this would have
               nowhere to land once the collection outgrows three highlights. */}
           <PendingLink className="more">
-            <T mn="Бүх судалгаа" en="All research" /> →
+            <T mn="Бүх судалгаа →" en="All research →" />
           </PendingLink>
         </div>
 

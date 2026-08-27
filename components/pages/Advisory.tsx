@@ -6,7 +6,7 @@ import { List, SecHead } from "@/components/ui";
 
 export default function Advisory() {
   return (
-    <section id="zuvluh">
+    <section id="zuvluh" style={{ padding: "72px 0" }}>
       <div className="wrap">
         <SecHead
           eyebrow={{ mn: "Үйлчилгээ", en: "Services" }}

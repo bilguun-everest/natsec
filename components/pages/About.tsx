@@ -119,7 +119,7 @@ export default function About({ reports }: { reports: ReportItem[] }) {
                   key={value.title.mn}
                   delay={120 + index * 90}
                 >
-                  <div className="mark">
+                  <div className="icon-badge">
                     <svg viewBox="0 0 24 24">{value.icon}</svg>
                   </div>
                   <h4>

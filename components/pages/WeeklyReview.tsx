@@ -11,7 +11,7 @@ export default function WeeklyReview({ weekly }: { weekly: WeeklyItem | null }) 
   if (!weekly) {
     return (
       <section>
-        <div className="wrap">
+        <div className="wrap" style={{ padding: "72px 0" }}>
           <BackLink href="#sudalgaa" mn="Судалгаа руу буцах" en="Back to Research" />
           <SecHead
             eyebrow={{ mn: "Судалгаа, шинжилгээ", en: "Research & Analysis" }}
@@ -33,7 +33,7 @@ export default function WeeklyReview({ weekly }: { weekly: WeeklyItem | null }) 
 
   return (
     <section>
-      <div className="wrap">
+      <div className="wrap" style={{ padding: "72px 0" }}>
         <BackLink href="#sudalgaa" mn="Судалгаа руу буцах" en="Back to Research" />
         <SecHead
           eyebrow={{ mn: "Судалгаа, шинжилгээ", en: "Research & Analysis" }}

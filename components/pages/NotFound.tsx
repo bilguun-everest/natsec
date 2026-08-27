@@ -11,7 +11,7 @@ import { SecHead } from "@/components/ui";
 export default function NotFound() {
   return (
     <section>
-      <div className="wrap">
+      <div className="wrap" style={{ padding: "72px 0" }}>
         <SecHead
           eyebrow={{ mn: "404", en: "404" }}
           title={{ mn: "Хуудас олдсонгүй", en: "Page not found" }}

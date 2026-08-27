@@ -15,7 +15,7 @@ import { FAQ } from "@/lib/faq";
 export default function Faq() {
   return (
     <section id="faq">
-      <div className="wrap wrap-narrow">
+      <div className="wrap" style={{ maxWidth: 820 }}>
         <SecHead
           eyebrow={{ mn: "Харилцагчийн туслах", en: "Customer Support" }}
           title={{
@@ -26,7 +26,7 @@ export default function Faq() {
             mn: "Хамгийн олон асуудаг асуултын товч хариултууд.",
             en: "Quick answers to the questions we hear most often.",
           }}
-          tight
+          style={{ marginBottom: 26 }}
         />
 
         <Reveal className="faq-box" delay={60}>
@@ -40,7 +40,7 @@ export default function Faq() {
           ))}
         </Reveal>
 
-        <Reveal className="notice-box" delay={100}>
+        <Reveal className="notice-box" style={{ marginTop: 24 }} delay={100}>
           <h5>
             <T mn="Асуултаа олсонгүй юу?" en="Still have a question?" />
           </h5>
@@ -50,7 +50,7 @@ export default function Faq() {
               en={`Our client services team is on ${CONTACT.phones[0].label} and ${CONTACT.email}, ready to help.`}
             />
           </p>
-          <a href="#holboo-barih" className="btn btn-o">
+          <a href="#holboo-barih" className="btn btn-o" style={{ marginTop: 14 }}>
             <T mn="Холбоо барих" en="Contact us" />
           </a>
         </Reveal>
