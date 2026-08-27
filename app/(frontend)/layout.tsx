@@ -1,29 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { LanguageProvider } from "@/components/lang";
 import "./globals.css";
 
+/**
+ * The whole voice of the site — body copy, UI, and every heading.
+ *
+ * Headings were on Source Serif 4, chosen because it ships Cyrillic where the
+ * previous face did not. It reads badly in Mongolian at display size for a
+ * reason that only shows up in Cyrillic: и, й, н, з and х all carry paired
+ * bracket serifs on the baseline, so a line of caps becomes an unbroken row of
+ * teeth — readers described it as the edge of a saw. Loosening the tracking
+ * does not help; the teeth are the face. Inter has no serifs, already carries
+ * Cyrillic, and was already being downloaded, so this also drops a font file.
+ *
+ * `italic` is here for the two pull-quote rules that used the serif's italic.
+ */
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-/**
- * Editorial voice — every heading, and the headline figures.
- *
- * It replaces Archivo, which had no Cyrillic: on a Mongolian-first site that
- * meant the display face silently fell back to Inter for the primary language
- * and the site had no typographic voice of its own. Source Serif 4 ships
- * Cyrillic, so the same heading reads the same way in both languages.
- */
-const display = Source_Serif_4({
-  subsets: ["latin", "cyrillic"],
-  // No `weight`: both of these are variable fonts, so leaving the axis open
-  // ships one file per subset and style instead of one per cut. On a 10GB-a-
-  // month shared host that is the difference between 728KB and 260KB of face.
   style: ["normal", "italic"],
-  variable: "--font-display",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -96,7 +92,7 @@ export default function RootLayout({
     <html
       lang="mn"
       data-lang="mn"
-      className={`motion-ready ${inter.variable} ${display.variable} ${mono.variable}`}
+      className={`motion-ready ${inter.variable} ${mono.variable}`}
     >
       <body>
         <noscript>

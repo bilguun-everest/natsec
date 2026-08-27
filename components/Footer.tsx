@@ -101,8 +101,13 @@ export default function Footer() {
       <div className="wrap">
         <div className="fgrid">
           <div className="fbrand">
+            {/* The reversed lockup, not `/logo.png` under a white knockout
+                filter: the wordmark is navy and the footer is navy, so the
+                filter had to crush the whole mark to a flat silhouette and
+                the blue "Sec" went with it. This is the same artwork with
+                the navy taken to white and that blue left alone. */}
             <Image
-              src="/logo.png"
+              src="/logo-reverse.png"
               alt="«Нэйшнл сэкюритис ҮЦК» ХХК"
               width={495}
               height={109}
