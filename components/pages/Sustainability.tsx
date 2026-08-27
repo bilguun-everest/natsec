@@ -42,7 +42,11 @@ export default function Sustainability() {
         <SecHead
           eyebrow={{ mn: "Тогтвортой хөгжил", en: "Sustainability" }}
           title={{
-            mn: "Хариуцлагатай, ил тод үйл ажиллагаа",
+            // Non-breaking space: "ил тод" is one idea ("transparent"), and
+            // `text-wrap:balance` on headings was splitting it across the two
+            // lines, leaving "ил" dangling at the end of the first. Glued, the
+            // balance falls at the comma instead, which is where it belongs.
+            mn: "Хариуцлагатай, ил\u00A0тод үйл ажиллагаа",
             en: "Responsible and transparent operations",
           }}
           lead={{
