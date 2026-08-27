@@ -657,28 +657,28 @@ header .wrap,.util .wrap{max-width:1340px}
 @keyframes mktScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* --------------------------------------------------------- 10 stats band */
-/* Four figures on a hairline grid. Left-aligned and ruled rather than centred
-   and floating — it reads as a fact sheet, which is what it is. */
+/* Four figures on a hairline grid, each centred over its own label. Ruled
+   rather than floating — it still reads as a fact sheet, which is what it is.
+   (It was left-aligned until 2026-08-27, when the user asked for the figure to
+   sit over the middle of its label.) */
 .stats{
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
   gap:0;
 }
-/* The gutter is padding-RIGHT only, and the rule hangs in it.
+/* Centred, so the figure sits over the middle of its own label.
 
-   It used to be padding on both sides with the first cell's left padding
-   removed, so that cell's content sat flush at 0 while every other cell's sat
-   30px into its column — the first gap was 330px and the rest were 300px, and
-   the row read as mis-set. With the padding on one side only, all four cells
-   start exactly on their column edge. */
+   Padding is symmetric and no cell overrides it. That matters more here than
+   it did left-aligned: centring inside a box padded on one side only puts the
+   content off the column's true centre, which is exactly the misalignment
+   this row had before. Equal padding, equal columns, rules on the seams. */
 .stat{
-  position:relative;min-width:0;
-  padding:6px clamp(24px,3vw,40px) 6px 0;
+  position:relative;min-width:0;text-align:center;
+  padding:6px clamp(16px,2.2vw,30px);
 }
-.stat:not(:last-child)::after{
-  content:"";position:absolute;right:clamp(11px,1.5vw,20px);top:6px;bottom:6px;width:1px;
+.stat+.stat::before{
+  content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;
   background:linear-gradient(180deg,transparent,var(--line) 22%,var(--line) 78%,transparent);
 }
-.stat:last-child{padding-right:0}
 .stat b{
   display:block;font-family:var(--display);
   font-size:clamp(32px,3.4vw,50px);font-weight:600;
@@ -686,7 +686,7 @@ header .wrap,.util .wrap{max-width:1340px}
   white-space:nowrap;
 }
 .stat>span{
-  display:block;margin-top:12px;
+  display:block;margin-top:12px;margin-inline:auto;
   font-size:13.5px;line-height:1.5;color:var(--grey);text-wrap:balance;
 }
 
@@ -889,18 +889,17 @@ header .wrap,.util .wrap{max-width:1340px}
   padding:26px 0;margin-bottom:clamp(36px,4vw,52px);
   border-top:1px solid var(--line);border-bottom:1px solid var(--line);
 }
-.about-fig{position:relative;min-width:0;padding:0 clamp(22px,2.6vw,36px) 0 0}
-.about-fig:not(:last-child)::after{
-  content:"";position:absolute;right:clamp(10px,1.3vw,18px);top:2px;bottom:2px;width:1px;background:var(--line);
+.about-fig{position:relative;min-width:0;text-align:center;padding:0 clamp(14px,2vw,28px)}
+.about-fig+.about-fig::before{
+  content:"";position:absolute;left:0;top:2px;bottom:2px;width:1px;background:var(--line);
 }
-.about-fig:last-child{padding-right:0}
 .about-fig b{
   display:block;font-family:var(--display);
   font-size:clamp(24px,2.7vw,36px);font-weight:600;
   color:var(--navy-900);letter-spacing:-0.03em;line-height:1;white-space:nowrap;
 }
 .about-fig>span{
-  display:block;margin-top:9px;
+  display:block;margin-top:9px;margin-inline:auto;
   font-size:12.8px;line-height:1.5;color:var(--grey);text-wrap:balance;
 }
 
@@ -1574,9 +1573,8 @@ footer{
   .offer,.start-steps{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 0}
   /* On two columns the rule belongs between the pair, so it comes off the
-     cell that now ends a row. */
-  .stat:nth-child(even){padding-right:0}
-  .stat:nth-child(even)::after{display:none}
+     cell that now starts a row. */
+  .stat:nth-child(odd)::before{display:none}
   .fgrid{grid-template-columns:1fr;gap:44px}
   .fcols{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
@@ -1598,8 +1596,7 @@ footer{
   .policy-grid,.deal-grid,.edu{grid-template-columns:1fr}
   .value-grid{grid-template-columns:1fr}
   .about-figs{grid-template-columns:1fr 1fr;gap:24px 0}
-  .about-fig:nth-child(even){padding-right:0}
-  .about-fig:nth-child(even)::after{display:none}
+  .about-fig:nth-child(odd)::before{display:none}
   .fcols{grid-template-columns:1fr}
   .contact-card{padding:6px 22px}
   .rbox,.faq-box{padding:28px 22px}
