@@ -875,6 +875,55 @@ header .wrap,.util .wrap{max-width:1340px}
 /* First paragraph gets a slightly larger measure — a standfirst, in effect. */
 .about-copy p:first-of-type{font-size:16.5px;color:var(--ink)}
 
+/* The four figures, on a ruled band under the heading. Same construction as
+   the home page's stats strip — ruled and left-aligned rather than centred —
+   so a reader who has seen one recognises the other. */
+.about-figs{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;
+  padding:26px 0;margin-bottom:clamp(36px,4vw,52px);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.about-fig{position:relative;min-width:0;padding:0 clamp(14px,2vw,28px)}
+.about-fig+.about-fig::before{
+  content:"";position:absolute;left:0;top:2px;bottom:2px;width:1px;background:var(--line);
+}
+.about-fig:first-child{padding-left:0}
+.about-fig:last-child{padding-right:0}
+.about-fig b{
+  display:block;font-family:var(--display);
+  font-size:clamp(24px,2.7vw,36px);font-weight:600;
+  color:var(--navy-900);letter-spacing:-0.03em;line-height:1;white-space:nowrap;
+}
+.about-fig>span{
+  display:block;margin-top:9px;max-width:22ch;
+  font-size:12.8px;line-height:1.5;color:var(--grey);
+}
+
+/* Milestones. The chronology is a rail rather than a column: four dates that
+   only mean anything next to each other, and the eye reads the row in one
+   pass. The dots sit on the rule, the copy hangs below it. */
+.timeline{margin-top:clamp(48px,5.5vw,76px)}
+.tl-h{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--grey);font-weight:500;
+  padding-bottom:14px;margin-bottom:0;border-bottom:1px solid var(--line);
+}
+.tl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;position:relative}
+.tl-item{position:relative;padding:30px clamp(16px,2vw,28px) 0 0}
+/* The marker straddles the rule the heading draws, which is why the item has
+   no rule of its own — one line, four dots on it. */
+.tl-item::before{
+  content:"";position:absolute;left:0;top:-6px;
+  width:12px;height:12px;border-radius:50%;
+  background:#fff;border:2.5px solid var(--blue);
+}
+.tl-yr{
+  display:block;font-family:var(--mono);font-size:12.5px;font-weight:500;
+  letter-spacing:.08em;color:var(--blue-700);margin-bottom:9px;
+}
+.tl-item h4{font-size:15.5px;font-weight:600;margin-bottom:7px;line-height:1.35}
+.tl-item p{font-size:13.2px;color:var(--grey);line-height:1.62;max-width:30ch}
+
 .value-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .value-card{
   border:1px solid var(--line);border-radius:var(--r-md);
@@ -901,20 +950,28 @@ header .wrap,.util .wrap{max-width:1340px}
   font-size:20px;color:var(--navy-900);line-height:1.4;
 }
 
+/* Heading left, the one officer right — see the note in Leadership.tsx. */
+.lead-split{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  gap:clamp(24px,4vw,56px);align-items:center;
+}
+.lead-split .sec-h{margin-bottom:0}
+
 .ceo-card{
+  display:flex;align-items:center;gap:18px;
   border:1px solid var(--line);border-radius:var(--r-md);
-  padding:32px;text-align:center;background:#fff;
+  padding:20px 26px 20px 20px;background:#fff;min-width:280px;
   transition:transform .26s var(--ease),box-shadow .26s var(--ease),border-color .26s var(--ease);
 }
 .ceo-card:hover{transform:translateY(-3px);box-shadow:var(--sh-2);border-color:#CFD9EC}
 .ceo-photo{
-  width:80px;height:80px;border-radius:50%;
+  width:64px;height:64px;border-radius:50%;flex-shrink:0;
   background:linear-gradient(160deg,var(--navy-700),var(--navy-950));color:#fff;
-  display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
-  font-family:var(--display);font-size:26px;font-weight:600;letter-spacing:.02em;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-size:21px;font-weight:600;letter-spacing:.02em;
   box-shadow:0 12px 28px -12px rgba(12,20,64,.8);
 }
-.ceo-card h4{font-size:18px;font-weight:600;margin-bottom:5px}
+.ceo-card h4{font-size:18px;font-weight:600;margin-bottom:4px}
 .ceo-card span{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-600)}
 
 .deal-group{margin-top:44px}
@@ -1270,6 +1327,16 @@ table.co tbody tr:hover{background:var(--blue-50)}
 .ptrack span{font-weight:700;font-size:17px;color:#B4B9C7;white-space:nowrap}
 
 .empty-note{font-size:15px;color:var(--grey);line-height:1.75;padding:18px 0;max-width:56ch}
+
+/* Empty state with somewhere to go. Used where a section is real but has no
+   rows yet, so the page does not simply stop. */
+.empty-panel{
+  max-width:620px;padding:30px 32px;background:var(--paper-2);
+  border:1px solid var(--line);border-left:3px solid var(--blue);
+  border-radius:0 var(--r-md) var(--r-md) 0;
+}
+.empty-panel h4{font-size:17px;font-weight:600;margin-bottom:9px}
+.empty-panel p{font-size:14.2px;color:var(--grey);line-height:1.7;margin-bottom:16px}
 .nf-links{display:flex;gap:12px;flex-wrap:wrap}
 
 /* Weekly review article — editor-authored rich text, so element selectors. */
@@ -1493,6 +1560,19 @@ footer{
   .hero-grid{grid-template-columns:1fr;gap:44px}
   .split{grid-template-columns:1fr;gap:40px}
   .about-split{grid-template-columns:1fr;gap:40px}
+  .lead-split{grid-template-columns:1fr;align-items:start;gap:26px}
+  /* The rail turns vertical rather than wrapping to a second row: the dots are
+     positioned against the heading's rule, and a second row has no rule under
+     it to sit on. One column, one rule down the left, dots on that. */
+  .tl{grid-template-columns:1fr;padding-left:26px}
+  .tl::before{
+    content:"";position:absolute;left:8px;top:6px;bottom:6px;
+    width:1px;background:var(--line);
+  }
+  .tl-item{padding:0 0 26px}
+  .tl-item:last-child{padding-bottom:0}
+  .tl-item::before{left:-26px;top:4px}
+  .tl-item p{max-width:52ch}
   .policy-grid{grid-template-columns:1fr 1fr}
   .edu{grid-template-columns:1fr 1fr}
   .rings{right:-420px;top:-380px;opacity:.2}
@@ -1525,6 +1605,9 @@ footer{
   .act .btn-p{padding:11px 15px;font-size:13.5px}
   .policy-grid,.deal-grid,.edu{grid-template-columns:1fr}
   .value-grid{grid-template-columns:1fr}
+  .about-figs{grid-template-columns:1fr 1fr;gap:24px 0}
+  .about-fig:nth-child(odd){padding-left:0}
+  .about-fig:nth-child(odd)::before{display:none}
   .fcols{grid-template-columns:1fr}
   .contact-card{padding:6px 22px}
   .rbox,.faq-box{padding:28px 22px}

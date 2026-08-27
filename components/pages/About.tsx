@@ -72,6 +72,66 @@ const VALUES: {
 ];
 
 /**
+ * The four figures a reader is actually weighing when they land here.
+ *
+ * Every one of these was already on the page — buried mid-sentence in the two
+ * paragraphs below, where a number that exists to be compared cannot be. They
+ * are repeated rather than moved: the prose still reads as prose.
+ */
+const FIGURES: { value: string; mn: string; en: string }[] = [
+  { value: "2007", mn: "Байгуулагдсан он", en: "Founded" },
+  { value: "5 / 5", mn: "Тусгай зөвшөөрөл бүрэн", en: "Licence categories held" },
+  { value: "9 / 52", mn: "МХБ-ийн гишүүдээс", en: "Of the exchange's members" },
+  { value: "12,951", mn: "Идэвхтэй харилцагч (2025.04)", en: "Active clients (Apr 2025)" },
+];
+
+/**
+ * The founding chronology, lifted out of the first paragraph.
+ *
+ * Four dated steps written as one 90-word sentence is a shape nobody scans;
+ * as a rail it is the fastest thing on the page to read. Nothing here is new —
+ * every date and licence below appears verbatim in the copy alongside it.
+ */
+const MILESTONES: {
+  year: string;
+  title: { mn: string; en: string };
+  body: { mn: string; en: string };
+}[] = [
+  {
+    year: "2007",
+    title: { mn: "Байгуулагдсан", en: "Founded" },
+    body: {
+      mn: "3-р сарын 15-нд Улаанбаатарт байгуулагдаж, Брокер, Дилер, Хөрөнгө оруулалтын зөвлөхийн эрхээ авсан.",
+      en: "Established in Ulaanbaatar on 15 March with Broker, Dealer and Investment Advisory licences.",
+    },
+  },
+  {
+    year: "2011",
+    title: { mn: "Андеррайтерийн эрх", en: "Underwriter licence" },
+    body: {
+      mn: "Андеррайтерийн эрх болон Өмнөговь дахь салбарын эрхийг нэмж авсан.",
+      en: "Added the Underwriter licence and a branch licence in Umnugovi.",
+    },
+  },
+  {
+    year: "2020",
+    title: { mn: "Номинал данс", en: "Nominee accounts" },
+    body: {
+      mn: "Номинал дансны үйлчилгээг нэвтрүүлж, харилцагчийн хэрэгцээг илүү өргөн хүрээнд хангах болсон.",
+      en: "Introduced nominee account services, widening the range of client needs served.",
+    },
+  },
+  {
+    year: "2022",
+    title: { mn: "Шинэ бүтэц", en: "New ownership" },
+    body: {
+      mn: "Хувьцааны 96 хувийг шинэ хөрөнгө оруулагч эзэмшиж, шинэ удирдлагын багтай болсон.",
+      en: "New investors acquired 96% of the shares, bringing in a new management team.",
+    },
+  },
+];
+
+/**
  * Everything under "Бидний тухай" on one page.
  *
  * It used to be four separate pages behind a dropdown, which made the reader
@@ -90,6 +150,18 @@ export default function About({ reports }: { reports: ReportItem[] }) {
             eyebrow={{ mn: "Бидний тухай", en: "About Us" }}
             title={{ mn: "Танилцуулга", en: "Overview" }}
           />
+
+          <Reveal className="about-figs" delay={40}>
+            {FIGURES.map((figure) => (
+              <div className="about-fig" key={figure.value}>
+                <b>{figure.value}</b>
+                <span>
+                  <T mn={figure.mn} en={figure.en} />
+                </span>
+              </div>
+            ))}
+          </Reveal>
+
           <div className="about-split">
             <Reveal className="about-copy" delay={60}>
               <p>
@@ -127,6 +199,29 @@ export default function About({ reports }: { reports: ReportItem[] }) {
                   </h4>
                   <p>
                     <T mn={value.body.mn} en={value.body.en} />
+                  </p>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+
+          <div className="timeline">
+            <Reveal className="tl-h">
+              <T mn="Түүхэн замнал" en="Milestones" />
+            </Reveal>
+            <div className="tl">
+              {MILESTONES.map((milestone, index) => (
+                <Reveal
+                  className="tl-item"
+                  key={milestone.year}
+                  delay={60 + index * 80}
+                >
+                  <span className="tl-yr">{milestone.year}</span>
+                  <h4>
+                    <T mn={milestone.title.mn} en={milestone.title.en} />
+                  </h4>
+                  <p>
+                    <T mn={milestone.body.mn} en={milestone.body.en} />
                   </p>
                 </Reveal>
               ))}
