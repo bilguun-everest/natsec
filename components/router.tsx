@@ -47,7 +47,9 @@ export type Route = (typeof ROUTES)[number] | "not-found";
 const TITLES: Record<Route, string> = {
   home: "Нэйшнл сэкюритис ҮЦК | Хөрөнгийн зах зээлийн түнш",
   tanilcuulga: "Танилцуулга | Нэйшнл сэкюритис ҮЦК",
-  udirdlaga: "Удирдах албан тушаалтан | Нэйшнл сэкюритис ҮЦК",
+  // Legacy: the leadership section was removed, but the footer published
+  // this link for long enough that it should still land somewhere real.
+  udirdlaga: "Танилцуулга | Нэйшнл сэкюритис ҮЦК",
   ololt: "Ололт амжилт | Нэйшнл сэкюритис ҮЦК",
   tailan: "Санхүүгийн тайлан | Нэйшнл сэкюритис ҮЦК",
   broker: "Брокерийн үйлчилгээ | Нэйшнл сэкюритис ҮЦК",

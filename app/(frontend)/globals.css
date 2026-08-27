@@ -213,7 +213,7 @@ section{padding:var(--sp-section) 0}
 }
 
 /* The About page carries four linked sections under a sticky header. */
-#tanilcuulga,#udirdlaga,#ololt,#tailan{scroll-margin-top:calc(var(--header-h) + 28px)}
+#tanilcuulga,#ololt,#tailan{scroll-margin-top:calc(var(--header-h) + 28px)}
 
 /* ---------------------------------------------------- 05 buttons and links */
 .btn{
@@ -950,30 +950,6 @@ header .wrap,.util .wrap{max-width:1340px}
   font-size:20px;color:var(--navy-900);line-height:1.4;
 }
 
-/* Heading left, the one officer right — see the note in Leadership.tsx. */
-.lead-split{
-  display:grid;grid-template-columns:minmax(0,1fr) auto;
-  gap:clamp(24px,4vw,56px);align-items:center;
-}
-.lead-split .sec-h{margin-bottom:0}
-
-.ceo-card{
-  display:flex;align-items:center;gap:18px;
-  border:1px solid var(--line);border-radius:var(--r-md);
-  padding:20px 26px 20px 20px;background:#fff;min-width:280px;
-  transition:transform .26s var(--ease),box-shadow .26s var(--ease),border-color .26s var(--ease);
-}
-.ceo-card:hover{transform:translateY(-3px);box-shadow:var(--sh-2);border-color:#CFD9EC}
-.ceo-photo{
-  width:64px;height:64px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(160deg,var(--navy-700),var(--navy-950));color:#fff;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--display);font-size:21px;font-weight:600;letter-spacing:.02em;
-  box-shadow:0 12px 28px -12px rgba(12,20,64,.8);
-}
-.ceo-card h4{font-size:18px;font-weight:600;margin-bottom:4px}
-.ceo-card span{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-600)}
-
 .deal-group{margin-top:44px}
 .deal-group h4{
   font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
@@ -1560,7 +1536,6 @@ footer{
   .hero-grid{grid-template-columns:1fr;gap:44px}
   .split{grid-template-columns:1fr;gap:40px}
   .about-split{grid-template-columns:1fr;gap:40px}
-  .lead-split{grid-template-columns:1fr;align-items:start;gap:26px}
   /* The rail turns vertical rather than wrapping to a second row: the dots are
      positioned against the heading's rule, and a second row has no rule under
      it to sit on. One column, one rule down the left, dots on that. */

@@ -38,8 +38,8 @@ const NAV: NavItem[] = [
     section: "about",
     mn: "Бидний тухай",
     en: "About Us",
-    // No dropdown: the overview, leadership, track record and financial
-    // reports are short, and all four now sit on the one page this opens.
+    // No dropdown: the overview, track record and financial reports are
+    // short, and all of them sit on the one page this opens.
     drop: [],
   },
   {

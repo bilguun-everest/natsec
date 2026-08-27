@@ -41,31 +41,36 @@ const ADVISORY: Deal[] = [
 
 export default function Achievements() {
   return (
-    <section id="ololt">
-      <div className="wrap">
-        <SecHead
-          eyebrow={{ mn: "Туршлага", en: "Track Record" }}
-          title={{ mn: "Ололт амжилт", en: "Achievements" }}
-          lead={{
-            mn: "Бид амжилттай зохион байгуулсан бонд болон зөвлөх үйлчилгээний туршлагаас.",
-            en: "A track record of bond issuances and advisory mandates we have successfully arranged.",
-          }}
-          style={{ marginBottom: 0 }}
-        />
+    /* Banded because the leadership section that used to carry the band was
+       removed, and without it Overview, Achievements and Reports ran as three
+       white sections with nothing between them. */
+    <div className="band">
+      <section id="ololt">
+        <div className="wrap">
+          <SecHead
+            eyebrow={{ mn: "Туршлага", en: "Track Record" }}
+            title={{ mn: "Ололт амжилт", en: "Achievements" }}
+            lead={{
+              mn: "Бид амжилттай зохион байгуулсан бонд болон зөвлөх үйлчилгээний туршлагаас.",
+              en: "A track record of bond issuances and advisory mandates we have successfully arranged.",
+            }}
+            style={{ marginBottom: 0 }}
+          />
 
-        <DealGroup
-          heading={{ mn: "Бонд босгосон туршлага", en: "Bond Issuance Experience" }}
-          deals={BONDS}
-        />
-        <DealGroup
-          heading={{
-            mn: "Зөвлөх үйлчилгээний туршлага",
-            en: "Advisory Services Experience",
-          }}
-          deals={ADVISORY}
-        />
-      </div>
-    </section>
+          <DealGroup
+            heading={{ mn: "Бонд босгосон туршлага", en: "Bond Issuance Experience" }}
+            deals={BONDS}
+          />
+          <DealGroup
+            heading={{
+              mn: "Зөвлөх үйлчилгээний туршлага",
+              en: "Advisory Services Experience",
+            }}
+            deals={ADVISORY}
+          />
+        </div>
+      </section>
+    </div>
   );
 }
 

@@ -40,8 +40,10 @@ function Page({ route, content }: { route: Route; content: SiteContent }) {
   if (policy) return <PolicyDetail policy={policy} />;
 
   switch (route) {
-    // One About page, reached by four routes: the footer still links to each
-    // part by name, and <About> scrolls to whichever one was asked for.
+    // One About page, reached by four routes: the footer links to each part by
+    // name, and <About> scrolls to whichever one was asked for. `udirdlaga` is
+    // kept only so the leadership link the footer used to publish still lands
+    // on a real page; it has no section left, so it opens at the top.
     case "tanilcuulga":
     case "udirdlaga":
     case "ololt":

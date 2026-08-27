@@ -6,7 +6,6 @@ import { Reveal } from "@/components/motion";
 import { useCurrentRoute } from "@/components/router";
 import { SecHead } from "@/components/ui";
 import Achievements from "@/components/pages/Achievements";
-import Leadership from "@/components/pages/Leadership";
 import Reports from "@/components/pages/Reports";
 import type { ReportItem } from "@/lib/content";
 
@@ -134,10 +133,10 @@ const MILESTONES: {
 /**
  * Everything under "Бидний тухай" on one page.
  *
- * It used to be four separate pages behind a dropdown, which made the reader
- * open a menu and pick before they could learn anything about the company.
- * The four parts are short enough to read in one scroll, so they are now one
- * page and the menu entry goes straight to it.
+ * It used to be separate pages behind a dropdown, which made the reader open a
+ * menu and pick before they could learn anything about the company. The parts
+ * are short enough to read in one scroll, so they are one page and the menu
+ * entry goes straight to it.
  */
 export default function About({ reports }: { reports: ReportItem[] }) {
   useSectionScroll();
@@ -230,7 +229,6 @@ export default function About({ reports }: { reports: ReportItem[] }) {
         </div>
       </section>
 
-      <Leadership />
       <Achievements />
       <Reports reports={reports} />
     </>
@@ -238,9 +236,13 @@ export default function About({ reports }: { reports: ReportItem[] }) {
 }
 
 /**
- * The four parts kept their own routes, because the footer still links to each
- * by name and old links should not break. They all render this page, so a link
- * to one part has to land on that part instead of at the top.
+ * The parts kept their own routes, because the footer still links to each by
+ * name and old links should not break. They all render this page, so a link to
+ * one part has to land on that part instead of at the top.
+ *
+ * `#udirdlaga` is now one of those routes with nothing to scroll to — the
+ * section was removed, and the optional call below quietly leaves such a link
+ * at the top of the page rather than breaking it.
  */
 function useSectionScroll() {
   const route = useCurrentRoute();

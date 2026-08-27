@@ -86,7 +86,6 @@ const COLUMNS: {
     en: "ABOUT US",
     links: [
       { href: "#tanilcuulga", mn: "Танилцуулга", en: "Overview" },
-      { href: "#udirdlaga", mn: "Удирдах албан тушаалтан", en: "Leadership" },
       { href: "#ololt", mn: "Ололт амжилт", en: "Achievements" },
       { href: "#tailan", mn: "Санхүүгийн тайлан", en: "Financial Reports" },
     ],
