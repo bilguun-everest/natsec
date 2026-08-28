@@ -197,51 +197,69 @@ export default function Home() {
   );
 }
 
-/** The three licensed businesses, said plainly and once. */
+/**
+ * The three licensed businesses, said plainly and once — and the page's one
+ * dark stop between the hero and the closing band.
+ *
+ * It was a white card triptych sitting directly above another one, which gave
+ * the middle of the landing page no weight and no way in. See the note on
+ * `.dk` in globals.css for how the treatment was chosen.
+ */
 function Offer() {
   return (
-    <section>
-      <div className="wrap">
-        <SecHead
-          eyebrow={{ mn: "Үйлчилгээ", en: "What we do" }}
-          title={{
-            mn: "Хөрөнгө оруулалтын бүх шатанд",
-            en: "At every stage of investing",
-          }}
-          lead={{
-            mn: "МХБ-ийн 52 гишүүнээс бүх 5 төрлийн тусгай зөвшөөрлийг бүрэн эзэмшдэг 9 компанийн нэг нь бид.",
-            en: "One of nine firms among the exchange's 52 members holding all five categories of licence.",
-          }}
-        />
-        <div className="offer">
-          {OFFER.map((entry, index) => (
-            <Reveal className="offer-c" key={entry.href} delay={index * 100}>
-              <span className="offer-ico">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  {entry.icon}
-                </svg>
-              </span>
-              <h3>
-                <T mn={entry.title.mn} en={entry.title.en} />
-              </h3>
-              <p>
-                <T mn={entry.body.mn} en={entry.body.en} />
-              </p>
-              <ul>
-                {entry.items.map((item) => (
-                  <li key={item.mn}>
-                    <T mn={item.mn} en={item.en} />
-                  </li>
-                ))}
-              </ul>
-              <a href={entry.href} className="more">
-                <T mn="Дэлгэрэнгүй" en="Learn more" /> →
-              </a>
-            </Reveal>
-          ))}
+    <div className="dk">
+      <section>
+        <div className="wrap">
+          <SecHead
+            eyebrow={{ mn: "Үйлчилгээ", en: "What we do" }}
+            title={{
+              mn: "Хөрөнгө оруулалтын бүх шатанд",
+              en: "At every stage of investing",
+            }}
+            lead={{
+              mn: "МХБ-ийн 52 гишүүнээс бүх 5 төрлийн тусгай зөвшөөрлийг бүрэн эзэмшдэг 9 компанийн нэг нь бид.",
+              en: "One of nine firms among the exchange's 52 members holding all five categories of licence.",
+            }}
+          />
+          <div className="dtrip">
+            {OFFER.map((entry, index) => (
+              <Reveal
+                as="a"
+                className="dcol"
+                href={entry.href}
+                key={entry.href}
+                delay={index * 100}
+              >
+                <div className="dhead">
+                  <span className="dn">{`0${index + 1}`}</span>
+                  <span className="dico">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      {entry.icon}
+                    </svg>
+                  </span>
+                </div>
+                <h3>
+                  <T mn={entry.title.mn} en={entry.title.en} />
+                </h3>
+                <p>
+                  <T mn={entry.body.mn} en={entry.body.en} />
+                </p>
+                <ul>
+                  {entry.items.map((item) => (
+                    <li key={item.mn}>
+                      <T mn={item.mn} en={item.en} />
+                    </li>
+                  ))}
+                </ul>
+                <span className="more">
+                  <T mn="Дэлгэрэнгүй" en="Learn more" /> →
+                </span>
+              </Reveal>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
 
@@ -259,20 +277,18 @@ function StartSteps() {
           }}
         />
 
-        <div className="start-steps">
+        <div className="bstep">
           {STEPS.map((step, index) => (
             <Reveal
               as="a"
-              className="start-step"
+              className="bs"
               href={step.href}
               key={step.href}
               delay={index * 90}
             >
-              <div className="head">
-                <span className="num">{index + 1}</span>
-                <span className="time">
-                  <T mn={step.time.mn} en={step.time.en} />
-                </span>
+              <div className="bs-n">{index + 1}</div>
+              <div className="bs-t">
+                <T mn={step.time.mn} en={step.time.en} />
               </div>
               <h4>
                 <T mn={step.title.mn} en={step.title.en} />

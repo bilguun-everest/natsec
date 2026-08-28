@@ -206,8 +206,8 @@ section{padding:var(--sp-section) 0}
   content:"";width:20px;height:1px;flex-shrink:0;
   background:linear-gradient(90deg,var(--blue),rgba(1,103,253,.25));
 }
-.hero .eyebrow,.cta .eyebrow,.rbox .eyebrow,.faq-box .eyebrow{color:var(--blue-300)}
-.hero .eyebrow::before,.cta .eyebrow::before,
+.hero .eyebrow,.cta .eyebrow,.rbox .eyebrow,.faq-box .eyebrow,.dk .eyebrow{color:var(--blue-300)}
+.hero .eyebrow::before,.cta .eyebrow::before,.dk .eyebrow::before,
 .rbox .eyebrow::before,.faq-box .eyebrow::before{
   background:linear-gradient(90deg,var(--blue-300),rgba(127,187,255,.2));
 }
@@ -690,85 +690,138 @@ header .wrap,.util .wrap{max-width:1340px}
   font-size:13.5px;line-height:1.5;color:var(--grey);text-wrap:balance;
 }
 
-/* ------------------------------------------ 11 home: what we do (triptych) */
-.offer{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:clamp(16px,2vw,24px);
+/* ---------------------------------------- 11 home: what we do (dark band) */
+/* The one dark stop between the hero and the closing band.
+
+   This was three white cards on a white ground, back to back with three more
+   in section 12, and it read as nothing: one silhouette twice, every element
+   in the same 13–20px band of type, no weight anywhere in the middle of the
+   page. Card-level polish could not fix a structural problem. Chosen on
+   2026-08-28 from three built studies — the alternatives were editorial rows
+   under a sticky head, and one large panel with two smaller beside it.
+
+   It follows the hero's dark idiom rather than inventing a second one: the
+   same 76px engineering grid, the same pair of radial washes, the same
+   blue-300 hairline along the top edge. */
+.dk{
+  position:relative;overflow:hidden;isolation:isolate;color:#fff;
+  background:
+    radial-gradient(1000px 560px at 88% -10%,rgba(38,78,205,.42),transparent 62%),
+    radial-gradient(760px 520px at 2% 110%,rgba(21,42,140,.45),transparent 64%),
+    linear-gradient(168deg,#0A1038,#0C1440 46%,#080E30);
 }
-.offer-c{
+.dk::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:76px 76px;
+  -webkit-mask-image:radial-gradient(120% 96% at 50% 0%,#000 24%,transparent 78%);
+          mask-image:radial-gradient(120% 96% at 50% 0%,#000 24%,transparent 78%);
+}
+.dk::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:1px;z-index:3;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(127,187,255,.45) 30%,rgba(127,187,255,.45) 70%,transparent);
+}
+.dk .wrap{position:relative;z-index:1}
+.dk .sec-h{max-width:720px}
+.dk .sec-h h2{color:#fff}
+.dk .sec-h p{color:var(--on-dark-2)}
+.dk .more{color:var(--blue-300)}
+.dk .more:hover{color:#fff}
+
+/* Columns on hairlines rather than boxes — a card border inside a dark band
+   reads as a seam, not a card. */
+.dtrip{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
+  border-top:1px solid var(--hair-dark);
+}
+.dcol{
   position:relative;display:flex;flex-direction:column;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:var(--r-md);
-  padding:30px 28px 26px;
-  overflow:hidden;
-  transition:transform .28s var(--ease),box-shadow .28s var(--ease),border-color .28s var(--ease);
+  padding:34px clamp(22px,2.6vw,34px) 30px;color:inherit;
+  transition:background .26s var(--ease);
 }
-/* A thin brand rule that draws itself across the top on hover. */
-.offer-c::before{
-  content:"";position:absolute;left:0;right:0;top:0;height:2px;
-  background:linear-gradient(90deg,var(--blue),var(--blue-400));
+.dcol:first-child{padding-left:0}
+.dcol:last-child{padding-right:0}
+.dcol+.dcol::before{
+  content:"";position:absolute;left:0;top:0;bottom:14px;width:1px;
+  background:linear-gradient(180deg,var(--hair-dark),transparent);
+}
+/* The brand rule draws itself along the top of the column on hover, sitting on
+   the grid's own top border. */
+.dcol::after{
+  content:"";position:absolute;left:0;right:0;top:-1px;height:2px;
+  background:linear-gradient(90deg,var(--blue-400),var(--blue-300));
   transform:scaleX(0);transform-origin:left;
-  transition:transform .38s var(--ease);
+  transition:transform .36s var(--ease);
 }
-.offer-c:hover{transform:translateY(-4px);box-shadow:var(--sh-3);border-color:#CFD9EC}
-.offer-c:hover::before{transform:scaleX(1)}
-.offer-ico{
-  width:46px;height:46px;border-radius:var(--r-md);
+.dcol:hover{background:rgba(255,255,255,.035)}
+.dcol:hover::after{transform:scaleX(1)}
+.dhead{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.dn{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--blue-300)}
+.dico{
+  width:40px;height:40px;border-radius:var(--r-sm);margin-left:auto;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(160deg,var(--navy-800),var(--navy-950));
-  box-shadow:0 8px 20px -10px rgba(12,20,64,.7);
-  margin-bottom:20px;flex-shrink:0;
-  transition:transform .3s var(--ease);
+  border:1px solid var(--hair-dark);background:rgba(255,255,255,.05);
+  transition:background .26s var(--ease),border-color .26s var(--ease);
 }
-.offer-c:hover .offer-ico{transform:translateY(-2px) rotate(-3deg)}
-.offer-ico svg{width:22px;height:22px;stroke:var(--blue-300);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.offer-c h3{font-size:20px;font-weight:600;margin-bottom:9px}
-.offer-c p{font-size:14.2px;color:var(--grey);line-height:1.65;margin-bottom:18px;text-wrap:pretty}
-.offer-c ul{margin-bottom:22px}
-.offer-c li{
-  position:relative;padding-left:18px;margin-bottom:7px;
-  font-size:13.5px;color:var(--ink-2);
+.dcol:hover .dico{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.24)}
+.dico svg{width:20px;height:20px;stroke:var(--blue-300);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.dcol h3{color:#fff;font-size:22px;font-weight:600;margin-bottom:11px;letter-spacing:-.02em}
+.dcol>p{color:var(--on-dark-2);font-size:14.4px;line-height:1.7;margin-bottom:20px;text-wrap:pretty}
+.dcol ul{margin-bottom:22px;padding-top:18px;border-top:1px solid var(--hair-dark-2)}
+.dcol li{position:relative;padding-left:17px;font-size:13.4px;color:var(--on-dark-3);margin-bottom:9px}
+.dcol li:last-child{margin-bottom:0}
+.dcol li::before{
+  content:"";position:absolute;left:0;top:8px;width:5px;height:5px;
+  border-radius:1px;background:var(--blue-400);
 }
-.offer-c li::before{
-  content:"";position:absolute;left:0;top:8.5px;
-  width:6px;height:6px;border-radius:1px;
-  border:1.4px solid var(--blue);
+.dcol .more{margin-top:auto}
+/* Rows aligned across the three columns, so the rule above the bullets sits at
+   the same height in each rather than stepping down wherever a title wraps.
+   Five rows: head, title, description, list, link. */
+@supports (grid-template-rows:subgrid){
+  @media(min-width:961px){
+    .dtrip{grid-template-rows:auto auto auto auto auto}
+    .dcol{display:grid;grid-template-rows:subgrid;grid-row:span 5}
+  }
 }
-.offer-c .more{margin-top:auto}
 
 /* --------------------------------------------- 12 home: start in three steps */
-.start-steps{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:clamp(16px,2vw,22px);
+/* Deliberately the opposite construction to the band above it: light, ruled,
+   and carried by the numerals rather than by a ground. The figures are set at
+   the stats band's size because that is what they are — the answer to "how
+   long until I can trade?" is the point of the section, not the card. */
+.bstep{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
+  border-top:2px solid var(--navy-900);
 }
-.start-step{
-  position:relative;display:block;
-  background:#fff;border:1px solid var(--line);border-radius:var(--r-md);
-  padding:28px 26px;color:inherit;overflow:hidden;
-  transition:transform .28s var(--ease),box-shadow .28s var(--ease),border-color .28s var(--ease);
+.bs{
+  position:relative;display:block;color:inherit;
+  padding:30px clamp(22px,2.6vw,34px) 30px 0;
+  transition:background .24s var(--ease);
 }
-.start-step:hover{transform:translateY(-4px);box-shadow:var(--sh-3);border-color:#CFD9EC}
-.start-step .head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.start-step .num{
-  width:40px;height:40px;border-radius:var(--r-sm);flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(160deg,var(--navy-800),var(--navy-950));color:#fff;
-  font-family:var(--display);font-weight:600;font-size:18px;
-  box-shadow:0 8px 18px -10px rgba(12,20,64,.8);
-  transition:transform .28s var(--ease);
+.bs+.bs{padding-left:clamp(22px,2.6vw,34px)}
+.bs:last-child{padding-right:0}
+.bs+.bs::before{content:"";position:absolute;left:0;top:0;bottom:12px;width:1px;background:var(--line)}
+.bs:hover{background:linear-gradient(180deg,var(--blue-50),transparent 72%)}
+.bs-n{
+  font-family:var(--display);font-size:clamp(42px,4vw,56px);font-weight:600;
+  line-height:1;letter-spacing:-.05em;color:var(--navy-900);margin-bottom:8px;
+  transition:color .24s var(--ease);
 }
-.start-step:hover .num{transform:scale(1.06)}
-.start-step .time{
-  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--blue-700);background:var(--blue-50);border:1px solid var(--blue-100);
-  padding:4px 9px;border-radius:var(--r-xs);white-space:nowrap;
+.bs:hover .bs-n{color:var(--blue-700)}
+.bs-t{
+  display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--blue-700);background:var(--blue-50);
+  border:1px solid var(--blue-100);padding:4px 10px;border-radius:var(--r-pill);
+  margin-bottom:16px;
 }
-.start-step h4{font-size:18px;font-weight:600;margin-bottom:8px}
-.start-step p{font-size:13.8px;color:var(--grey);line-height:1.65;text-wrap:pretty}
-.start-step .more{margin-top:16px;font-size:13.5px}
-.start-step:hover .more{gap:11px}
-.start-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px;align-items:center}
+.bs h4{font-size:19px;font-weight:600;margin-bottom:9px;letter-spacing:-.02em}
+.bs p{color:var(--grey);font-size:14px;line-height:1.7;text-wrap:pretty;max-width:34ch}
+.bs .more{margin-top:16px;font-size:13.5px}
+.bs:hover .more{gap:11px}
+.start-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:38px;align-items:center}
 
 /* ------------------------------------------------------ 13 home: faq list */
 /* Light, editorial and ruled — the dark box that used to sit here fought the
@@ -1570,7 +1623,16 @@ footer{
 }
 
 @media(max-width:960px){
-  .offer,.start-steps{grid-template-columns:1fr}
+  /* One column: the seams between the columns become the rules between the
+     rows, and the side padding that made room for them comes off. */
+  .dtrip,.bstep{grid-template-columns:1fr}
+  .dcol,.bs,.bs+.bs{padding-left:0;padding-right:0}
+  .dcol+.dcol::before,.bs+.bs::before{
+    left:0;right:0;top:0;bottom:auto;width:auto;height:1px;
+    background:var(--hair-dark);
+  }
+  .bs+.bs::before{background:var(--line)}
+  .dcol+.dcol,.bs+.bs{padding-top:30px}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 0}
   /* On two columns the rule belongs between the pair, so it comes off the
      cell that now starts a row. */
@@ -1637,8 +1699,8 @@ a[aria-disabled="true"]{cursor:default}
 
 /* Grid items default to `min-width:auto`, so a column can never shrink below
    its longest word — and Mongolian compounds are long. */
-.value-grid>*,.svc>*,.offer>*,.subsvc-grid>*,.policy-grid>*,
-.deal-grid>*,.guide-tiles>*,.stats>*,.fgrid>*,.fcols>*,.start-steps>*{min-width:0}
+.value-grid>*,.svc>*,.dtrip>*,.subsvc-grid>*,.policy-grid>*,
+.deal-grid>*,.guide-tiles>*,.stats>*,.fgrid>*,.fcols>*,.bstep>*{min-width:0}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
