@@ -189,38 +189,37 @@ h5{font-weight:600}
 
 /* Characters per line, measured: .disclaim 166 · .notice-box p 149 ·
    .mp-note 104 · .gbody p 98 · .mp-lead 86 · .bank-note 82 · .about-copy p 74
-   · .empty-panel p 74 · .subsvc-card p 73 · .article-body p 68. */
-.subsvc-card p,.about-copy p,.gbody p,.empty-panel p,.notice-box p,
+   · .empty-panel p 74 · .subsvc-card p 73 · .sec-h p 70 · .article-body p 68
+   · .svc-c p 66 · .lead 60 · .rbox>p 51 · .faq-box>p 50 · .dcol p 46
+   · .policy-card p 43 · .bs p 42.
+
+   The bottom half of that list is under the measure justification wants, and
+   the short ones do open gaps — the hero standfirst at 60 and the start steps
+   at 42 are the two to look at if this ever reads wrong. They are in anyway:
+   asked for, seen, and kept. */
+.lead,.sec-h p,.svc-c p,.subsvc-card p,.about-copy p,.gbody p,.dcol p,.bs p,
+.empty-panel p,.notice-box p,.policy-card p,.rbox>p,.faq-box>p,.qa p,
 .article-body p,.disclaim,.bank-note,
 .modal-paper>.mp-lead,.modal-paper .mp-note{
   text-align:var(--align-body);text-justify:inter-word;
 }
 
-/* Ragged on purpose, not by oversight.
+/* The three that stay ragged, and why each is a different reason.
 
-   The count that decides this is not really characters — it is **word spaces
-   per line**, because those are what a browser stretches. Mongolian words run
-   long, so a 50-character line is five or six words and only about five gaps
-   to absorb the slack in; the same shortfall spread across the ten gaps of a
-   90-character line is invisible. That is why the bar here sits near 70 rather
-   than the 45 the English rule of thumb gives.
+   `.value-card p` measures 27 characters — about three words a line. The count
+   that decides this is not really characters but **word spaces per line**,
+   since those are what the browser stretches: at three words there are two
+   gaps to absorb a whole line's slack, so justifying does not straighten an
+   edge, it punches two holes in every line. Nothing else on the site is close
+   to that narrow; the next one up is 42.
 
-   Card bodies in multi-column grids run 27 to 51 (.value-card p is the extreme
-   at 27, a third of what justification wants). .svc-c p at 66 was tried and
-   pulled back out: it wraps to two lines, so exactly one line is stretched and
-   there is nothing for the eye to average it against.
+   Lists are next: a bullet is usually a single line, and a justified block
+   leaves its last line flush left — so the rule would either do nothing at all
+   or stretch the one item that happened to wrap.
 
-   The standfirsts are excluded for that second reason rather than for width.
-   .sec-h p measures 70 and .lead 60, but both are one- or two-line lead-ins —
-   the case where justification has a single line to work with and every bit of
-   slack in it lands where the reader is looking first.
-
-   Lists are here for a third reason: a bullet is usually one line, and a
-   justified block leaves its last line flush left, so the rule would either do
-   nothing or stretch the one item that happened to wrap. */
-.lead,.sec-h p,.svc-c p,
-.value-card p,.policy-card p,.dcol p,.bs p,.rbox>p,.faq-box>p,.qa p,
-.modal-paper ul li,.article-body li{
+   `.fbrand p` is the footer address. It is a block of short lines that mean
+   something as lines, not a paragraph that happens to wrap. */
+.value-card p,.modal-paper ul li,.article-body li,.fbrand p{
   text-align:left;
 }
 
