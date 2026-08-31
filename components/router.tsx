@@ -140,11 +140,17 @@ export function sectionOf(route: Route): string {
   if (/^(tanilcuulga|udirdlaga|ololt|tailan)$/.test(route)) return "about";
   if (/^(broker|anderraiter|zuvluh)$/.test(route)) return "services";
   if (route.startsWith("sudalgaa")) return "research";
-  if (route.startsWith("zaavar")) return "start";
-  // Terms of Service is a policy page, but it is reached from Customer
-  // Support — so that is the menu that should light up on it.
-  if (route.startsWith("faq") || route === "holboo-barih" ||
-      route === "tog-hugjil-terms") return "support";
+  // Customer Support owns two routes it does not look like it should. The
+  // guides were their own top-level section until the bar ran out of room and
+  // they became a group in this menu; Terms of Service is a policy page, but
+  // Customer Support is where it is linked from, so that is the tab to light.
+  if (
+    route.startsWith("zaavar") ||
+    route.startsWith("faq") ||
+    route === "holboo-barih" ||
+    route === "tog-hugjil-terms"
+  )
+    return "support";
   if (route.startsWith("tog-hugjil")) return "sustainability";
   return "home";
 }

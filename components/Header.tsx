@@ -29,8 +29,10 @@ interface NavItem {
 }
 
 /**
- * Who we are first, then the way a first-time visitor moves through the site:
- * how to start, what we do, what we publish, where to get help.
+ * Who we are first, then what we do, what we publish, where to get help.
+ *
+ * Five entries, not six: "Хэрхэн эхлэх" was its own tab until the bar ran out
+ * of room, and now opens the Customer Support menu as its first group.
  */
 const NAV: NavItem[] = [
   {
@@ -41,25 +43,6 @@ const NAV: NavItem[] = [
     // No dropdown: the overview, track record and financial reports are
     // short, and all of them sit on the one page this opens.
     drop: [],
-  },
-  {
-    href: "#zaavar",
-    section: "start",
-    mn: "Хэрхэн эхлэх",
-    en: "Getting Started",
-    drop: [
-      { href: "#zaavar-dansneeh", mn: "Данс нээх", en: "Opening an account" },
-      { href: "#zaavar-tsenegleh", mn: "Мөнгө байршуулах", en: "Add money" },
-      { href: "#zaavar-mungu", mn: "Мөнгө татах", en: "Withdraw money" },
-      // The iOS app ships (the footer links to it), but no written guide for
-      // it exists yet, so the entry is shown and goes nowhere on purpose.
-      {
-        href: "",
-        mn: "Аппликейшны заавар",
-        en: "App user guide",
-        pending: true,
-      },
-    ],
   },
   {
     href: "#broker",
@@ -124,7 +107,24 @@ const NAV: NavItem[] = [
     section: "support",
     mn: "Харилцагчийн туслах",
     en: "Customer Support",
+    // "Хэрхэн эхлэх" was the second of six top-level entries until the bar ran
+    // out of room. It is a group in here instead: the guides are the thing a
+    // reader comes looking for help with, so they have not moved far.
     drop: [
+      { href: "", mn: "Хэрхэн эхлэх", en: "Getting Started", group: true },
+      { href: "#zaavar", mn: "Бүх заавар", en: "All guides" },
+      { href: "#zaavar-dansneeh", mn: "Данс нээх", en: "Opening an account" },
+      { href: "#zaavar-tsenegleh", mn: "Мөнгө байршуулах", en: "Add money" },
+      { href: "#zaavar-mungu", mn: "Мөнгө татах", en: "Withdraw money" },
+      // The iOS app ships (the footer links to it), but no written guide for
+      // it exists yet, so the entry is shown and goes nowhere on purpose.
+      {
+        href: "",
+        mn: "Аппликейшны заавар",
+        en: "App user guide",
+        pending: true,
+      },
+      { href: "", mn: "Тусламж", en: "Help", group: true },
       { href: "#faq", mn: "Түгээмэл асуулт", en: "FAQ" },
       { href: "#holboo-barih", mn: "Холбоо барих", en: "Contact us" },
       {
@@ -231,7 +231,10 @@ export default function Header() {
 
           <ul className="menu">
             {NAV.map((item) => (
-              <li key={item.mn} className={item.section === active ? "is-current" : undefined}>
+              <li
+                key={item.mn}
+                className={item.section === active ? "is-current" : undefined}
+              >
                 <a
                   href={item.href}
                   aria-current={item.section === active ? "page" : undefined}

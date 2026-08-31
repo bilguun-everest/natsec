@@ -1046,7 +1046,10 @@ header .wrap,.util .wrap{max-width:1340px}
 .contact-row a:hover{border-bottom-color:currentColor}
 
 /* ------------------------------------------------------ 17 guides and FAQ */
-.guide-tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+/* Three up. This was two, in the narrow column of a `.split` beside a rail
+   repeating the FAQ list; the rail is gone, so six guides are two rows of
+   three across the full measure at about the tile width they already had. */
+.guide-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .guide-tile{
   display:flex;gap:18px;align-items:center;
   padding:22px 24px;border:1px solid var(--line);border-radius:var(--r-md);
@@ -1540,15 +1543,21 @@ footer{
 }
 
 
-/* Measured: the row needs 191 + 730 + 199 plus its two 18px gaps = 1156px of
-   bar. Below the width where the wrap can supply that, the header hands over
-   to the drawer rather than letting the menu run into the logo. */
+/* Re-measured after "Хэрхэн эхлэх" moved into the Customer Support menu: the
+   five remaining items are 617px where six were 730, so the row needs
+   191 + 617 + 200 plus its two 18px gaps = 1044px of bar, and the 1340px
+   container supplies that from 1124px of viewport up (the gutter is pinned at
+   40 by then). The handover therefore moves 1259 -> 1159, which keeps 36px in
+   hand and gives the full bar back to 1152 and 1180-wide screens. Below it the
+   header hands over to the drawer rather than letting the menu run into the
+   logo. Re-measure here rather than nudging font sizes if the nav changes
+   again. */
 /* The drawer is a full-height overlay rather than a panel hung off the bottom
    of the header. The header's own offset changes as the utility strip scrolls
    away, so anything positioned against it lands wrong at one scroll position
    or the other; covering the viewport is the only offset that is always
    right — and it leaves room for the account actions the bar has to drop. */
-@media(max-width:1259px){
+@media(max-width:1159px){
   .burger{display:flex}
 
   .drawer{
@@ -1613,6 +1622,7 @@ footer{
   .split{grid-template-columns:1fr;gap:40px}
   .about-split{grid-template-columns:1fr;gap:40px}
   .policy-grid{grid-template-columns:1fr 1fr}
+  .guide-tiles{grid-template-columns:1fr 1fr}
   .edu{grid-template-columns:1fr 1fr}
   .rings{right:-420px;top:-380px;opacity:.2}
 }
@@ -1637,7 +1647,7 @@ footer{
 }
 
 @media(max-width:820px){
-  .svc,.subsvc-grid,.guide-tiles,.quick{grid-template-columns:1fr}
+  .svc,.subsvc-grid,.quick{grid-template-columns:1fr}
   .value-grid{grid-template-columns:1fr 1fr}
   .fcols{grid-template-columns:repeat(2,minmax(0,1fr))}
   .modal-paper{padding:32px 24px}
@@ -1650,7 +1660,7 @@ footer{
   .logo img{height:34px}
   .act{gap:8px}
   .act .btn-p{padding:11px 15px;font-size:13.5px}
-  .policy-grid,.deal-grid,.edu{grid-template-columns:1fr}
+  .policy-grid,.deal-grid,.edu,.guide-tiles{grid-template-columns:1fr}
   .value-grid{grid-template-columns:1fr}
   .fcols{grid-template-columns:1fr}
   .contact-card{padding:6px 22px}

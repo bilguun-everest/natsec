@@ -2,82 +2,61 @@
 
 import { T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
-import { Eyebrow, SecHead } from "@/components/ui";
-import { FAQ } from "@/lib/faq";
+import { SecHead } from "@/components/ui";
 import { GUIDES } from "@/lib/guides";
 
+/**
+ * One column, not two. The right rail used to repeat the whole FAQ list, which
+ * is a page of its own under the same menu — so the guides now have the full
+ * measure and the tiles run three up instead of two.
+ */
 export default function Guides() {
   return (
     <section id="zaavar">
-      <div className="wrap split">
-        <div>
-          <SecHead
-            eyebrow={{ mn: "Хэрхэн эхлэх", en: "Getting Started" }}
-            title={{ mn: "Алхам алхмаар заавар", en: "Step-by-step guides" }}
-            lead={{
-              mn: "Данс нээхээс эхлээд арилжаанд оролцох, ногдол ашиг авах хүртэл танд хэрэгтэй бүх зүйл.",
-              en: "Everything you need, from opening an account to trading and receiving your dividends.",
-            }}
-            style={{ marginBottom: 22 }}
-          />
+      <div className="wrap">
+        <SecHead
+          eyebrow={{ mn: "Хэрхэн эхлэх", en: "Getting Started" }}
+          title={{ mn: "Алхам алхмаар заавар", en: "Step-by-step guides" }}
+          lead={{
+            mn: "Данс нээхээс эхлээд арилжаанд оролцох, ногдол ашиг авах хүртэл танд хэрэгтэй бүх зүйл.",
+            en: "Everything you need, from opening an account to trading and receiving your dividends.",
+          }}
+          style={{ marginBottom: 22 }}
+        />
 
-          <div className="guide-tiles">
-            {GUIDES.map((guide, index) => (
-              <Reveal
-                as="a"
-                className="guide-tile"
-                href={`#${guide.route}`}
-                key={guide.route}
-                delay={index * 70}
-              >
-                <div className="num">{guide.num}</div>
-                <div>
-                  <h4>
-                    <T mn={guide.title.mn} en={guide.title.en} />
-                  </h4>
-                  <span className="teaser">
-                    <T mn={guide.teaser.mn} en={guide.teaser.en} />
-                  </span>
-                </div>
-                <span className="arrow">→</span>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal className="bank-box" style={{ marginTop: 24 }} delay={80}>
-            <div className="bank-note">
-              <T
-                mn="Мөн түүнчлэн таны эзэмшиж буй үнэт цаасыг шилжүүлэх, бусдад бэлэглэх, өв залгамжлуулах, дансандаа итгэмжлэгч томилох зэрэг холбогдох үйлчилгээг үзүүлнэ."
-                en="In addition, we support related account services such as transferring, gifting, and inheriting securities you hold, as well as setting up power of attorney over your account."
-              />
-            </div>
-          </Reveal>
+        <div className="guide-tiles">
+          {GUIDES.map((guide, index) => (
+            <Reveal
+              as="a"
+              className="guide-tile"
+              href={`#${guide.route}`}
+              key={guide.route}
+              delay={index * 70}
+            >
+              <div className="num">{guide.num}</div>
+              <div>
+                <h4>
+                  <T mn={guide.title.mn} en={guide.title.en} />
+                </h4>
+                <span className="teaser">
+                  <T mn={guide.teaser.mn} en={guide.teaser.en} />
+                </span>
+              </div>
+              <span className="arrow">→</span>
+            </Reveal>
+          ))}
         </div>
 
-        <Reveal className="faq-box" delay={120}>
-          <Eyebrow mn="Түгээмэл асуулт" en="FAQ" />
-          <h3>
-            <T mn="Түгээмэл асуулт хариулт" en="Frequently Asked Questions" />
-          </h3>
-          <p>
+        <Reveal className="bank-box" style={{ marginTop: 24 }} delay={80}>
+          <div className="bank-note">
             <T
-              mn="Хамгийн олон асуудаг асуултын товч хариултууд."
-              en="Quick answers to the questions we hear most often."
+              mn="Мөн түүнчлэн таны эзэмшиж буй үнэт цаасыг шилжүүлэх, бусдад бэлэглэх, өв залгамжлуулах, дансандаа итгэмжлэгч томилох зэрэг холбогдох үйлчилгээг үзүүлнэ."
+              en="In addition, we support related account services such as transferring, gifting, and inheriting securities you hold, as well as setting up power of attorney over your account."
             />
-          </p>
-          {FAQ.map((entry) => (
-            <a className="faq-tile" href={`#${entry.route}`} key={entry.route}>
-              <span className="q">
-                <T mn={entry.question.mn} en={entry.question.en} />
-              </span>
-              <span className="arrow">→</span>
-            </a>
-          ))}
+          </div>
         </Reveal>
-      </div>
 
-      <div className="wrap">
-        <Reveal className="notice-box">
+        <Reveal className="notice-box" style={{ marginTop: 24 }}>
           <h5>
             <T mn="Хариуцлагатай арилжаа хийх" en="Trade responsibly" />
           </h5>
