@@ -167,10 +167,10 @@ h5{font-weight:600}
    actually has the glyph. */
 .tg{font-family:Arial,"Noto Sans",sans-serif;font-weight:inherit}
 
-/* Ragged right, everywhere. Justification needs ~45 characters a line to
-   distribute evenly; almost no column on this site is that wide, and the ones
-   that are read better ragged anyway. */
-.lead,.about-copy p,.value-card p,.svc-c p,.qa p,.rbox>p,.disclaim,.sec-h p{
+/* Ragged right, everywhere but one. Justification needs ~45 characters a line
+   to distribute evenly, and almost no column on this site is that wide. The
+   About overview column is the single exception — see section 16. */
+.lead,.value-card p,.svc-c p,.qa p,.rbox>p,.disclaim,.sec-h p{
   text-align:left;
 }
 
@@ -929,57 +929,18 @@ header .wrap,.util .wrap{max-width:1340px}
 
 /* ------------------------------------------------------------- 16 about us */
 .about-split{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(32px,4vw,56px);align-items:start}
-.about-copy p{color:var(--ink-2);font-size:15.5px;line-height:1.82;margin-bottom:18px}
+/* The one justified column on the site, because the reader asked for the
+   deployed build's version of this page back and flush margins are what
+   distinguishes it. It can carry justification where nothing else here can:
+   at the desktop measure the column runs about 60 characters, comfortably
+   past the ~45 a browser needs to distribute a line without opening rivers. */
+.about-copy p{
+  color:var(--ink-2);font-size:15.5px;line-height:1.82;margin-bottom:18px;
+  text-align:justify;text-justify:inter-word;
+}
 .about-copy p:last-of-type{margin-bottom:0}
 /* First paragraph gets a slightly larger measure — a standfirst, in effect. */
 .about-copy p:first-of-type{font-size:16.5px;color:var(--ink)}
-
-/* The four figures, on a ruled band under the heading. Same construction as
-   the home page's stats strip — ruled and left-aligned rather than centred —
-   so a reader who has seen one recognises the other. */
-.about-figs{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;
-  padding:26px 0;margin-bottom:clamp(36px,4vw,52px);
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-}
-.about-fig{position:relative;min-width:0;text-align:center;padding:0 clamp(14px,2vw,28px)}
-.about-fig+.about-fig::before{
-  content:"";position:absolute;left:0;top:2px;bottom:2px;width:1px;background:var(--line);
-}
-.about-fig b{
-  display:block;font-family:var(--display);
-  font-size:clamp(24px,2.7vw,36px);font-weight:600;
-  color:var(--navy-900);letter-spacing:-0.03em;line-height:1;white-space:nowrap;
-}
-.about-fig>span{
-  display:block;margin-top:9px;margin-inline:auto;
-  font-size:12.8px;line-height:1.5;color:var(--grey);text-wrap:balance;
-}
-
-/* Milestones. The chronology is a rail rather than a column: four dates that
-   only mean anything next to each other, and the eye reads the row in one
-   pass. The dots sit on the rule, the copy hangs below it. */
-.timeline{margin-top:clamp(48px,5.5vw,76px)}
-.tl-h{
-  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--grey);font-weight:500;
-  padding-bottom:14px;margin-bottom:0;border-bottom:1px solid var(--line);
-}
-.tl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;position:relative}
-.tl-item{position:relative;padding:30px clamp(16px,2vw,28px) 0 0}
-/* The marker straddles the rule the heading draws, which is why the item has
-   no rule of its own — one line, four dots on it. */
-.tl-item::before{
-  content:"";position:absolute;left:0;top:-6px;
-  width:12px;height:12px;border-radius:50%;
-  background:#fff;border:2.5px solid var(--blue);
-}
-.tl-yr{
-  display:block;font-family:var(--mono);font-size:12.5px;font-weight:500;
-  letter-spacing:.08em;color:var(--blue-700);margin-bottom:9px;
-}
-.tl-item h4{font-size:15.5px;font-weight:600;margin-bottom:7px;line-height:1.35}
-.tl-item p{font-size:13.2px;color:var(--grey);line-height:1.62;max-width:30ch;text-wrap:pretty}
 
 .value-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .value-card{
@@ -1605,18 +1566,6 @@ footer{
   .hero-grid{grid-template-columns:1fr;gap:44px}
   .split{grid-template-columns:1fr;gap:40px}
   .about-split{grid-template-columns:1fr;gap:40px}
-  /* The rail turns vertical rather than wrapping to a second row: the dots are
-     positioned against the heading's rule, and a second row has no rule under
-     it to sit on. One column, one rule down the left, dots on that. */
-  .tl{grid-template-columns:1fr;padding-left:26px}
-  .tl::before{
-    content:"";position:absolute;left:8px;top:6px;bottom:6px;
-    width:1px;background:var(--line);
-  }
-  .tl-item{padding:0 0 26px}
-  .tl-item:last-child{padding-bottom:0}
-  .tl-item::before{left:-26px;top:4px}
-  .tl-item p{max-width:52ch}
   .policy-grid{grid-template-columns:1fr 1fr}
   .edu{grid-template-columns:1fr 1fr}
   .rings{right:-420px;top:-380px;opacity:.2}
@@ -1657,8 +1606,9 @@ footer{
   .act .btn-p{padding:11px 15px;font-size:13.5px}
   .policy-grid,.deal-grid,.edu{grid-template-columns:1fr}
   .value-grid{grid-template-columns:1fr}
-  .about-figs{grid-template-columns:1fr 1fr;gap:24px 0}
-  .about-fig:nth-child(odd)::before{display:none}
+  /* Below this the column is under ~40 characters, which is where
+     justification starts opening gaps rather than closing them. */
+  .about-copy p{text-align:left}
   .fcols{grid-template-columns:1fr}
   .contact-card{padding:6px 22px}
   .rbox,.faq-box{padding:28px 22px}
