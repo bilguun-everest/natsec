@@ -23,10 +23,7 @@ export default function FaqDetail({ entry }: { entry: FaqEntry }) {
       <h3>
         <T mn={entry.question.mn} en={entry.question.en} />
       </h3>
-      {/* Justified, unlike the leads on the guide and policy pages that share
-          this layout — the reader asked for the answers to be set the way the
-          About overview is. */}
-      <p className="mp-lead faq-answer">
+      <p className="mp-lead">
         <T mn={entry.answer.mn} en={entry.answer.en} />
       </p>
       {entry.points && <List items={entry.points} />}

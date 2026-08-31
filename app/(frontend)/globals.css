@@ -167,10 +167,60 @@ h5{font-weight:600}
    actually has the glyph. */
 .tg{font-family:Arial,"Noto Sans",sans-serif;font-weight:inherit}
 
-/* Ragged right, everywhere but one. Justification needs ~45 characters a line
-   to distribute evenly, and almost no column on this site is that wide. The
-   About overview column is the single exception — see section 16. */
-.lead,.value-card p,.svc-c p,.qa p,.rbox>p,.disclaim,.sec-h p{
+/* Justified body copy, and where it stops.
+
+   The reader compared this site against the build live on natsec.mn, which
+   sets its text with both margins flush, and asked for the same here. It is
+   not a blanket rule, because justification has a minimum measure: a browser
+   needs roughly 45 characters a line before it can absorb the slack into the
+   word spaces rather than dumping it into three gaps. Every column on the site
+   was measured at the 1440px layout before being put in one list or the other,
+   and the numbers are recorded below so the next person does not have to guess
+   where the line was drawn.
+
+   `--align-body` carries the switch so the phone fallback is one declaration
+   rather than a second copy of the list. */
+:root{--align-body:justify}
+@media(max-width:640px){
+  /* Every column below falls under ~40 characters at phone width, which is
+     where justification starts opening holes instead of closing an edge. */
+  :root{--align-body:left}
+}
+
+/* Characters per line, measured: .disclaim 166 · .notice-box p 149 ·
+   .mp-note 104 · .gbody p 98 · .mp-lead 86 · .bank-note 82 · .about-copy p 74
+   · .empty-panel p 74 · .subsvc-card p 73 · .article-body p 68. */
+.subsvc-card p,.about-copy p,.gbody p,.empty-panel p,.notice-box p,
+.article-body p,.disclaim,.bank-note,
+.modal-paper>.mp-lead,.modal-paper .mp-note{
+  text-align:var(--align-body);text-justify:inter-word;
+}
+
+/* Ragged on purpose, not by oversight.
+
+   The count that decides this is not really characters — it is **word spaces
+   per line**, because those are what a browser stretches. Mongolian words run
+   long, so a 50-character line is five or six words and only about five gaps
+   to absorb the slack in; the same shortfall spread across the ten gaps of a
+   90-character line is invisible. That is why the bar here sits near 70 rather
+   than the 45 the English rule of thumb gives.
+
+   Card bodies in multi-column grids run 27 to 51 (.value-card p is the extreme
+   at 27, a third of what justification wants). .svc-c p at 66 was tried and
+   pulled back out: it wraps to two lines, so exactly one line is stretched and
+   there is nothing for the eye to average it against.
+
+   The standfirsts are excluded for that second reason rather than for width.
+   .sec-h p measures 70 and .lead 60, but both are one- or two-line lead-ins —
+   the case where justification has a single line to work with and every bit of
+   slack in it lands where the reader is looking first.
+
+   Lists are here for a third reason: a bullet is usually one line, and a
+   justified block leaves its last line flush left, so the rule would either do
+   nothing or stretch the one item that happened to wrap. */
+.lead,.sec-h p,.svc-c p,
+.value-card p,.policy-card p,.dcol p,.bs p,.rbox>p,.faq-box>p,.qa p,
+.modal-paper ul li,.article-body li{
   text-align:left;
 }
 
@@ -929,15 +979,9 @@ header .wrap,.util .wrap{max-width:1340px}
 
 /* ------------------------------------------------------------- 16 about us */
 .about-split{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(32px,4vw,56px);align-items:start}
-/* The one justified column on the site, because the reader asked for the
-   deployed build's version of this page back and flush margins are what
-   distinguishes it. It can carry justification where nothing else here can:
-   at the desktop measure the column runs about 60 characters, comfortably
-   past the ~45 a browser needs to distribute a line without opening rivers. */
-.about-copy p{
-  color:var(--ink-2);font-size:15.5px;line-height:1.82;margin-bottom:18px;
-  text-align:justify;text-justify:inter-word;
-}
+/* Justified — see section 03, which sets the alignment for every column wide
+   enough to take it. This one measures about 74 characters. */
+.about-copy p{color:var(--ink-2);font-size:15.5px;line-height:1.82;margin-bottom:18px}
 .about-copy p:last-of-type{margin-bottom:0}
 /* First paragraph gets a slightly larger measure — a standfirst, in effect. */
 .about-copy p:first-of-type{font-size:16.5px;color:var(--ink)}
@@ -1102,28 +1146,15 @@ header .wrap,.util .wrap{max-width:1340px}
 .modal-paper h2,.modal-paper h3{
   font-size:clamp(26px,3vw,36px);font-weight:600;margin-bottom:18px;letter-spacing:-.02em;
 }
-/* Balanced, not greedy. Default wrapping fills each line to the measure and
-   breaks late, so a paragraph of three lines can run short, full, short — and
-   the full one reads as sticking out to the right of the two around it.
-   Mongolian makes it worse: words like "Зөвшөөрөлгүйгээр" are long enough that
-   whether one lands before or after a break swings the line by a wide margin.
-   `balance` evens the lines instead. It caps out around six lines in Chrome,
-   above which it quietly does nothing — which is the right failure for a lead. */
+/* This lead used to carry `text-wrap:balance`, which evened out the lengths of
+   its lines so the ragged edge read less jagged. Justification solves the same
+   complaint outright by removing the ragged edge, and the two cannot both run:
+   balance breaks lines early to make them equal, and justification then has to
+   stretch every one of those short lines back to the full measure — strictly
+   more space to distribute than a greedy break would have left behind. So
+   balance is gone rather than left to lose a specificity contest. */
 .modal-paper>.mp-lead{
   font-size:17px;color:var(--ink-2);line-height:1.8;margin-bottom:24px;
-  text-wrap:balance;
-}
-/* The FAQ answers are justified, the same way the About overview is, because
-   that is how the reader asked for the questions and answers to be set.
-
-   `balance` comes back off here rather than being overridden by accident: it
-   breaks lines early to even their lengths, and justification then has to
-   stretch every one of those short lines back out to the full measure — more
-   space to distribute than a greedy break would have left. The two want
-   opposite things, so only one of them runs. The measure can carry it: 740px
-   at 17px is about 90 characters, twice what justification needs. */
-.modal-paper>.mp-lead.faq-answer{
-  text-align:justify;text-justify:inter-word;text-wrap:wrap;
 }
 .modal-paper ul{margin-bottom:6px}
 .modal-paper ul li{
@@ -1186,6 +1217,10 @@ header .wrap,.util .wrap{max-width:1340px}
   border-radius:var(--r-md);padding:18px 20px;
 }
 .bank-box .row{display:flex;gap:12px;padding:6px 0;font-size:13.5px;position:relative;padding-right:36px}
+/* The note under the account rows. It was an inline style carrying its own
+   `text-align:justify` — the last survivor of the deployed build's site-wide
+   justification, which is where this whole thread started. */
+.bank-note{font-size:13.5px;color:var(--ink)}
 .bank-box .row b{
   font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--grey-2);min-width:112px;flex-shrink:0;font-weight:500;padding-top:2px;
@@ -1618,9 +1653,6 @@ footer{
   .act .btn-p{padding:11px 15px;font-size:13.5px}
   .policy-grid,.deal-grid,.edu{grid-template-columns:1fr}
   .value-grid{grid-template-columns:1fr}
-  /* Below this the columns are under ~40 characters, which is where
-     justification starts opening gaps rather than closing them. */
-  .about-copy p,.modal-paper>.mp-lead.faq-answer{text-align:left}
   .fcols{grid-template-columns:1fr}
   .contact-card{padding:6px 22px}
   .rbox,.faq-box{padding:28px 22px}

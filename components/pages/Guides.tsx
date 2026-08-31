@@ -45,14 +45,7 @@ export default function Guides() {
           </div>
 
           <Reveal className="bank-box" style={{ marginTop: 24 }} delay={80}>
-            <div
-              style={{
-                fontSize: "13.5px",
-                color: "var(--ink)",
-                textAlign: "justify",
-                textJustify: "inter-word",
-              }}
-            >
+            <div className="bank-note">
               <T
                 mn="Мөн түүнчлэн таны эзэмшиж буй үнэт цаасыг шилжүүлэх, бусдад бэлэглэх, өв залгамжлуулах, дансандаа итгэмжлэгч томилох зэрэг холбогдох үйлчилгээг үзүүлнэ."
                 en="In addition, we support related account services such as transferring, gifting, and inheriting securities you hold, as well as setting up power of attorney over your account."
