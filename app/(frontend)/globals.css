@@ -1113,6 +1113,18 @@ header .wrap,.util .wrap{max-width:1340px}
   font-size:17px;color:var(--ink-2);line-height:1.8;margin-bottom:24px;
   text-wrap:balance;
 }
+/* The FAQ answers are justified, the same way the About overview is, because
+   that is how the reader asked for the questions and answers to be set.
+
+   `balance` comes back off here rather than being overridden by accident: it
+   breaks lines early to even their lengths, and justification then has to
+   stretch every one of those short lines back out to the full measure — more
+   space to distribute than a greedy break would have left. The two want
+   opposite things, so only one of them runs. The measure can carry it: 740px
+   at 17px is about 90 characters, twice what justification needs. */
+.modal-paper>.mp-lead.faq-answer{
+  text-align:justify;text-justify:inter-word;text-wrap:wrap;
+}
 .modal-paper ul{margin-bottom:6px}
 .modal-paper ul li{
   position:relative;padding-left:22px;margin-bottom:12px;
@@ -1606,9 +1618,9 @@ footer{
   .act .btn-p{padding:11px 15px;font-size:13.5px}
   .policy-grid,.deal-grid,.edu{grid-template-columns:1fr}
   .value-grid{grid-template-columns:1fr}
-  /* Below this the column is under ~40 characters, which is where
+  /* Below this the columns are under ~40 characters, which is where
      justification starts opening gaps rather than closing them. */
-  .about-copy p{text-align:left}
+  .about-copy p,.modal-paper>.mp-lead.faq-answer{text-align:left}
   .fcols{grid-template-columns:1fr}
   .contact-card{padding:6px 22px}
   .rbox,.faq-box{padding:28px 22px}
