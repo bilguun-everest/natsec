@@ -985,21 +985,37 @@ header .wrap,.util .wrap{max-width:1340px}
 /* First paragraph gets a slightly larger measure — a standfirst, in effect. */
 .about-copy p:first-of-type{font-size:16.5px;color:var(--ink)}
 
-.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+/* Four cards in one column, each of them a row: badge left, heading and copy
+   right — the same shape as a guide tile, down to the 18px gap.
+
+   This was a 2x2 grid, and it was the worst-set copy on the site. Two cards
+   across the 468px column left each paragraph a 27-character measure: three or
+   four words a line, six or seven lines of jagged rag, and both cards in a row
+   stretched to whichever paragraph was longer, so half of them ended in dead
+   space. Spending the whole column on one card takes the measure to about 57
+   characters and the longest paragraph down to three lines, which also makes
+   the four of them shorter stacked than they were in a grid.
+
+   The badge spans both rows so it sits against the heading rather than being
+   centred on a block whose height depends on the length of the paragraph. */
+.value-grid{display:grid;grid-template-columns:1fr;gap:12px}
 .value-card{
+  display:grid;grid-template-columns:auto minmax(0,1fr);
+  column-gap:18px;align-items:start;align-content:start;
   border:1px solid var(--line);border-radius:var(--r-md);
-  padding:22px 20px;background:#fff;
+  padding:20px 22px;background:#fff;
   transition:transform .26s var(--ease),box-shadow .26s var(--ease),border-color .26s var(--ease);
 }
 .value-card:hover{transform:translateY(-3px);box-shadow:var(--sh-2);border-color:#CFD9EC}
 .value-card .icon-badge{
+  grid-row:1 / span 2;
   width:38px;height:38px;border-radius:var(--r-sm);
   background:linear-gradient(160deg,var(--navy-800),var(--navy-950));
-  display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+  display:flex;align-items:center;justify-content:center;
   box-shadow:0 6px 16px -8px rgba(12,20,64,.7);
 }
 .value-card .icon-badge svg{width:19px;height:19px;stroke:var(--blue-300);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.value-card h4{font-size:15px;font-weight:600;margin-bottom:7px}
+.value-card h4{font-size:15px;font-weight:600;margin-bottom:5px}
 .value-card p{font-size:13px;color:var(--grey);line-height:1.62;text-align:left;text-wrap:pretty}
 
 .motto{
@@ -1621,6 +1637,10 @@ footer{
   .hero-grid{grid-template-columns:1fr;gap:44px}
   .split{grid-template-columns:1fr;gap:40px}
   .about-split{grid-template-columns:1fr;gap:40px}
+  /* The cards had the 468px side column to themselves; below this they have
+     the whole 1040px wrap, which would run a paragraph to 100 characters
+     beside its badge. Two across puts the measure back around 60. */
+  .value-grid{grid-template-columns:1fr 1fr}
   .policy-grid{grid-template-columns:1fr 1fr}
   .guide-tiles{grid-template-columns:1fr 1fr}
   .edu{grid-template-columns:1fr 1fr}
@@ -1648,7 +1668,11 @@ footer{
 
 @media(max-width:820px){
   .svc,.subsvc-grid,.quick{grid-template-columns:1fr}
-  .value-grid{grid-template-columns:1fr 1fr}
+  /* Two across stops paying here — the card is down to 371px, which is 44
+     characters beside the badge, back to the cramped column this layout was
+     meant to get rid of. One across is a long measure at this width, but it is
+     two clean lines rather than five ragged ones. */
+  .value-grid{grid-template-columns:1fr}
   .fcols{grid-template-columns:repeat(2,minmax(0,1fr))}
   .modal-paper{padding:32px 24px}
   .nlist a{grid-template-columns:1fr;gap:6px}
@@ -1661,7 +1685,11 @@ footer{
   .act{gap:8px}
   .act .btn-p{padding:11px 15px;font-size:13.5px}
   .policy-grid,.deal-grid,.edu,.guide-tiles{grid-template-columns:1fr}
+  /* One column, and the badge back above the copy: side by side it would take
+     38 characters off a measure that is only 48 to begin with. */
   .value-grid{grid-template-columns:1fr}
+  .value-card{display:block}
+  .value-card .icon-badge{margin-bottom:14px}
   .fcols{grid-template-columns:1fr}
   .contact-card{padding:6px 22px}
   .rbox,.faq-box{padding:28px 22px}
