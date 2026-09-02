@@ -41,10 +41,12 @@ const ADVISORY: Deal[] = [
 
 export default function Achievements() {
   return (
-    /* Banded because the leadership section that used to carry the band was
-       removed, and without it Overview, Achievements and Reports ran as three
-       white sections with nothing between them. */
-    <div className="band">
+    /* The dark stop on this page, the same treatment the home page gives "at
+       every stage of investing". It was a light band, which did separate
+       Overview from Reports but gave the page no weight anywhere — three
+       white sections in a row, the middle one merely a shade greyer. The
+       track record is the part of this page worth stopping on. */
+    <div className="dk">
       <section id="ololt">
         <div className="wrap">
           <SecHead

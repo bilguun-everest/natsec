@@ -739,8 +739,8 @@ header .wrap,.util .wrap{max-width:1340px}
   font-size:13.5px;line-height:1.5;color:var(--grey);text-wrap:balance;
 }
 
-/* ---------------------------------------- 11 home: what we do (dark band) */
-/* The one dark stop between the hero and the closing band.
+/* --------------------------------------------- 11 dark band (.dk sections) */
+/* The dark stop: "what we do" on the home page, "Ололт амжилт" on About.
 
    This was three white cards on a white ground, back to back with three more
    in section 12, and it read as nothing: one silhouette twice, every element
@@ -1046,6 +1046,26 @@ header .wrap,.util .wrap{max-width:1340px}
 }
 .deal-card h5{font-size:15.5px;font-weight:600;margin-bottom:7px;line-height:1.4}
 .deal-card span{font-size:13.2px;color:var(--grey)}
+
+/* On the dark band the same cards become the hero's licence chips: a hairline
+   round a barely-lit panel, brightening on hover. A white card would punch a
+   hole in the band, and the lift-and-shadow of the light version has nothing
+   to cast a shadow on. */
+.dk .deal-group h4{color:var(--on-dark-3);border-bottom-color:var(--hair-dark)}
+.dk .deal-card{
+  background:rgba(255,255,255,.045);border-color:var(--hair-dark);
+  transition:background .22s var(--ease),border-color .22s var(--ease);
+}
+.dk .deal-card:hover{
+  transform:none;box-shadow:none;
+  background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);
+}
+.dk .deal-card h5{color:#fff}
+.dk .deal-card span{color:var(--on-dark-3)}
+.dk .deal-card .yr{
+  color:var(--blue-300);background:rgba(127,187,255,.09);
+  border-color:rgba(127,187,255,.22);
+}
 
 .contact-card{
   border:1px solid var(--line);border-radius:var(--r-md);
