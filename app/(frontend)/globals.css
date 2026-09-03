@@ -376,6 +376,12 @@ header{
   transition:box-shadow .3s var(--ease),border-color .3s var(--ease),
              background .3s var(--ease);
 }
+/* The bar's own "Данс нээх" while the hero is still on screen. It keeps its
+   space rather than being removed: the row's widths were measured with it
+   there, and the burger handover at 1259 depends on them. */
+header[data-cta="off"] .act .btn-p{opacity:0;pointer-events:none}
+.act .btn-p{transition:opacity .25s var(--ease)}
+
 header[data-scrolled="true"]{
   background:rgba(255,255,255,.92);
   border-bottom-color:var(--line);

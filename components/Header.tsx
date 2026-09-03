@@ -176,12 +176,38 @@ export default function Header() {
   // are real paths now, so the route itself is the signal.
   useEffect(() => setOpen(false), [route]);
 
-  // The header only asserts its edge once the page has moved under it.
+  // The hero asks for an account in far bigger type, with the promise
+  // attached — "10 минут" — and the header was asking for the same thing three
+  // centimetres above it. While the hero is on screen the bar stays quiet; it
+  // takes the ask over once the hero has scrolled away. Pages without a hero
+  // show it from the start, which is why the initial value is the route rather
+  // than `false`: rendering it and then hiding it would be a flash.
+  //
+  // The measurement itself lives in the scroll effect below.
+  const [pastHero, setPastHero] = useState(route !== "home");
+
+  // One scroll handler for both: the bar asserts its edge as soon as the page
+  // moves under it, and takes over the account CTA once the hero — which asks
+  // for the same thing in far bigger type — has gone past.
+  //
+  // Deliberately a scroll position rather than an IntersectionObserver. The
+  // observer is the tidier tool and it is what this did first, but a control
+  // that can silently never appear is the wrong thing to hang on one: if it
+  // does not fire, this way the button is simply always there.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const hero = document.querySelector<HTMLElement>(".hero");
+    const past = hero ? hero.offsetTop + hero.offsetHeight - 80 : 0;
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      setPastHero(!hero || window.scrollY > past);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   // The drawer covers the page, so the page behind it must not scroll — on
@@ -196,7 +222,7 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header data-scrolled={scrolled}>
+    <header data-scrolled={scrolled} data-cta={pastHero ? "on" : "off"}>
       <div className="wrap nav">
         <A href="/" className="logo">
           <Image

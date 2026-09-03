@@ -109,8 +109,13 @@ export function SiteShell({
       className={`motion-ready ${inter.variable} ${mono.variable}`}
     >
       <body>
+        {/* Both of these hide something until a script says otherwise. With no
+            script there is nothing to say it, so the rules are cancelled: no
+            reader should lose the account button because the scroll handler
+            that reveals it never ran. */}
         <noscript>
-          <style>{`.reveal{opacity:1!important;transform:none!important}`}</style>
+          <style>{`.reveal{opacity:1!important;transform:none!important}
+            header[data-cta="off"] .act .btn-p{opacity:1!important;pointer-events:auto!important}`}</style>
         </noscript>
 
         <script
