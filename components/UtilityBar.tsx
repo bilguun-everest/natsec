@@ -1,28 +1,20 @@
 "use client";
 
 import { T, useLang } from "@/components/lang";
-import { useIndices, useMarket } from "@/components/market";
+import { useMarket } from "@/components/market";
 import { localDateTime, localTime, sameLocalDay } from "@/lib/market-hours";
 import { TRADING_URL } from "@/lib/site";
 
 export default function UtilityBar() {
-  const indices = useIndices();
-
   return (
     <div className="util">
       <div className="wrap">
+        {/* The TOP-20 level was here as well as in the hero panel and in the
+            news line — one figure, three times, on the first screen. The hero
+            panel is the one that keeps it: it has the context, the source and
+            the time the number was read. What is left here is the one thing
+            that appears nowhere else, which is how old the data is. */}
         <div className="util-l">
-          {indices && (
-            <span className="util-fig">
-              <span className="live-dot" />
-              <T mn="МХБ ТОП-20" en="MSE TOP-20" />
-              <b>{indices.top20.unit}</b>
-              <span className={indices.top20.dir === "down" ? "d" : "u"}>
-                {indices.top20.raw > 0 ? "+" : ""}
-                {indices.top20.raw.toFixed(2)}%
-              </span>
-            </span>
-          )}
           <Freshness />
         </div>
         <div className="util-r">

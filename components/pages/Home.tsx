@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { T, useLang } from "@/components/lang";
 import { Reveal, useCountUp, useInView } from "@/components/motion";
 import MarketPanel from "@/components/MarketPanel";
-import { useIndices } from "@/components/market";
 import { Eyebrow, SecHead } from "@/components/ui";
 import { FAQ } from "@/lib/faq";
 import { CONTACT, TRADING_URL } from "@/lib/site";
@@ -510,23 +509,15 @@ function Hero() {
   );
 }
 
-/** The five headlines cycle in place, one every five seconds. */
+/** The four headlines cycle in place, one every five seconds. */
 function HeroNews() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const indices = useIndices();
 
-  // The index headline reports the actual level rather than a number frozen
-  // into the copy. When the feed is down the line is simply dropped.
-  const headlines = indices
-    ? [
-        {
-          mn: `МХБ-ийн ТОП-20 индекс ${indices.top20.unit} байна`,
-          en: `MSE TOP-20 index at ${indices.top20.unit}`,
-        },
-        ...HEADLINES,
-      ]
-    : HEADLINES;
+  // The TOP-20 level used to lead this list. It already sits in the hero panel
+  // with its source and timestamp beside it, and it was in the utility bar too
+  // — the same figure three times on one screen, one of them under the heading
+  // "News". An index level is not news. This carries news only.
 
   // Five seconds, not three: three is under the time it takes to read a
   // Mongolian headline, so the line changed while you were still on it.
@@ -535,11 +526,11 @@ function HeroNews() {
   useEffect(() => {
     if (paused) return;
     const timer = setInterval(
-      () => setIndex((current) => (current + 1) % headlines.length),
+      () => setIndex((current) => (current + 1) % HEADLINES.length),
       5000,
     );
     return () => clearInterval(timer);
-  }, [headlines.length, paused]);
+  }, [paused]);
 
   return (
     <div
@@ -554,7 +545,7 @@ function HeroNews() {
         <T mn="Мэдээ" en="News" />
       </span>
       <div className="txt" id="heroNewsTxt">
-        {headlines.map((headline, position) => (
+        {HEADLINES.map((headline, position) => (
           <span
             key={headline.mn}
             className={position === index ? "active" : undefined}
