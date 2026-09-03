@@ -36,7 +36,7 @@ interface NavItem {
  */
 const NAV: NavItem[] = [
   {
-    href: "#tanilcuulga",
+    href: "/tanilcuulga/",
     section: "about",
     mn: "Бидний тухай",
     en: "About Us",
@@ -45,7 +45,7 @@ const NAV: NavItem[] = [
     drop: [],
   },
   {
-    href: "#broker",
+    href: "/broker/",
     section: "services",
     mn: "Үйлчилгээ",
     en: "Services",
@@ -57,18 +57,18 @@ const NAV: NavItem[] = [
         en: "Domestic Trading",
       },
       {
-        href: "#broker",
+        href: "/broker/",
         mn: "Онлайн арилжааны систем",
         en: "Online Trading System",
       },
       { href: "", mn: "Андеррайтер", en: "Underwriter", group: true },
       {
-        href: "#anderraiter",
+        href: "/anderraiter/",
         mn: "Хувьцааны санхүүжилт (IPO, FPO)",
         en: "Equity Financing (IPO, FPO)",
       },
       {
-        href: "#anderraiter",
+        href: "/anderraiter/",
         mn: "Бондын санхүүжилт",
         en: "Bond Financing",
       },
@@ -78,32 +78,32 @@ const NAV: NavItem[] = [
         en: "Investment Advisory",
         group: true,
       },
-      { href: "#zuvluh", mn: "Зөвлөх үйлчилгээ", en: "Advisory Services" },
-      { href: "#zuvluh", mn: "Хувийн санхүүжилт", en: "Personal Financing" },
+      { href: "/zuvluh/", mn: "Зөвлөх үйлчилгээ", en: "Advisory Services" },
+      { href: "/zuvluh/", mn: "Хувийн санхүүжилт", en: "Personal Financing" },
     ],
   },
   {
-    href: "#sudalgaa",
+    href: "/sudalgaa/",
     section: "research",
     mn: "Судалгаа",
     en: "Research",
     // Placeholder categories: the real list is still being decided.
     drop: [
-      { href: "#sudalgaa", mn: "Макро орчны судалгаа", en: "Macro Research" },
+      { href: "/sudalgaa/", mn: "Макро орчны судалгаа", en: "Macro Research" },
       {
-        href: "#sudalgaa",
+        href: "/sudalgaa/",
         mn: "Үнэт цаасны судалгаа",
         en: "Securities Research",
       },
       {
-        href: "#sudalgaa-toim",
+        href: "/sudalgaa-toim/",
         mn: "Долоо хоногийн тойм",
         en: "Weekly Review",
       },
     ],
   },
   {
-    href: "#faq",
+    href: "/faq/",
     section: "support",
     mn: "Харилцагчийн туслах",
     en: "Customer Support",
@@ -112,10 +112,10 @@ const NAV: NavItem[] = [
     // reader comes looking for help with, so they have not moved far.
     drop: [
       { href: "", mn: "Хэрхэн эхлэх", en: "Getting Started", group: true },
-      { href: "#zaavar", mn: "Бүх заавар", en: "All guides" },
-      { href: "#zaavar-dansneeh", mn: "Данс нээх", en: "Opening an account" },
-      { href: "#zaavar-tsenegleh", mn: "Мөнгө байршуулах", en: "Add money" },
-      { href: "#zaavar-mungu", mn: "Мөнгө татах", en: "Withdraw money" },
+      { href: "/zaavar/", mn: "Бүх заавар", en: "All guides" },
+      { href: "/zaavar-dansneeh/", mn: "Данс нээх", en: "Opening an account" },
+      { href: "/zaavar-tsenegleh/", mn: "Мөнгө байршуулах", en: "Add money" },
+      { href: "/zaavar-mungu/", mn: "Мөнгө татах", en: "Withdraw money" },
       // The iOS app ships (the footer links to it), but no written guide for
       // it exists yet, so the entry is shown and goes nowhere on purpose.
       {
@@ -125,29 +125,29 @@ const NAV: NavItem[] = [
         pending: true,
       },
       { href: "", mn: "Тусламж", en: "Help", group: true },
-      { href: "#faq", mn: "Түгээмэл асуулт", en: "FAQ" },
-      { href: "#holboo-barih", mn: "Холбоо барих", en: "Contact us" },
+      { href: "/faq/", mn: "Түгээмэл асуулт", en: "FAQ" },
+      { href: "/holboo-barih/", mn: "Холбоо барих", en: "Contact us" },
       {
-        href: "#tog-hugjil-terms",
+        href: "/tog-hugjil-terms/",
         mn: "Үйлчилгээний нөхцөл",
         en: "Terms of Service",
       },
     ],
   },
   {
-    href: "#tog-hugjil",
+    href: "/tog-hugjil/",
     section: "sustainability",
     mn: "Тогтвортой хөгжил",
     en: "Sustainability",
     alignRight: true,
     drop: [
       {
-        href: "#tog-hugjil-esg",
+        href: "/tog-hugjil-esg/",
         mn: "Тогтвортой хөгжлийн бодлого (ESG)",
         en: "Sustainability Policy (ESG)",
       },
       {
-        href: "#tog-hugjil-privacy",
+        href: "/tog-hugjil-privacy/",
         mn: "Нууцлалын бодлого",
         en: "Privacy Policy",
       },
@@ -162,20 +162,19 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Any route change closes the drawer; so does Escape, which is the key
-  // people reach for and the only way out for keyboard users.
+  // Escape closes the drawer — the key people reach for, and the only way out
+  // for keyboard users.
   useEffect(() => {
-    const close = () => setOpen(false);
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
-    window.addEventListener("hashchange", close);
     window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("hashchange", close);
-      window.removeEventListener("keydown", onKey);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  // So does any navigation. This used to listen for `hashchange`; the routes
+  // are real paths now, so the route itself is the signal.
+  useEffect(() => setOpen(false), [route]);
 
   // The header only asserts its edge once the page has moved under it.
   useEffect(() => {
@@ -199,7 +198,7 @@ export default function Header() {
   return (
     <header data-scrolled={scrolled}>
       <div className="wrap nav">
-        <a href="#home" className="logo">
+        <a href="/" className="logo">
           <Image
             src="/logo.png"
             alt="«Нэйшнл сэкюритис ҮЦК» ХХК"

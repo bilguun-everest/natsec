@@ -26,10 +26,10 @@ export default function UtilityBar() {
           <Freshness />
         </div>
         <div className="util-r">
-          <a href="#tog-hugjil">
+          <a href="/tog-hugjil/">
             <T mn="Тогтвортой хөгжил, бодлого" en="Sustainability policy" />
           </a>
-          <a href="#holboo-barih">
+          <a href="/holboo-barih/">
             <T mn="Холбоо барих" en="Contact" />
           </a>
           <a href={TRADING_URL} className="util-login">

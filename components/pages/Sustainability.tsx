@@ -59,7 +59,7 @@ export default function Sustainability() {
             <Reveal
               as="a"
               className="policy-card"
-              href={`#${policy.route}`}
+              href={`/${policy.route}/`}
               key={policy.route}
               delay={index * 100}
             >
@@ -93,7 +93,7 @@ export function PolicyDetail({ policy }: { policy: Policy }) {
   return (
     <DetailPage
       back={{
-        href: "#tog-hugjil",
+        href: "/tog-hugjil/",
         mn: "Тогтвортой хөгжил рүү буцах",
         en: "All policies",
       }}

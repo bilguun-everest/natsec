@@ -19,7 +19,7 @@ export default function GuideDetail({ guide }: { guide: Guide }) {
 
   return (
     <DetailPage
-      back={{ href: "#zaavar", mn: "Бүх зааврууд руу буцах", en: "All guides" }}
+      back={{ href: "/zaavar/", mn: "Бүх зааврууд руу буцах", en: "All guides" }}
     >
       <StepDots steps={GUIDE_ROUTES} active={guide.route} />
       <Eyebrow mn="Хэрхэн эхлэх" en="Getting Started" />

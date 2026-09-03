@@ -21,13 +21,13 @@ export default function NotFound() {
           }}
         />
         <div className="nf-links">
-          <a href="#home" className="btn btn-p">
+          <a href="/" className="btn btn-p">
             <T mn="Нүүр хуудас" en="Home" />
           </a>
-          <a href="#zaavar" className="btn btn-o">
+          <a href="/zaavar/" className="btn btn-o">
             <T mn="Заавар" en="Guides" />
           </a>
-          <a href="#holboo-barih" className="btn btn-o">
+          <a href="/holboo-barih/" className="btn btn-o">
             <T mn="Холбоо барих" en="Contact" />
           </a>
         </div>

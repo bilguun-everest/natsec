@@ -32,7 +32,9 @@
   --ink:#0F1320;
   --ink-2:#2B3141;
   --grey:#596072;
-  --grey-2:#6F7688;
+  /* 5.63:1 on --paper. Was #6F7688 (4.27:1), which fails WCAG AA — and it
+     is the token the 10px mono labels use, where it fails hardest. */
+  --grey-2:#5C6377;
   --line:#E3E6ED;
   --line-2:#EDEFF4;
   --paper:#F6F8FC;
@@ -1270,6 +1272,10 @@ header .wrap,.util .wrap{max-width:1340px}
   color:var(--blue-600);font-size:13px;padding:4px;line-height:1;
   transition:color .18s var(--ease),transform .18s var(--ease);
 }
+/* Placeholder links (see PendingLink) carry no href, so the browser would give
+   them a text cursor and let the label be dragged like prose. */
+a[aria-disabled="true"]{cursor:default;user-select:none}
+
 .copy-btn:hover{color:var(--navy)}
 .copy-btn:active{transform:scale(.9)}
 .copy-btn.copied::after{

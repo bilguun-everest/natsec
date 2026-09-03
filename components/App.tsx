@@ -21,7 +21,13 @@ import Services from "@/components/pages/Services";
 import Sustainability, { PolicyDetail } from "@/components/pages/Sustainability";
 import Underwriter from "@/components/pages/Underwriter";
 import WeeklyReview from "@/components/pages/WeeklyReview";
-import { RouteProvider, useRoute, type Route } from "@/components/router";
+import {
+  RouteProvider,
+  navigate,
+  routeFromPath,
+  useRoute,
+  type Route,
+} from "@/components/router";
 import type { SiteContent } from "@/lib/content";
 import { FAQ } from "@/lib/faq";
 import { GUIDES } from "@/lib/guides";
@@ -78,18 +84,51 @@ export default function App({
   snapshot,
   session,
   content,
+  initialRoute,
 }: {
   snapshot: MarketSnapshot;
   session: SessionState;
   content: SiteContent;
+  initialRoute: Route;
 }) {
-  const route = useRoute();
+  const route = useRoute(initialRoute);
   const main = useRef<HTMLElement>(null);
   const first = useRef(true);
 
-  // Hash routing swaps the document's contents without any of the signals a
-  // real navigation gives: focus stays wherever it was and assistive tech is
-  // told nothing. Moving focus to the new <main> restores both.
+  // Every link on the site is a real <a href="/broker/">: it survives a middle
+  // click, a crawler and a reader with no JavaScript. This turns the ones that
+  // point at a page of ours into an in-place swap, so the site still navigates
+  // without a reload. Anything else — a modified click, another tab, a file,
+  // an outside domain — is left to the browser.
+  useEffect(() => {
+    const onClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+        return;
+
+      const anchor = (event.target as HTMLElement | null)?.closest("a");
+      if (!anchor || anchor.hasAttribute("download")) return;
+      if (anchor.target && anchor.target !== "_self") return;
+
+      const href = anchor.getAttribute("href");
+      if (!href || !href.startsWith("/")) return;
+
+      const next = routeFromPath(new URL(anchor.href).pathname);
+      // `not-found` here means the path is not one of ours at all — a PDF, an
+      // image. Those are the browser's job, not the router's.
+      if (next === "not-found") return;
+
+      event.preventDefault();
+      navigate(next);
+    };
+
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
+
+  // Client-side navigation swaps the document's contents without any of the
+  // signals a real navigation gives: focus stays wherever it was and assistive
+  // tech is told nothing. Moving focus to the new <main> restores both.
   useEffect(() => {
     if (first.current) {
       first.current = false;
@@ -126,8 +165,8 @@ export default function App({
 }
 
 /**
- * A button, not an anchor: `href="#main"` would set the fragment, and the
- * fragment is the router — jumping to the content would navigate you home.
+ * A button, not an anchor. Moving focus is the whole job here, and an <a>
+ * would also push a fragment onto a URL that is otherwise clean.
  */
 function SkipLink({ target }: { target: React.RefObject<HTMLElement | null> }) {
   const { t } = useLang();

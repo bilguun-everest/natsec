@@ -29,7 +29,7 @@ export default function Guides() {
             <Reveal
               as="a"
               className="guide-tile"
-              href={`#${guide.route}`}
+              href={`/${guide.route}/`}
               key={guide.route}
               delay={index * 70}
             >

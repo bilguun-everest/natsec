@@ -169,7 +169,7 @@ export function StepDots({
   return (
     <div className="step-dots">
       {steps.map((step) => (
-        <a href={`#${step}`} key={step}>
+        <a href={`/${step}/`} key={step}>
           <span className={step === active ? "active" : ""} />
         </a>
       ))}
@@ -180,10 +180,11 @@ export function StepDots({
 /**
  * A link whose destination does not exist yet.
  *
- * `href="#"` is not harmless here: the fragment *is* the router, so clicking
- * one emptied the hash and threw the reader to the homepage. On a page of
- * financial disclosures, a download button that silently navigates away is
- * worse than one that plainly does nothing.
+ * It renders no `href` at all. An <a> without one is not a link: it cannot be
+ * clicked into a dead end, and a crawler or a link checker does not count it
+ * among the site's broken links — which is what `href="#"` had it doing. The
+ * element stays an <a> so it keeps its styling, and `aria-disabled` tells a
+ * screen reader what the title tells everyone else.
  */
 export function PendingLink({
   className,
@@ -197,11 +198,10 @@ export function PendingLink({
   const { t } = useLang();
   return (
     <a
-      href="#"
       className={className}
+      role="link"
       aria-disabled="true"
       title={label ?? t("Удахгүй нэмэгдэнэ", "Coming soon")}
-      onClick={(event) => event.preventDefault()}
     >
       {children}
     </a>

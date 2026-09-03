@@ -72,7 +72,7 @@ const OFFER: {
   items: { mn: string; en: string }[];
 }[] = [
   {
-    href: "#broker",
+    href: "/broker/",
     icon: (
       <>
         <path d="M3 20h18" />
@@ -93,7 +93,7 @@ const OFFER: {
     ],
   },
   {
-    href: "#anderraiter",
+    href: "/anderraiter/",
     icon: (
       <>
         <path d="M4 21h16" />
@@ -114,7 +114,7 @@ const OFFER: {
     ],
   },
   {
-    href: "#zuvluh",
+    href: "/zuvluh/",
     icon: (
       <>
         <circle cx="12" cy="12" r="9" />
@@ -146,7 +146,7 @@ const STEPS: {
   body: { mn: string; en: string };
 }[] = [
   {
-    href: "#zaavar-dansneeh",
+    href: "/zaavar-dansneeh/",
     time: { mn: "10 минут", en: "10 minutes" },
     title: { mn: "Данс нээх", en: "Open an account" },
     body: {
@@ -155,7 +155,7 @@ const STEPS: {
     },
   },
   {
-    href: "#zaavar-tsenegleh",
+    href: "/zaavar-tsenegleh/",
     time: { mn: "Тэр өдөртөө", en: "Same day" },
     title: { mn: "Мөнгө байршуулах", en: "Add money" },
     body: {
@@ -164,7 +164,7 @@ const STEPS: {
     },
   },
   {
-    href: "#zaavar-mhb",
+    href: "/zaavar-mhb/",
     time: { mn: "Бодит цагт", en: "Real time" },
     title: { mn: "Арилжаа эхлүүлэх", en: "Start trading" },
     body: {
@@ -307,7 +307,7 @@ function StartSteps() {
           <a href={TRADING_URL} className="btn btn-p">
             <T mn="Данс нээх — 10 минут" en="Open Account — 10 min" />
           </a>
-          <a href="#zaavar" className="btn btn-o">
+          <a href="/zaavar/" className="btn btn-o">
             <T mn="Бүх заавар" en="All guides" />
           </a>
         </Reveal>
@@ -333,7 +333,7 @@ function HomeFaq() {
         />
         <Reveal className="faq-list" delay={60}>
           {FAQ.slice(0, 5).map((entry) => (
-            <a className="faq-row" href={`#${entry.route}`} key={entry.route}>
+            <a className="faq-row" href={`/${entry.route}/`} key={entry.route}>
               <span className="q">
                 <T mn={entry.question.mn} en={entry.question.en} />
               </span>
@@ -344,7 +344,7 @@ function HomeFaq() {
           ))}
         </Reveal>
         <Reveal delay={140} style={{ marginTop: 28 }}>
-          <a className="more" href="#faq">
+          <a className="more" href="/faq/">
             <T mn="Бүх асуулт үзэх" en="See all questions" /> →
           </a>
         </Reveal>
@@ -377,7 +377,7 @@ function ClosingCta() {
             <a href={TRADING_URL} className="btn btn-w btn-lg">
               <T mn="Данс нээх" en="Open an account" />
             </a>
-            <a href="#holboo-barih" className="btn btn-g btn-lg">
+            <a href="/holboo-barih/" className="btn btn-g btn-lg">
               <T mn="Холбоо барих" en="Contact us" />
             </a>
           </div>

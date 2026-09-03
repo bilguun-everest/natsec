@@ -38,7 +38,7 @@ const SERVICES: {
         en: "Equities, bonds & government securities",
       },
     ],
-    href: "#zaavar",
+    href: "/zaavar/",
   },
   {
     icon: (
@@ -61,7 +61,7 @@ const SERVICES: {
       },
       { mn: "Бондын санхүүжилт", en: "Bond financing" },
     ],
-    href: "#anderraiter",
+    href: "/anderraiter/",
   },
   {
     icon: (
@@ -90,7 +90,7 @@ const SERVICES: {
         en: "Connecting companies with potential investors",
       },
     ],
-    href: "#zuvluh",
+    href: "/zuvluh/",
   },
   {
     icon: (
@@ -118,7 +118,7 @@ const SERVICES: {
       },
       { mn: "Ногдол ашиг авах", en: "Receiving dividends" },
     ],
-    href: "#zaavar",
+    href: "/zaavar/",
   },
 ];
 

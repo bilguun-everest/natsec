@@ -12,7 +12,7 @@ export default function FaqDetail({ entry }: { entry: FaqEntry }) {
   return (
     <DetailPage
       back={{
-        href: "#faq",
+        href: "/faq/",
         mn: "Бүх асуулт руу буцах",
         en: "All questions",
       }}

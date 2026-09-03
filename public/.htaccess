@@ -1,0 +1,4 @@
+# Every page is a real directory now (/broker/ is broker/index.html), so a
+# mistyped URL reaches Apache rather than the site's own router. Without this
+# the visitor gets GreenSoft's default error page instead of ours.
+ErrorDocument 404 /not-found/index.html

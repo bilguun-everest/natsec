@@ -35,7 +35,7 @@ export default function Reports({ reports }: { reports: ReportItem[] }) {
                 en="Audited annual and quarterly statements will be available to download here. Until then, contact us if you would like a copy."
               />
             </p>
-            <a className="more" href="#holboo-barih">
+            <a className="more" href="/holboo-barih/">
               <T mn="Холбоо барих" en="Contact us" /> →
             </a>
           </Reveal>

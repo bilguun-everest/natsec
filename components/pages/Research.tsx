@@ -48,7 +48,7 @@ export default function Research({
     weekly && {
       key: `weekly-${weekly.id}`,
       date: weekly.date,
-      href: "#sudalgaa-toim",
+      href: "/sudalgaa-toim/",
       title: weekly.title,
       tag: CATEGORY_LABEL.weekly,
     },

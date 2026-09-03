@@ -16,20 +16,20 @@ const COLUMNS: {
     mn: "ХЭРХЭН ЭХЛЭХ",
     en: "GETTING STARTED",
     links: [
-      { href: "#zaavar-dansneeh", mn: "Данс нээх", en: "Opening an account" },
-      { href: "#zaavar-tsenegleh", mn: "Мөнгө байршуулах", en: "Add money" },
-      { href: "#zaavar-mungu", mn: "Мөнгө татах", en: "Withdraw money" },
-      { href: "#zaavar", mn: "Бүх заавар", en: "All guides" },
+      { href: "/zaavar-dansneeh/", mn: "Данс нээх", en: "Opening an account" },
+      { href: "/zaavar-tsenegleh/", mn: "Мөнгө байршуулах", en: "Add money" },
+      { href: "/zaavar-mungu/", mn: "Мөнгө татах", en: "Withdraw money" },
+      { href: "/zaavar/", mn: "Бүх заавар", en: "All guides" },
     ],
   },
   {
     mn: "ҮЙЛЧИЛГЭЭ",
     en: "SERVICES",
     links: [
-      { href: "#broker", mn: "Брокер", en: "Broker" },
-      { href: "#anderraiter", mn: "Андеррайтер", en: "Underwriter" },
+      { href: "/broker/", mn: "Брокер", en: "Broker" },
+      { href: "/anderraiter/", mn: "Андеррайтер", en: "Underwriter" },
       {
-        href: "#zuvluh",
+        href: "/zuvluh/",
         mn: "Хөрөнгө оруулалтын зөвлөгөө",
         en: "Investment Advisory",
       },
@@ -39,14 +39,14 @@ const COLUMNS: {
     mn: "СУДАЛГАА",
     en: "RESEARCH",
     links: [
-      { href: "#sudalgaa", mn: "Макро орчны судалгаа", en: "Macro Research" },
+      { href: "/sudalgaa/", mn: "Макро орчны судалгаа", en: "Macro Research" },
       {
-        href: "#sudalgaa",
+        href: "/sudalgaa/",
         mn: "Үнэт цаасны судалгаа",
         en: "Securities Research",
       },
       {
-        href: "#sudalgaa-toim",
+        href: "/sudalgaa-toim/",
         mn: "Долоо хоногийн тойм",
         en: "Weekly Review",
       },
@@ -56,10 +56,10 @@ const COLUMNS: {
     mn: "ХАРИЛЦАГЧИЙН ТУСЛАХ",
     en: "CUSTOMER SUPPORT",
     links: [
-      { href: "#faq", mn: "Түгээмэл асуулт", en: "FAQ" },
-      { href: "#holboo-barih", mn: "Холбоо барих", en: "Contact us" },
+      { href: "/faq/", mn: "Түгээмэл асуулт", en: "FAQ" },
+      { href: "/holboo-barih/", mn: "Холбоо барих", en: "Contact us" },
       {
-        href: "#tog-hugjil-terms",
+        href: "/tog-hugjil-terms/",
         mn: "Үйлчилгээний нөхцөл",
         en: "Terms of Service",
       },
@@ -70,12 +70,12 @@ const COLUMNS: {
     en: "SUSTAINABILITY",
     links: [
       {
-        href: "#tog-hugjil-esg",
+        href: "/tog-hugjil-esg/",
         mn: "Тогтвортой хөгжлийн бодлого (ESG)",
         en: "Sustainability Policy (ESG)",
       },
       {
-        href: "#tog-hugjil-privacy",
+        href: "/tog-hugjil-privacy/",
         mn: "Нууцлалын бодлого",
         en: "Privacy Policy",
       },
@@ -85,9 +85,9 @@ const COLUMNS: {
     mn: "БИДНИЙ ТУХАЙ",
     en: "ABOUT US",
     links: [
-      { href: "#tanilcuulga", mn: "Танилцуулга", en: "Overview" },
-      { href: "#ololt", mn: "Ололт амжилт", en: "Achievements" },
-      { href: "#tailan", mn: "Санхүүгийн тайлан", en: "Financial Reports" },
+      { href: "/tanilcuulga/", mn: "Танилцуулга", en: "Overview" },
+      { href: "/ololt/", mn: "Ололт амжилт", en: "Achievements" },
+      { href: "/tailan/", mn: "Санхүүгийн тайлан", en: "Financial Reports" },
     ],
   },
 ];

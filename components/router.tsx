@@ -1,114 +1,62 @@
 "use client";
 
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+  ROUTES,
+  TITLES,
+  isRoute,
+  pathOf,
+  routeFromPath,
+  type Route,
+} from "@/lib/routes";
 
-export const ROUTES = [
-  "home",
-  "tanilcuulga",
-  "udirdlaga",
-  "ololt",
-  "tailan",
-  "broker",
-  "anderraiter",
-  "zuvluh",
-  "sudalgaa",
-  "sudalgaa-toim",
-  "zaavar",
-  "zaavar-dansneeh",
-  "zaavar-mhb",
-  "zaavar-ipo",
-  "zaavar-mungu",
-  "zaavar-tsenegleh",
-  "zaavar-nogdol",
-  "tog-hugjil",
-  "tog-hugjil-esg",
-  "tog-hugjil-privacy",
-  "tog-hugjil-terms",
-  "holboo-barih",
-  "faq",
-  "faq-1",
-  "faq-2",
-  "faq-3",
-  "faq-4",
-  "faq-5",
-  "faq-6",
-  "faq-7",
-  "faq-8",
-] as const;
+export { ROUTES, TITLES, pathOf, routeFromPath, type Route };
 
-export type Route = (typeof ROUTES)[number] | "not-found";
+/**
+ * `history.pushState` fires no event of its own, so navigation raises this and
+ * `useRoute` listens for it alongside the browser's own `popstate`.
+ */
+const ROUTE_EVENT = "natsec:route";
 
-const TITLES: Record<Route, string> = {
-  home: "Нэйшнл сэкюритис ҮЦК | Хөрөнгийн зах зээлийн түнш",
-  tanilcuulga: "Танилцуулга | Нэйшнл сэкюритис ҮЦК",
-  // Legacy: the leadership section was removed, but the footer published
-  // this link for long enough that it should still land somewhere real.
-  udirdlaga: "Танилцуулга | Нэйшнл сэкюритис ҮЦК",
-  ololt: "Ололт амжилт | Нэйшнл сэкюритис ҮЦК",
-  tailan: "Санхүүгийн тайлан | Нэйшнл сэкюритис ҮЦК",
-  broker: "Брокерийн үйлчилгээ | Нэйшнл сэкюритис ҮЦК",
-  anderraiter: "Андеррайтер | Нэйшнл сэкюритис ҮЦК",
-  zuvluh: "Хөрөнгө оруулалтын зөвлөгөө | Нэйшнл сэкюритис ҮЦК",
-  sudalgaa: "Судалгаа | Нэйшнл сэкюритис ҮЦК",
-  "sudalgaa-toim": "Долоо хоногийн тойм | Нэйшнл сэкюритис ҮЦК",
-  zaavar: "Хэрхэн эхлэх | Нэйшнл сэкюритис ҮЦК",
-  "zaavar-dansneeh": "Данс нээх | Нэйшнл сэкюритис ҮЦК",
-  "zaavar-mhb": "МХБ-ийн арилжаанд оролцох | Нэйшнл сэкюритис ҮЦК",
-  "zaavar-ipo": "IPO-д хэрхэн оролцох вэ | Нэйшнл сэкюритис ҮЦК",
-  "zaavar-mungu": "Мөнгө байршуулах, татах | Нэйшнл сэкюритис ҮЦК",
-  "zaavar-tsenegleh": "Данс цэнэглэх | Нэйшнл сэкюритис ҮЦК",
-  "zaavar-nogdol": "Ногдол ашиг авах | Нэйшнл сэкюритис ҮЦК",
-  "tog-hugjil": "Тогтвортой хөгжил | Нэйшнл сэкюритис ҮЦК",
-  "tog-hugjil-esg": "Тогтвортой хөгжлийн бодлого (ESG) | Нэйшнл сэкюритис ҮЦК",
-  "tog-hugjil-privacy": "Нууцлалын бодлого | Нэйшнл сэкюритис ҮЦК",
-  "tog-hugjil-terms": "Үйлчилгээний нөхцөл | Нэйшнл сэкюритис ҮЦК",
-  "holboo-barih": "Холбоо барих | Нэйшнл сэкюритис ҮЦК",
-  faq: "Түгээмэл асуулт хариулт | Нэйшнл сэкюритис ҮЦК",
-  "faq-1": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
-  "faq-2": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
-  "faq-3": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
-  "faq-4": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
-  "faq-5": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
-  "faq-6": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
-  "faq-7": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
-  "faq-8": "Түгээмэл асуулт | Нэйшнл сэкюритис ҮЦК",
-  "not-found": "Хуудас олдсонгүй | Нэйшнл сэкюритис ҮЦК",
-};
-
-function routeFromHash(): Route {
-  if (typeof window === "undefined") return "home";
-  const hash = window.location.hash.replace("#", "");
-  if (!hash) return "home";
-  // A stale or mistyped link used to land silently on the homepage, leaving
-  // the reader to work out for themselves that the page they wanted is gone.
-  return (ROUTES as readonly string[]).includes(hash)
-    ? (hash as Route)
-    : "not-found";
+export function navigate(route: Route) {
+  const path = pathOf(route);
+  if (path === window.location.pathname) return;
+  window.history.pushState(null, "", path);
+  window.dispatchEvent(new Event(ROUTE_EVENT));
 }
 
 /**
- * Hash routing, as in the design: every page lives in one document and the
- * fragment picks which one is mounted. The first render is always `home` so
- * server and client markup agree; the real route lands on mount.
+ * Path routing. Every route is its own exported HTML file, so the first render
+ * is already the right page — `initial` comes from the file the reader loaded,
+ * and server and client markup agree without a round trip through the DOM.
  */
-export function useRoute(): Route {
-  const [route, setRoute] = useState<Route>("home");
+export function useRoute(initial: Route): Route {
+  const [route, setRoute] = useState<Route>(initial);
   const firstRun = useRef(true);
 
   useEffect(() => {
-    const sync = () => setRoute(routeFromHash());
-    sync();
-    window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
+    // The site addressed its pages by fragment until the move to real paths.
+    // Anything bookmarked or shared before that still arrives as `/#broker`;
+    // rewrite it in place so the reader lands on the page they asked for and
+    // the old-style URL leaves no trace in the address bar.
+    const legacy = window.location.hash.replace("#", "");
+    if (legacy && isRoute(legacy)) {
+      window.history.replaceState(null, "", pathOf(legacy));
+      setRoute(legacy);
+    }
+
+    const sync = () => setRoute(routeFromPath(window.location.pathname));
+    window.addEventListener("popstate", sync);
+    window.addEventListener(ROUTE_EVENT, sync);
+    return () => {
+      window.removeEventListener("popstate", sync);
+      window.removeEventListener(ROUTE_EVENT, sync);
+    };
   }, []);
 
   useEffect(() => {
+    // The exported file already carries the right <title>; this keeps it true
+    // through the client-side navigations that follow.
     document.title = TITLES[route];
     // Every in-site navigation opens at the top — but the initial load keeps
     // whatever scroll position the browser restored. The jump is instant on
@@ -121,14 +69,10 @@ export function useRoute(): Route {
   return route;
 }
 
-export function navigate(route: Route) {
-  window.location.hash = route;
-}
-
 /**
- * The active route, shared. `useRoute()` owns a listener and the title/scroll
- * side effects, so it must be called exactly once; anything else that needs to
- * know where the reader is reads it from here.
+ * The active route, shared. `useRoute()` owns the listeners and the title and
+ * scroll side effects, so it must be called exactly once; anything else that
+ * needs to know where the reader is reads it from here.
  */
 const RouteContext = createContext<Route>("home");
 export const RouteProvider = RouteContext.Provider;
