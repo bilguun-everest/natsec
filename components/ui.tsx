@@ -9,13 +9,15 @@ export function Eyebrow({
   mn,
   en,
   style,
+  className,
 }: {
   mn: string;
   en: string;
   style?: CSSProperties;
+  className?: string;
 }) {
   return (
-    <div className="eyebrow" style={style}>
+    <div className={className ? `eyebrow ${className}` : "eyebrow"} style={style}>
       <T mn={mn} en={en} />
     </div>
   );

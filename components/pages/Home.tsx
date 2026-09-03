@@ -463,20 +463,25 @@ function Hero() {
       <div className="wrap">
         <div className="hero-grid">
           <div>
+            {/* The one eyebrow on the site that is not set in capitals.
+                Cyrillic loses more of its letterforms in caps than Latin does
+                — Ө, Ү, Ц and Ш all flatten towards rectangles — and this is
+                the most important sentence on the page to be able to read. */}
             <Eyebrow
+              className="eyebrow-lic"
               mn="Санхүүгийн зохицуулах хорооны тусгай зөвшөөрөлтэй"
               en="Licensed by the Financial Regulatory Commission"
             />
             <h1>
               {lang === "en" ? (
                 <>
-                  Your place in the
+                  Your place in the{" "}
                   <br />
                   <em>capital market</em>
                 </>
               ) : (
                 <>
-                  Хөрөнгийн зах зээл дээрх
+                  Хөрөнгийн зах зээл дээрх{" "}
                   <br />
                   <em>таны байр суурь</em>
                 </>
