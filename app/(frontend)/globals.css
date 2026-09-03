@@ -104,7 +104,12 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
 html{
-  scroll-behavior:smooth;
+  /* No `scroll-behavior:smooth` here. Applied to the root it animated *every*
+     scroll on the site, including the jump to the top of a new page — and
+     while that half-second of travel played out, the page being left was
+     already gone and the one arriving had not revealed itself yet. Every
+     scroll this code performs asks for `behavior:"instant"` explicitly. */
+
   /* Anchors land clear of the sticky header rather than under it. */
   scroll-padding-top:calc(var(--header-h) + 24px);
   -webkit-text-size-adjust:100%;
@@ -1515,13 +1520,20 @@ footer{
 /* ------------------------------------------------------------- 22 motion */
 /* `motion-ready` ships in the server-rendered class list, so nothing is ever
    hidden behind an animation that cannot run. */
+/* This used to start at `opacity:0` and wait for an IntersectionObserver.
+   Anything the observer had not reached was blank — so a fast scroll, or the
+   instant after a navigation, showed screenfuls of nothing. It moves only now:
+   every block is readable from the first paint and the motion is a settle
+   rather than an entrance. `reveal-fade` exists for grids and tables, where a
+   shift would break alignment; with the fade gone it has no motion left to
+   make, which is the right trade for never hiding a row. */
 .motion-ready .reveal{
-  opacity:0;transform:translateY(var(--rise));
-  transition:opacity .7s var(--ease-out),transform .7s var(--ease-out);
-  will-change:opacity,transform;
+  transform:translateY(var(--rise));
+  transition:transform .7s var(--ease-out);
+  will-change:transform;
 }
-.motion-ready .reveal.reveal-fade{transform:none}
-.motion-ready .reveal.is-visible{opacity:1;transform:none;will-change:auto}
+.motion-ready .reveal.reveal-fade{transform:none;transition:none}
+.motion-ready .reveal.is-visible{transform:none;will-change:auto}
 
 .page-view{animation:pageIn .45s var(--ease-out) both}
 @keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -1760,8 +1772,7 @@ a[aria-disabled="true"]{cursor:default}
 .deal-grid>*,.guide-tiles>*,.stats>*,.fgrid>*,.fcols>*,.bstep>*{min-width:0}
 
 @media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .motion-ready .reveal{opacity:1;transform:none;transition:none}
+  .motion-ready .reveal{transform:none;transition:none}
   .page-view,
   .motion-ready .hero .eyebrow,
   .motion-ready .hero h1,
