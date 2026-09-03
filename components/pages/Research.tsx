@@ -1,6 +1,6 @@
 "use client";
 
-import { T } from "@/components/lang";
+import { A, T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { Eyebrow, PendingLink, SecHead } from "@/components/ui";
 import type { ResearchItem, WeeklyItem } from "@/lib/content";
@@ -14,7 +14,7 @@ const CATEGORY_LABEL: Record<ResearchItem["category"], { mn: string; en: string 
 /** An entry with no file yet stays inert rather than linking nowhere. */
 function ItemLink({ href, children }: { href: string | null; children: React.ReactNode }) {
   if (!href) return <PendingLink>{children}</PendingLink>;
-  return <a href={href}>{children}</a>;
+  return <A href={href}>{children}</A>;
 }
 
 export default function Research({

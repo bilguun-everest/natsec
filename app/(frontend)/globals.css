@@ -481,14 +481,14 @@ header .wrap{max-width:1340px}
   background:var(--paper);border:1px solid var(--line);
   border-radius:var(--r-sm);padding:2px;gap:2px;flex-shrink:0;
 }
-.lang-switch button{
+.lang-switch a{
   font-family:var(--mono);font-size:var(--t-label);font-weight:600;letter-spacing:.06em;
   color:var(--grey);background:transparent;border:none;cursor:pointer;
   padding:6px 8px;line-height:1;border-radius:5px;
   transition:background .18s var(--ease),color .18s var(--ease);
 }
-.lang-switch button:hover{color:var(--navy)}
-.lang-switch button.active{background:#fff;color:var(--navy-900);box-shadow:var(--sh-1)}
+.lang-switch a:hover{color:var(--navy)}
+.lang-switch a.active{background:#fff;color:var(--navy-900);box-shadow:var(--sh-1)}
 
 /* Burger — three rules that fold into a cross. */
 .burger{

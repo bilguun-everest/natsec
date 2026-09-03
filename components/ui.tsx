@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type CSSProperties, type ReactNode } from "react";
-import { T, useLang } from "@/components/lang";
+import { A, T, useLang } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 
 /** Monospaced kicker with the short rule in front of it. */
@@ -136,11 +136,11 @@ export function PageNav({ prev, next }: { prev?: PageLink; next?: PageLink }) {
             <small>
               <T mn="ӨМНӨХ" en="Previous" />
             </small>
-            <a href={prev.href}>
+            <A href={prev.href}>
               {/* Non-breaking space keeps the arrow from orphaning onto its
                   own line when a label wraps. */}
               ← <T mn={prev.mn} en={prev.en} />
-            </a>
+            </A>
           </>
         )}
       </div>
@@ -150,9 +150,9 @@ export function PageNav({ prev, next }: { prev?: PageLink; next?: PageLink }) {
             <small>
               <T mn="ДАРААХ" en="Next" />
             </small>
-            <a href={next.href}>
+            <A href={next.href}>
               <T mn={next.mn} en={next.en} /> →
-            </a>
+            </A>
           </>
         )}
       </div>
@@ -171,9 +171,9 @@ export function StepDots({
   return (
     <div className="step-dots">
       {steps.map((step) => (
-        <a href={`/${step}/`} key={step}>
+        <A href={`/${step}/`} key={step}>
           <span className={step === active ? "active" : ""} />
-        </a>
+        </A>
       ))}
     </div>
   );
@@ -182,10 +182,10 @@ export function StepDots({
 /**
  * A link whose destination does not exist yet.
  *
- * It renders no `href` at all. An <a> without one is not a link: it cannot be
+ * It renders no `href` at all. An <A> without one is not a link: it cannot be
  * clicked into a dead end, and a crawler or a link checker does not count it
  * among the site's broken links — which is what `href="#"` had it doing. The
- * element stays an <a> so it keeps its styling, and `aria-disabled` tells a
+ * element stays an <A> so it keeps its styling, and `aria-disabled` tells a
  * screen reader what the title tells everyone else.
  */
 export function PendingLink({
@@ -199,14 +199,14 @@ export function PendingLink({
 }) {
   const { t } = useLang();
   return (
-    <a
+    <A
       className={className}
       role="link"
       aria-disabled="true"
       title={label ?? t("Удахгүй нэмэгдэнэ", "Coming soon")}
     >
       {children}
-    </a>
+    </A>
   );
 }
 
@@ -221,9 +221,9 @@ export function BackLink({
   en: string;
 }) {
   return (
-    <a href={href} className="guide-back">
+    <A href={href} className="guide-back">
       ← <T mn={mn} en={en} />
-    </a>
+    </A>
   );
 }
 

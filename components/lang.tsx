@@ -2,22 +2,26 @@
 
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
+  type AnchorHTMLAttributes,
   type ReactNode,
 } from "react";
+import {
+  LANGS,
+  ROUTE_EVENT,
+  langFromPath,
+  pathOf,
+  type Lang,
+} from "@/lib/routes";
+import { useCurrentRoute } from "@/components/router";
 
-export type Lang = "mn" | "en";
-
-const STORAGE_KEY = "natsec_lang";
+export type { Lang };
 
 interface LangValue {
   lang: Lang;
-  setLang: (lang: Lang) => void;
-  toggle: () => void;
   /** Pick the active string — for attributes (alt, aria-label, title). */
   t: (mn: string, en: string) => string;
 }
@@ -25,21 +29,32 @@ interface LangValue {
 const LangContext = createContext<LangValue | null>(null);
 
 /**
- * Site-wide MN/EN switch. Mongolian renders on the server (and for users
- * without JS); a stored preference is applied on mount, mirroring the
- * `lang`/`data-lang` attributes onto <html> the way the design does.
+ * Site-wide MN/EN switch, driven by the URL.
+ *
+ * The language used to live in `localStorage`, which meant both languages
+ * shared one address: a search engine saw a single Mongolian page, and an
+ * English link could not be shared. Each language has its own URL now —
+ * Mongolian on the bare paths, English under `/en/` — so the path is the only
+ * thing that decides, and `initial` comes from the page the reader loaded.
  */
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("mn");
+export function LanguageProvider({
+  initial,
+  children,
+}: {
+  initial: Lang;
+  children: ReactNode;
+}) {
+  const [lang, setLang] = useState<Lang>(initial);
 
   useEffect(() => {
-    let saved: Lang = "mn";
-    try {
-      saved = (localStorage.getItem(STORAGE_KEY) as Lang) || "mn";
-    } catch {
-      /* storage unavailable — stay on the default */
-    }
-    if (saved === "en") setLangState("en");
+    const sync = () => setLang(langFromPath(window.location.pathname));
+    sync();
+    window.addEventListener("popstate", sync);
+    window.addEventListener(ROUTE_EVENT, sync);
+    return () => {
+      window.removeEventListener("popstate", sync);
+      window.removeEventListener(ROUTE_EVENT, sync);
+    };
   }, []);
 
   useEffect(() => {
@@ -47,28 +62,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.documentElement.dataset.lang = lang;
   }, [lang]);
 
-  const setLang = useCallback((next: Lang) => {
-    setLangState(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      /* ignore */
-    }
-  }, []);
-
-  const toggle = useCallback(
-    () => setLang(lang === "mn" ? "en" : "mn"),
-    [lang, setLang],
-  );
-
   const value = useMemo<LangValue>(
-    () => ({
-      lang,
-      setLang,
-      toggle,
-      t: (mn: string, en: string) => (lang === "en" ? en : mn),
-    }),
-    [lang, setLang, toggle],
+    () => ({ lang, t: (mn: string, en: string) => (lang === "en" ? en : mn) }),
+    [lang],
   );
 
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
@@ -99,23 +95,57 @@ export function Tg() {
   return <span className="tg">₮</span>;
 }
 
-/** MN / EN segmented control, as it appears in the header. */
+/**
+ * MN / EN segmented control.
+ *
+ * Two real links to the same page in each language, rather than two buttons
+ * that swap a variable. They can be copied, opened in a new tab and followed
+ * by a crawler, and they work with no JavaScript at all.
+ */
 export function LangSwitch({ id }: { id?: string }) {
-  const { lang, setLang } = useLang();
+  const { lang } = useLang();
+  const route = useCurrentRoute();
   return (
     <div className="lang-switch" id={id}>
-      {(["mn", "en"] as const).map((option) => (
-        <button
+      {LANGS.map((option) => (
+        <a
           key={option}
-          type="button"
+          href={pathOf(route, option)}
+          hrefLang={option}
           data-lang-opt={option}
           className={lang === option ? "active" : undefined}
-          onClick={() => setLang(option)}
+          aria-current={lang === option ? "true" : undefined}
         >
           {option.toUpperCase()}
-        </button>
+        </a>
       ))}
     </div>
+  );
+}
+
+/**
+ * An internal link that keeps the reader in the language they are reading.
+ *
+ * Every href in the components is written as its Mongolian path; this adds the
+ * `/en` in front when the page is the English one. Doing it here rather than at
+ * seventy call sites means the exported English HTML links to English pages —
+ * which is what a crawler follows, and what a middle click gives a reader.
+ * External links, `tel:`, `mailto:` and the href-less placeholder pass through.
+ */
+export function A({
+  href,
+  children,
+  ...rest
+}: AnchorHTMLAttributes<HTMLAnchorElement>) {
+  const { lang } = useLang();
+  const to =
+    lang === "en" && href?.startsWith("/") && !/^\/en(\/|$)/.test(href)
+      ? `/en${href}`
+      : href;
+  return (
+    <a href={to} {...rest}>
+      {children}
+    </a>
   );
 }
 

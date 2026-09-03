@@ -3,16 +3,10 @@ import App from "@/components/App";
 import { getPageData } from "@/lib/page-data";
 import { TITLES, alternatesFor } from "@/lib/routes";
 
-/**
- * The Mongolian homepage.
- *
- * There is no server at runtime — cPanel serves files, and the only live thing
- * is `public/market.php`, which the browser polls for prices. So this component
- * runs exactly once, at build time.
- */
+/** The English homepage, at `/en/`. */
 export const metadata: Metadata = {
-  title: TITLES.home.mn,
-  alternates: { canonical: "/", languages: alternatesFor("home") },
+  title: TITLES.home.en,
+  alternates: { canonical: "/en/", languages: alternatesFor("home") },
 };
 
 export default async function Page() {

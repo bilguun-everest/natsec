@@ -11,7 +11,7 @@ import {
 } from "@/lib/routes";
 
 /**
- * Every Mongolian page that is not the homepage.
+ * Every English page that is not the homepage.
  *
  * `output: "export"` turns this into one HTML file per route, carrying that
  * page's own markup, its own <title> and its own `hreflang` pair. That is the
@@ -35,13 +35,13 @@ export async function generateMetadata({
   // The 404 is reachable at a real URL so Apache can serve it, but it is not a
   // page anyone should arrive at from a search result.
   if (route === "not-found") {
-    return { title: TITLES[route].mn, robots: { index: false, follow: false } };
+    return { title: TITLES[route].en, robots: { index: false, follow: false } };
   }
 
   return {
-    title: TITLES[route].mn,
+    title: TITLES[route].en,
     alternates: {
-      canonical: pathOf(route, "mn"),
+      canonical: pathOf(route, "en"),
       languages: alternatesFor(route),
     },
   };

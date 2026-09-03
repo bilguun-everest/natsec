@@ -1,6 +1,6 @@
 "use client";
 
-import { T, useLang } from "@/components/lang";
+import { A, T, useLang } from "@/components/lang";
 import { Reveal, useCountUp, useInView } from "@/components/motion";
 import MarketPanel from "@/components/MarketPanel";
 import { Eyebrow, SecHead } from "@/components/ui";
@@ -237,7 +237,7 @@ function Offer() {
           <div className="dtrip">
             {OFFER.map((entry, index) => (
               <Reveal
-                as="a"
+                as={A}
                 className="dcol"
                 href={entry.href}
                 key={entry.href}
@@ -296,7 +296,7 @@ function StartSteps() {
         <div className="bstep">
           {STEPS.map((step, index) => (
             <Reveal
-              as="a"
+              as={A}
               className="bs"
               href={step.href}
               key={step.href}
@@ -320,12 +320,12 @@ function StartSteps() {
         </div>
 
         <Reveal className="start-cta" delay={280}>
-          <a href={TRADING_URL} className="btn btn-p">
+          <A href={TRADING_URL} className="btn btn-p">
             <T mn="Данс нээх — 10 минут" en="Open Account — 10 min" />
-          </a>
-          <a href="/zaavar/" className="btn btn-o">
+          </A>
+          <A href="/zaavar/" className="btn btn-o">
             <T mn="Бүх заавар" en="All guides" />
-          </a>
+          </A>
         </Reveal>
       </div>
     </section>
@@ -349,20 +349,20 @@ function HomeFaq() {
         />
         <Reveal className="faq-list" delay={60}>
           {FAQ.slice(0, 5).map((entry) => (
-            <a className="faq-row" href={`/${entry.route}/`} key={entry.route}>
+            <A className="faq-row" href={`/${entry.route}/`} key={entry.route}>
               <span className="q">
                 <T mn={entry.question.mn} en={entry.question.en} />
               </span>
               <span className="arrow" aria-hidden="true">
                 →
               </span>
-            </a>
+            </A>
           ))}
         </Reveal>
         <Reveal delay={140} style={{ marginTop: 28 }}>
-          <a className="more" href="/faq/">
+          <A className="more" href="/faq/">
             <T mn="Бүх асуулт үзэх" en="See all questions" /> →
-          </a>
+          </A>
         </Reveal>
       </div>
     </section>
@@ -390,27 +390,27 @@ function ClosingCta() {
             />
           </p>
           <div className="cta-b">
-            <a href={TRADING_URL} className="btn btn-w btn-lg">
+            <A href={TRADING_URL} className="btn btn-w btn-lg">
               <T mn="Данс нээх" en="Open an account" />
-            </a>
-            <a href="/holboo-barih/" className="btn btn-g btn-lg">
+            </A>
+            <A href="/holboo-barih/" className="btn btn-g btn-lg">
               <T mn="Холбоо барих" en="Contact us" />
-            </a>
+            </A>
           </div>
           <div className="cta-meta">
             <div>
               <small>
                 <T mn="Утас" en="Phone" />
               </small>
-              <a href={`tel:${CONTACT.phones[0].dial}`}>
+              <A href={`tel:${CONTACT.phones[0].dial}`}>
                 {CONTACT.phones[0].label}
-              </a>
+              </A>
             </div>
             <div>
               <small>
                 <T mn="И-мэйл" en="Email" />
               </small>
-              <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+              <A href={`mailto:${CONTACT.email}`}>{CONTACT.email}</A>
             </div>
             <div>
               <small>
@@ -494,16 +494,16 @@ function Hero() {
               />
             </p>
             <div className="hero-cta">
-              <a href={TRADING_URL} className="btn btn-w btn-lg">
+              <A href={TRADING_URL} className="btn btn-w btn-lg">
                 <T mn="Данс нээх — 10 минут" en="Open Account — 10 min" />
-              </a>
+              </A>
               {/* "Данс шалгах" pointed at the same login URL as the button
                   beside it — one action wearing two names, and a reader could
                   fairly read "check account" as "check whether I am eligible".
                   The site has two account actions and this is the other one. */}
-              <a href={TRADING_URL} className="btn btn-g btn-lg">
+              <A href={TRADING_URL} className="btn btn-g btn-lg">
                 <T mn="Нэвтрэх" en="Log In" />
-              </a>
+              </A>
             </div>
             <div className="lic">
               <div>

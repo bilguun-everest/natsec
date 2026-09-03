@@ -1,6 +1,6 @@
 "use client";
 
-import { T } from "@/components/lang";
+import { A, T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { DetailPage, Eyebrow, List, PageNav, SecHead } from "@/components/ui";
 import { POLICIES, type Policy } from "@/lib/policies";
@@ -57,7 +57,7 @@ export default function Sustainability() {
         <div className="policy-grid">
           {POLICIES.map((policy, index) => (
             <Reveal
-              as="a"
+              as={A}
               className="policy-card"
               href={`/${policy.route}/`}
               key={policy.route}

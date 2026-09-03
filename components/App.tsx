@@ -2,7 +2,7 @@
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { useLang } from "@/components/lang";
+import { A, useLang } from "@/components/lang";
 import { MarketProvider } from "@/components/market";
 import { useEffect, useRef } from "react";
 import MarketTicker from "@/components/MarketTicker";
@@ -23,6 +23,7 @@ import WeeklyReview from "@/components/pages/WeeklyReview";
 import {
   RouteProvider,
   navigate,
+  langFromPath,
   routeFromPath,
   useRoute,
   type Route,
@@ -94,7 +95,7 @@ export default function App({
   const main = useRef<HTMLElement>(null);
   const first = useRef(true);
 
-  // Every link on the site is a real <a href="/broker/">: it survives a middle
+  // Every link on the site is a real anchor with a real path: it survives a middle
   // click, a crawler and a reader with no JavaScript. This turns the ones that
   // point at a page of ours into an in-place swap, so the site still navigates
   // without a reload. Anything else — a modified click, another tab, a file,
@@ -118,7 +119,7 @@ export default function App({
       if (next === "not-found") return;
 
       event.preventDefault();
-      navigate(next);
+      navigate(next, langFromPath(new URL(anchor.href).pathname));
     };
 
     document.addEventListener("click", onClick);
@@ -163,7 +164,7 @@ export default function App({
 }
 
 /**
- * A button, not an anchor. Moving focus is the whole job here, and an <a>
+ * A button, not an anchor. Moving focus is the whole job here, and an <A>
  * would also push a fragment onto a URL that is otherwise clean.
  */
 function SkipLink({ target }: { target: React.RefObject<HTMLElement | null> }) {

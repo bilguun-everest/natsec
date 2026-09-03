@@ -3,23 +3,29 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import {
   ROUTES,
+  ROUTE_EVENT,
   TITLES,
   isRoute,
+  langFromPath,
   pathOf,
   routeFromPath,
+  type Lang,
   type Route,
 } from "@/lib/routes";
 
-export { ROUTES, TITLES, pathOf, routeFromPath, type Route };
+export {
+  ROUTES,
+  ROUTE_EVENT,
+  TITLES,
+  langFromPath,
+  pathOf,
+  routeFromPath,
+  type Lang,
+  type Route,
+};
 
-/**
- * `history.pushState` fires no event of its own, so navigation raises this and
- * `useRoute` listens for it alongside the browser's own `popstate`.
- */
-const ROUTE_EVENT = "natsec:route";
-
-export function navigate(route: Route) {
-  const path = pathOf(route);
+export function navigate(route: Route, lang: Lang = "mn") {
+  const path = pathOf(route, lang);
   if (path === window.location.pathname) return;
   window.history.pushState(null, "", path);
   window.dispatchEvent(new Event(ROUTE_EVENT));
@@ -32,6 +38,10 @@ export function navigate(route: Route) {
  */
 export function useRoute(initial: Route): Route {
   const [route, setRoute] = useState<Route>(initial);
+  // Tracked only so the title can follow it: switching language changes the
+  // page's language without changing which page it is, and the title has to
+  // move with it.
+  const [lang, setLang] = useState<Lang>("mn");
   const firstRun = useRef(true);
 
   useEffect(() => {
@@ -41,11 +51,22 @@ export function useRoute(initial: Route): Route {
     // the old-style URL leaves no trace in the address bar.
     const legacy = window.location.hash.replace("#", "");
     if (legacy && isRoute(legacy)) {
-      window.history.replaceState(null, "", pathOf(legacy));
+      window.history.replaceState(
+        null,
+        "",
+        pathOf(legacy, langFromPath(window.location.pathname)),
+      );
       setRoute(legacy);
     }
 
-    const sync = () => setRoute(routeFromPath(window.location.pathname));
+    const sync = () => {
+      setRoute(routeFromPath(window.location.pathname));
+      setLang(langFromPath(window.location.pathname));
+    };
+    // Once on mount as well as on every navigation. `initial` already gives
+    // the right route, but nothing has told this hook which language the file
+    // it is hydrating was written in.
+    sync();
     window.addEventListener("popstate", sync);
     window.addEventListener(ROUTE_EVENT, sync);
     return () => {
@@ -55,13 +76,17 @@ export function useRoute(initial: Route): Route {
   }, []);
 
   useEffect(() => {
-    // The exported file already carries the right <title>; this keeps it true
-    // through the client-side navigations that follow.
-    document.title = TITLES[route];
+    // The exported file already carries the right <title>, so the first pass
+    // has nothing to correct; this keeps it true through the client-side
+    // navigations that follow, language switches included.
+    if (!firstRun.current) document.title = TITLES[route][lang];
+  }, [route, lang]);
+
+  useEffect(() => {
     // Every in-site navigation opens at the top — but the initial load keeps
-    // whatever scroll position the browser restored. The jump is instant on
-    // purpose: `html` smooth-scrolls, and animating a full page of travel
-    // before the new page fades in reads as lag, not polish.
+    // whatever scroll position the browser restored, and a language switch
+    // stays where the reader was. The jump is instant on purpose: animating a
+    // full page of travel before the new page arrives reads as lag.
     if (firstRun.current) firstRun.current = false;
     else window.scrollTo({ top: 0, behavior: "instant" });
   }, [route]);

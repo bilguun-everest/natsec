@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { LangSwitch, T, useLang } from "@/components/lang";
+import { A, LangSwitch, T, useLang } from "@/components/lang";
 import { sectionOf, useCurrentRoute } from "@/components/router";
 import { PendingLink } from "@/components/ui";
 import { TRADING_URL } from "@/lib/site";
@@ -198,7 +198,7 @@ export default function Header() {
   return (
     <header data-scrolled={scrolled}>
       <div className="wrap nav">
-        <a href="/" className="logo">
+        <A href="/" className="logo">
           <Image
             src="/logo.png"
             alt="«Нэйшнл сэкюритис ҮЦК» ХХК"
@@ -206,7 +206,7 @@ export default function Header() {
             height={109}
             priority
           />
-        </a>
+        </A>
 
         {/* `display:contents` on the drawer keeps the menu a direct flex item
             of the nav row on desktop; below the breakpoint the same wrapper
@@ -234,12 +234,12 @@ export default function Header() {
                 key={item.mn}
                 className={item.section === active ? "is-current" : undefined}
               >
-                <a
+                <A
                   href={item.href}
                   aria-current={item.section === active ? "page" : undefined}
                 >
                   <T mn={item.mn} en={item.en} />
-                </a>
+                </A>
                 {item.drop.length > 0 && (
                   <div
                     className="drop"
@@ -258,9 +258,9 @@ export default function Header() {
                           <T mn={entry.mn} en={entry.en} />
                         </PendingLink>
                       ) : (
-                        <a href={entry.href} key={`${entry.mn}-${index}`}>
+                        <A href={entry.href} key={`${entry.mn}-${index}`}>
                           <T mn={entry.mn} en={entry.en} />
-                        </a>
+                        </A>
                       ),
                     )}
                   </div>
@@ -273,12 +273,12 @@ export default function Header() {
               the primary button is dropped from the header entirely. Both
               belong here, where there is room for them. */}
           <div className="drawer-foot">
-            <a href={TRADING_URL} className="btn btn-p">
+            <A href={TRADING_URL} className="btn btn-p">
               <T mn="Данс нээх" en="Open Account" />
-            </a>
-            <a href={TRADING_URL} className="btn btn-o">
+            </A>
+            <A href={TRADING_URL} className="btn btn-o">
               <T mn="Нэвтрэх" en="Log In" />
-            </a>
+            </A>
           </div>
         </div>
 
@@ -289,18 +289,18 @@ export default function Header() {
               who does and is only passing through on the way to the platform.
               Two solid buttons never fit this row — and they would have asked
               the same question twice. */}
-          <a href={TRADING_URL} className="act-login">
+          <A href={TRADING_URL} className="act-login">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M10 17l5-5-5-5" />
               <path d="M15 12H3" />
               <path d="M15 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4" />
             </svg>
             <T mn="Нэвтрэх" en="Log In" />
-          </a>
+          </A>
           <LangSwitch id="langSwitchHeader" />
-          <a href={TRADING_URL} className="btn btn-p">
+          <A href={TRADING_URL} className="btn btn-p">
             <T mn="Данс нээх" en="Open Account" />
-          </a>
+          </A>
           <button
             className="burger"
             aria-label={t("Цэс нээх", "Open menu")}

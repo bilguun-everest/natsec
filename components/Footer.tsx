@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Fragment } from "react";
-import { T, useLang } from "@/components/lang";
+import { A, T, useLang } from "@/components/lang";
 import { PendingLink } from "@/components/ui";
 import { APP_STORE_URL, CONTACT } from "@/lib/site";
 
@@ -130,13 +130,13 @@ export default function Footer() {
                 {CONTACT.phones.map((phone, index) => (
                   <Fragment key={phone.dial}>
                     {index > 0 && ", "}
-                    <a href={`tel:${phone.dial}`}>{phone.label}</a>
+                    <A href={`tel:${phone.dial}`}>{phone.label}</A>
                   </Fragment>
                 ))}
               </span>
               <span>
                 <T mn="И-мэйл:" en="Email:" />{" "}
-                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+                <A href={`mailto:${CONTACT.email}`}>{CONTACT.email}</A>
               </span>
             </p>
             <div className="soc">
@@ -154,7 +154,7 @@ export default function Footer() {
               </PendingLink>
             </div>
             <div className="fapps">
-              <a
+              <A
                 href={APP_STORE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -168,7 +168,7 @@ export default function Footer() {
                   </small>
                   <b>App Store</b>
                 </span>
-              </a>
+              </A>
               <PendingLink
                 label={t("Google Play — удахгүй", "Google Play — coming soon")}
               >
@@ -206,9 +206,9 @@ export default function Footer() {
                 <ul>
                   {column.links.map((link) => (
                     <li key={`${link.href}-${link.mn}`}>
-                      <a href={link.href}>
+                      <A href={link.href}>
                         <T mn={link.mn} en={link.en} />
-                      </a>
+                      </A>
                     </li>
                   ))}
                 </ul>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment } from "react";
-import { T } from "@/components/lang";
+import { A, T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { SecHead } from "@/components/ui";
 import { CONTACT } from "@/lib/site";
@@ -35,7 +35,7 @@ export default function Contact() {
                 {CONTACT.phones.map((phone, index) => (
                   <Fragment key={phone.dial}>
                     {index > 0 && ", "}
-                    <a href={`tel:${phone.dial}`}>{phone.label}</a>
+                    <A href={`tel:${phone.dial}`}>{phone.label}</A>
                   </Fragment>
                 ))}
               </span>
@@ -45,7 +45,7 @@ export default function Contact() {
                 <T mn="И-мэйл" en="Email" />
               </b>
               <span>
-                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+                <A href={`mailto:${CONTACT.email}`}>{CONTACT.email}</A>
               </span>
             </div>
           </Reveal>

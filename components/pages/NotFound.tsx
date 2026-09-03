@@ -1,6 +1,6 @@
 "use client";
 
-import { T } from "@/components/lang";
+import { A, T } from "@/components/lang";
 import { SecHead } from "@/components/ui";
 
 /**
@@ -21,15 +21,15 @@ export default function NotFound() {
           }}
         />
         <div className="nf-links">
-          <a href="/" className="btn btn-p">
+          <A href="/" className="btn btn-p">
             <T mn="Нүүр хуудас" en="Home" />
-          </a>
-          <a href="/zaavar/" className="btn btn-o">
+          </A>
+          <A href="/zaavar/" className="btn btn-o">
             <T mn="Заавар" en="Guides" />
-          </a>
-          <a href="/holboo-barih/" className="btn btn-o">
+          </A>
+          <A href="/holboo-barih/" className="btn btn-o">
             <T mn="Холбоо барих" en="Contact" />
-          </a>
+          </A>
         </div>
       </div>
     </section>

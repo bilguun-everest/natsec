@@ -1,6 +1,6 @@
 "use client";
 
-import { T } from "@/components/lang";
+import { A, T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { SecHead } from "@/components/ui";
 import { CONTACT } from "@/lib/site";
@@ -31,12 +31,12 @@ export default function Faq() {
 
         <Reveal className="faq-box" delay={60}>
           {FAQ.map((entry) => (
-            <a className="faq-tile" href={`/${entry.route}/`} key={entry.route}>
+            <A className="faq-tile" href={`/${entry.route}/`} key={entry.route}>
               <span className="q">
                 <T mn={entry.question.mn} en={entry.question.en} />
               </span>
               <span className="arrow">→</span>
-            </a>
+            </A>
           ))}
         </Reveal>
 
@@ -50,9 +50,9 @@ export default function Faq() {
               en={`Our client services team is on ${CONTACT.phones[0].label} and ${CONTACT.email}, ready to help.`}
             />
           </p>
-          <a href="/holboo-barih/" className="btn btn-o" style={{ marginTop: 14 }}>
+          <A href="/holboo-barih/" className="btn btn-o" style={{ marginTop: 14 }}>
             <T mn="Холбоо барих" en="Contact us" />
-          </a>
+          </A>
         </Reveal>
       </div>
     </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import { T } from "@/components/lang";
+import { A, T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { PendingLink, SecHead } from "@/components/ui";
 import type { ReportItem } from "@/lib/content";
@@ -35,9 +35,9 @@ export default function Reports({ reports }: { reports: ReportItem[] }) {
                 en="Audited annual and quarterly statements will be available to download here. Until then, contact us if you would like a copy."
               />
             </p>
-            <a className="more" href="/holboo-barih/">
+            <A className="more" href="/holboo-barih/">
               <T mn="Холбоо барих" en="Contact us" /> →
-            </a>
+            </A>
           </Reveal>
         ) : (
           <ul className="report-list" style={{ maxWidth: 640 }}>
@@ -50,9 +50,9 @@ export default function Reports({ reports }: { reports: ReportItem[] }) {
                   <span className="yr">{report.year}</span>
                 </div>
                 {report.url ? (
-                  <a className="dl" href={report.url} download>
+                  <A className="dl" href={report.url} download>
                     <T mn="Татах ↓" en="Download ↓" />
-                  </a>
+                  </A>
                 ) : (
                   <PendingLink className="dl">
                     <T mn="Татах ↓" en="Download ↓" />

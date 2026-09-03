@@ -1,6 +1,6 @@
 "use client";
 
-import { T } from "@/components/lang";
+import { A, T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { List, SecHead } from "@/components/ui";
 
@@ -157,9 +157,9 @@ export default function Services() {
                 <T mn={service.lead.mn} en={service.lead.en} />
               </p>
               <List items={service.items} />
-              <a href={service.href} className="more">
+              <A href={service.href} className="more">
                 <T mn="Дэлгэрэнгүй →" en="Learn more →" />
-              </a>
+              </A>
             </Reveal>
           ))}
         </div>

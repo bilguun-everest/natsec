@@ -1,6 +1,6 @@
 "use client";
 
-import { T } from "@/components/lang";
+import { A, T } from "@/components/lang";
 import { Reveal } from "@/components/motion";
 import { SecHead } from "@/components/ui";
 import { GUIDES } from "@/lib/guides";
@@ -27,7 +27,7 @@ export default function Guides() {
         <div className="guide-tiles">
           {GUIDES.map((guide, index) => (
             <Reveal
-              as="a"
+              as={A}
               className="guide-tile"
               href={`/${guide.route}/`}
               key={guide.route}
