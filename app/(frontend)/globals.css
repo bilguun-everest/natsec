@@ -194,19 +194,29 @@ h5{font-weight:600}
   :root{--align-body:left}
 }
 
-/* Characters per line, measured: .disclaim 166 · .notice-box p 149 ·
-   .mp-note 104 · .gbody p 98 · .mp-lead 86 · .bank-note 82 · .about-copy p 74
-   · .empty-panel p 74 · .subsvc-card p 73 · .sec-h p 70 · .article-body p 68
-   · .svc-c p 66 · .lead 60 · .rbox>p 51 · .faq-box>p 50 · .dcol p 46
-   · .policy-card p 43 · .bs p 42.
+/* Which blocks justify, decided by measurement rather than by column width.
+   Every justified element on the home and About pages was measured at 1440px
+   for how far the browser had to stretch a word space, against that face's
+   natural space at the same size:
 
-   The bottom half of that list is under the measure justification wants, and
-   the short ones do open gaps — the hero standfirst at 60 and the start steps
-   at 42 are the two to look at if this ever reads wrong. They are in anyway:
-   asked for, seen, and kept. */
-.lead,.sec-h p,.svc-c p,.subsvc-card p,.about-copy p,.gbody p,.dcol p,.bs p,
-.empty-panel p,.notice-box p,.policy-card p,.rbox>p,.faq-box>p,.qa p,
-.article-body p,.disclaim,.bank-note,
+     .disclaim            1.22x     long-form prose, invisible
+     .about-copy p        1.30x     long-form prose, invisible
+     .lead                5.30x     hero standfirst
+     .svc-c p / .sec-h p  2.4-7.3x  service cards
+     .bs p                3.5-8.4x  the three start steps
+
+   Characters per line turned out to be the wrong proxy. The counts recorded
+   here before — .svc-c p at 66, .subsvc-card p at 73 — are the source text,
+   not the rendered line: those cards wrap to nearer 28 characters on screen,
+   and at three or four words a line there are too few gaps to absorb the
+   slack, so the browser puts it all into two of them. Prose blocks running
+   the width of the page have enough spaces per line that nobody sees it.
+
+   So the rule is prose, not width: paragraphs that read as running text keep
+   justification, and anything set inside a card, a step or a standfirst is
+   ragged. Justification was asked for and is kept where it works. */
+.about-copy p,.gbody p,.notice-box p,.article-body p,.qa p,
+.disclaim,.bank-note,
 .modal-paper>.mp-lead,.modal-paper .mp-note{
   text-align:var(--align-body);text-justify:inter-word;
 }
