@@ -269,10 +269,9 @@ export default function Header() {
             ))}
           </ul>
 
-          {/* The two account actions the header cannot always show: below
-              420px the primary button is dropped from the bar entirely, and
-              "Log In" lives in the utility strip, which is itself thinned out
-              on a phone. Both belong here, where there is room for them. */}
+          {/* The two account actions the bar cannot always show: below 420px
+              the primary button is dropped from the header entirely. Both
+              belong here, where there is room for them. */}
           <div className="drawer-foot">
             <a href={TRADING_URL} className="btn btn-p">
               <T mn="Данс нээх" en="Open Account" />
@@ -284,11 +283,21 @@ export default function Header() {
         </div>
 
         <div className="act">
+          {/* Both account actions live here now that the utility strip is
+              gone. They are deliberately different shapes: a solid button for
+              the reader who has no account yet, and a quiet link for the one
+              who does and is only passing through on the way to the platform.
+              Two solid buttons never fit this row — and they would have asked
+              the same question twice. */}
+          <a href={TRADING_URL} className="act-login">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10 17l5-5-5-5" />
+              <path d="M15 12H3" />
+              <path d="M15 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4" />
+            </svg>
+            <T mn="Нэвтрэх" en="Log In" />
+          </a>
           <LangSwitch id="langSwitchHeader" />
-          {/* "Log In" lives in the utility bar now. Six Mongolian section
-              labels plus two buttons did not fit the row at any width, and of
-              the two actions, the one worth the header is the one for people
-              who do not have an account yet. */}
           <a href={TRADING_URL} className="btn btn-p">
             <T mn="Данс нээх" en="Open Account" />
           </a>

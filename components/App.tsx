@@ -6,7 +6,6 @@ import { useLang } from "@/components/lang";
 import { MarketProvider } from "@/components/market";
 import { useEffect, useRef } from "react";
 import MarketTicker from "@/components/MarketTicker";
-import UtilityBar from "@/components/UtilityBar";
 import About from "@/components/pages/About";
 import Advisory from "@/components/pages/Advisory";
 import Contact from "@/components/pages/Contact";
@@ -144,7 +143,6 @@ export default function App({
     <MarketProvider initial={snapshot} initialSession={session}>
       <RouteProvider value={route}>
         <SkipLink target={main} />
-        <UtilityBar />
         <Header />
         {/* Keyed on the route so React remounts on navigation — that restarts
             both the enter animation and every scroll reveal on the new page. */}

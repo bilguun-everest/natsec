@@ -73,7 +73,10 @@
   --wrap:1200px;
   --gutter:clamp(20px,4vw,40px);
   --sp-section:clamp(72px,8vw,120px);
-  --header-h:74px;
+  /* Was 74, and sat under a 36px utility strip — 110px of chrome pinned to
+     the top of every page. The strip is gone and the bar itself is tighter;
+     the 42px logo sets the floor. */
+  --header-h:64px;
 
   /* Motion — one curve, one distance, everywhere. */
   --ease:cubic-bezier(.22,.61,.36,1);
@@ -166,7 +169,7 @@ h5{font-weight:600}
 
 /* Every figure on the site is a figure you might compare with the one above
    it, so all of them line up. */
-.mono,.tick-v,.stat b,table.co td,.co-num,.mkt-ticker .item,.util-fig{
+.mono,.tick-v,.stat b,table.co td,.co-num,.mkt-ticker .item{
   font-variant-numeric:tabular-nums;
 }
 
@@ -330,37 +333,6 @@ section{padding:var(--sp-section) 0}
 }
 .more:hover{gap:11px;color:var(--blue-700)}
 
-/* ------------------------------------------------------- 06 top utility bar */
-.util{
-  background:var(--navy-950);
-  color:var(--on-dark-2);
-  font-size:12.5px;
-  border-bottom:1px solid rgba(255,255,255,.07);
-}
-.util .wrap{display:flex;justify-content:space-between;align-items:center;height:36px;gap:20px}
-.util a{color:var(--on-dark-2);transition:color .16s var(--ease)}
-.util a:hover{color:#fff}
-.util-l{display:flex;gap:24px;align-items:center;min-width:0}
-.util-r{display:flex;gap:20px;align-items:center}
-.util a{white-space:nowrap}
-.util-fig{display:inline-flex;align-items:center;gap:7px;color:var(--on-dark-3);white-space:nowrap}
-.util-fig b{color:#fff;font-weight:500;font-family:var(--mono);font-size:12px}
-
-/* The account entrance. It reads as an action rather than a nav link, because
-   in the header it was a button and readers look for it by shape. */
-.util-login{
-  display:inline-flex;align-items:center;gap:7px;
-  color:#fff!important;font-weight:500;
-  padding:4px 11px;border-radius:var(--r-xs);
-  border:1px solid rgba(255,255,255,.18);
-  background:rgba(255,255,255,.05);
-  transition:background .18s var(--ease),border-color .18s var(--ease);
-}
-.util-login:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.4)}
-.util-login svg{
-  width:13px;height:13px;flex-shrink:0;
-  fill:none;stroke:var(--blue-300);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
-}
 
 .live-dot{
   width:6px;height:6px;border-radius:50%;background:var(--up-dark);
@@ -393,7 +365,7 @@ header[data-scrolled="true"]{
 /* Wider than the text column on purpose. The measured row — logo 191, menu
    730, actions 199 — does not fit inside 1200px, and a header bar that spans
    past the prose reads as chrome rather than as another column. */
-header .wrap,.util .wrap{max-width:1340px}
+header .wrap{max-width:1340px}
 .nav{display:flex;align-items:center;justify-content:space-between;height:var(--header-h);gap:18px;min-width:0}
 
 
@@ -470,6 +442,20 @@ header .wrap,.util .wrap{max-width:1340px}
 .drop .grp:first-child{padding-top:8px}
 
 .act{display:flex;gap:10px;align-items:center;flex-shrink:0}
+
+/* The way back in for people who already have an account. A link, not a second
+   button: the row has one primary action and this is not it. */
+.act-login{
+  display:inline-flex;align-items:center;gap:6px;flex-shrink:0;
+  font-size:13.5px;font-weight:500;color:var(--grey);white-space:nowrap;
+  transition:color .16s var(--ease);
+}
+.act-login:hover{color:var(--blue-700)}
+.act-login svg{
+  width:14px;height:14px;flex-shrink:0;
+  fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
 
 .lang-switch{
   display:flex;align-items:center;
@@ -1591,37 +1577,23 @@ footer{
 @keyframes softIn{from{opacity:0}to{opacity:1}}
 
 /* ------------------------------------------------------- 23 responsive */
-/* The utility strip is a fixed 36px, and its contents wrap onto a second line
-   long before the page itself gets tight. They drop in order of what they are
-   worth: the longest link first, then the rest of the right group, then the
-   freshness readout — leaving the index and the way in, which are the two
-   reasons the bar exists. */
-@media(max-width:1100px){
-  .util-r a[href="#tog-hugjil"]{display:none}
-}
-@media(max-width:900px){
-  .util-r a:not(.util-login){display:none}
-}
-@media(max-width:560px){
-  .util-l .util-fig+.util-fig{display:none}
-}
 
-
-/* Re-measured after "Хэрхэн эхлэх" moved into the Customer Support menu: the
-   five remaining items are 617px where six were 730, so the row needs
-   191 + 617 + 200 plus its two 18px gaps = 1044px of bar, and the 1340px
-   container supplies that from 1124px of viewport up (the gutter is pinned at
-   40 by then). The handover therefore moves 1259 -> 1159, which keeps 36px in
-   hand and gives the full bar back to 1152 and 1180-wide screens. Below it the
-   header hands over to the drawer rather than letting the menu run into the
-   logo. Re-measure here rather than nudging font sizes if the nav changes
-   again. */
+/* Re-measured after "Log In" came back into the bar from the deleted utility
+   strip. The five menu items are still 617px, but the action group went from
+   200 to 285, so the row now needs 191 + 617 + 285 plus its two 18px gaps.
+   Measured against the built site rather than calculated: the menu sits
+   uncompressed at 1260 and is being squeezed by 1220, so the handover goes
+   back to 1259 — where it was before "Хэрхэн эхлэх" moved into the Customer
+   Support menu and briefly bought the room. Below it the header hands over to
+   the drawer rather than letting the menu run into the logo, and the drawer
+   carries both account actions. Re-measure here rather than nudging font
+   sizes if the nav changes again. */
 /* The drawer is a full-height overlay rather than a panel hung off the bottom
    of the header. The header's own offset changes as the utility strip scrolls
    away, so anything positioned against it lands wrong at one scroll position
    or the other; covering the viewport is the only offset that is always
    right — and it leaves room for the account actions the bar has to drop. */
-@media(max-width:1159px){
+@media(max-width:1259px){
   .burger{display:flex}
 
   .drawer{
@@ -1728,7 +1700,15 @@ footer{
 }
 
 @media(max-width:640px){
-  :root{--header-h:66px}
+  /* The header runs out of room here: logo, language switch, the account
+     button and the burger already fill the bar, and adding "Log In" pushed it
+     past the viewport at 480 and below. The drawer carries both account
+     actions, so this is a hide rather than a loss. */
+  .act-login{display:none}
+  /* 66 while the desktop bar was 74; a phone header taller than the desktop
+     one is backwards now that the desktop bar is 64. The 34px logo and the
+     40px button set the floor. */
+  :root{--header-h:60px}
   .logo img{height:34px}
   .act{gap:8px}
   .act .btn-p{padding:11px 15px;font-size:13.5px}
@@ -1807,7 +1787,7 @@ a[aria-disabled="true"]{cursor:default}
 
 @media print{
   .reveal{opacity:1!important;transform:none!important}
-  .mkt-ticker,.util,header,.skip-link,.nav-scrim{display:none}
+  .mkt-ticker,header,.skip-link,.nav-scrim{display:none}
   .hero,.cta,footer{background:#fff!important;color:#000!important}
   .hero h1,.cta h2{color:#000!important}
 }
