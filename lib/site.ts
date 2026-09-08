@@ -2,8 +2,9 @@
 export const TRADING_URL = "https://natsec.istock.mn/auth/login";
 
 /**
- * The iOS app. There is no Android build yet, which is why the Google Play
- * tile in the footer stays a `PendingLink` rather than pointing somewhere.
+ * The iOS app, and the only one. The footer used to carry a Google Play tile
+ * beside it with nothing behind it; a store badge for an app that does not
+ * exist is a promise, not a placeholder, so it is gone rather than pending.
  */
 export const APP_STORE_URL =
   "https://apps.apple.com/mn/app/natsec/id1508977939";

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { Fragment } from "react";
 import { A, T, useLang } from "@/components/lang";
-import { PendingLink } from "@/components/ui";
 import { APP_STORE_URL, CONTACT, SOCIAL } from "@/lib/site";
 
 /** Same order, same contents as the header menu — one site map, not two. */
@@ -181,28 +180,6 @@ export default function Footer() {
                   <b>App Store</b>
                 </span>
               </A>
-              <PendingLink
-                label={t("Google Play — удахгүй", "Google Play — coming soon", "Google Play — 近日公開")}
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M3.6 2.2c-.4.4-.6.9-.6 1.6v16.4c0 .7.2 1.2.6 1.6l.1.1L13 12.6v-.2L3.7 2.1l-.1.1z" />
-                  <path
-                    d="M16.1 15.7l-3.1-3.1v-.2l3.1-3.1 3.5 2c1 .6 1 1.5 0 2.1l-3.5 2.3z"
-                    fillOpacity=".7"
-                  />
-                  <path d="M16.1 15.7l-3.1-3.2L3.6 21.8c.4.4.9.4 1.6.1l10.9-6.2z" />
-                  <path
-                    d="M16.1 8.3L5.2 2.1c-.7-.3-1.2-.3-1.6.1l9.4 9.3 3.1-3.2z"
-                    fillOpacity=".85"
-                  />
-                </svg>
-                <span className="txt">
-                  <small>
-                    <T mn="Татах" en="Get it on" ja="手に入れよう" />
-                  </small>
-                  <b>Google Play</b>
-                </span>
-              </PendingLink>
             </div>
           </div>
 
