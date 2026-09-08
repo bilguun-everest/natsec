@@ -1,6 +1,7 @@
 import { getPayload } from "payload";
 import config from "@payload-config";
 import type { Bi } from "@/lib/guides";
+import type { Lang } from "@/lib/routes";
 
 /**
  * Server-side reads of the editable content. Everything here returns plain
@@ -37,17 +38,17 @@ export interface SiteContent {
   reports: ReportItem[];
 }
 
-/** Payload hands back `{ mn, en }` under `locale: "all"`; missing values fall
- *  back to Mongolian, so a half-translated entry still renders. */
+/** Payload hands back `{ mn, en, ja }` under `locale: "all"`; missing values
+ *  fall back to Mongolian, so a half-translated entry still renders. */
 function bi(value: unknown): Bi {
-  const pair = (value ?? {}) as Partial<Record<"mn" | "en", string>>;
+  const pair = (value ?? {}) as Partial<Record<Lang, string>>;
   const mn = pair.mn ?? pair.en ?? "";
-  return { mn, en: pair.en || mn };
+  return { mn, en: pair.en || mn, ja: pair.ja || mn };
 }
 
 function biOrNull(value: unknown): Bi | null {
   const pair = bi(value);
-  return pair.mn || pair.en ? pair : null;
+  return pair.mn || pair.en || pair.ja ? pair : null;
 }
 
 function formatDate(iso: string | null | undefined): string {

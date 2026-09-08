@@ -13,26 +13,26 @@ import { CONTACT, TRADING_URL } from "@/lib/site";
  * 26–30: two of them wrapped and two did not, which left the row with a ragged
  * bottom edge and no obvious reason for it.
  */
-const STATS: { value: string; mn: string; en: string }[] = [
+const STATS: { value: string; mn: string; en: string; ja: string }[] = [
   {
     value: "19",
     mn: "Жил тасралтгүй ажилласан",
-    en: "Years in operation",
+    en: "Years in operation", ja: "継続営業年数",
   },
   {
     value: "18,400+",
     mn: "Идэвхтэй харилцагчийн данс",
-    en: "Active client accounts",
+    en: "Active client accounts", ja: "稼働中のお客様口座",
   },
   {
     value: "640",
     mn: "Жилийн арилжаа, тэрбум\u00A0₮",
-    en: "Annual trading, bn\u00A0₮",
+    en: "Annual trading, bn\u00A0₮", ja: "年間取引高（十億₮）",
   },
   {
     value: "27",
     mn: "Зохион байгуулсан IPO, бонд",
-    en: "IPOs and bonds arranged",
+    en: "IPOs and bonds arranged", ja: "引き受けたIPO・社債",
   },
 ];
 
@@ -46,9 +46,9 @@ const STATS: { value: string; mn: string; en: string }[] = [
 const OFFER: {
   href: string;
   icon: React.ReactNode;
-  title: { mn: string; en: string };
-  body: { mn: string; en: string };
-  items: { mn: string; en: string }[];
+  title: { mn: string; en: string; ja: string };
+  body: { mn: string; en: string; ja: string };
+  items: { mn: string; en: string; ja: string }[];
 }[] = [
   {
     href: "/broker/",
@@ -60,15 +60,15 @@ const OFFER: {
         <path d="M17 20v-7" />
       </>
     ),
-    title: { mn: "Брокер", en: "Broker" },
+    title: { mn: "Брокер", en: "Broker", ja: "ブローカー" },
     body: {
       mn: "МХБ-ийн арилжааны системтэй шууд холбогдсон платформоор хоцрогдолгүй арилжаа хийнэ.",
-      en: "Trade without delay through a platform connected directly to the MSE trading system.",
+      en: "Trade without delay through a platform connected directly to the MSE trading system.", ja: "MSEの取引システムに直結したプラットフォームで、遅延なく取引できます。",
     },
     items: [
-      { mn: "Онлайн арилжааны систем", en: "Online trading system" },
-      { mn: "Хувьцаа, бонд, ЗГҮЦ", en: "Equities, bonds, government paper" },
-      { mn: "Номинал дансны үйлчилгээ", en: "Nominee account services" },
+      { mn: "Онлайн арилжааны систем", en: "Online trading system", ja: "オンライン取引システム" },
+      { mn: "Хувьцаа, бонд, ЗГҮЦ", en: "Equities, bonds, government paper", ja: "株式・社債・国債" },
+      { mn: "Номинал дансны үйлчилгээ", en: "Nominee account services", ja: "ノミニー口座サービス" },
     ],
   },
   {
@@ -81,15 +81,15 @@ const OFFER: {
         <path d="M10 11h4" />
       </>
     ),
-    title: { mn: "Андеррайтер", en: "Underwriter" },
+    title: { mn: "Андеррайтер", en: "Underwriter", ja: "引受業務" },
     body: {
       mn: "Компанийн хувьцаа, бондыг зах зээлд гаргах бүх үе шатыг хариуцна.",
-      en: "We manage every stage of bringing a company's shares or bonds to market.",
+      en: "We manage every stage of bringing a company's shares or bonds to market.", ja: "企業の株式・社債を市場に出すまでの全段階を担います。",
     },
     items: [
-      { mn: "Хувьцааны санхүүжилт (IPO, FPO)", en: "Equity financing (IPO, FPO)" },
-      { mn: "Бондын санхүүжилт", en: "Bond financing" },
-      { mn: "Зах зээлд бүртгүүлэх бэлтгэл", en: "Listing preparation" },
+      { mn: "Хувьцааны санхүүжилт (IPO, FPO)", en: "Equity financing (IPO, FPO)", ja: "株式による資金調達（IPO・FPO）" },
+      { mn: "Бондын санхүүжилт", en: "Bond financing", ja: "社債による資金調達" },
+      { mn: "Зах зээлд бүртгүүлэх бэлтгэл", en: "Listing preparation", ja: "上場準備" },
     ],
   },
   {
@@ -100,15 +100,15 @@ const OFFER: {
         <path d="M15.5 8.5l-2 5.5-5.5 2 2-5.5z" />
       </>
     ),
-    title: { mn: "Хөрөнгө оруулалтын зөвлөх", en: "Investment Advisory" },
+    title: { mn: "Хөрөнгө оруулалтын зөвлөх", en: "Investment Advisory", ja: "投資助言" },
     body: {
       mn: "Эрсдэл даах чадвар, зорилгод тань тохирсон багц бүрдүүлж, тогтмол хянана.",
-      en: "We build a portfolio suited to your risk tolerance and goals, and monitor it continuously.",
+      en: "We build a portfolio suited to your risk tolerance and goals, and monitor it continuously.", ja: "お客様のリスク許容度と目標に合ったポートフォリオを構築し、継続的にモニタリングします。",
     },
     items: [
-      { mn: "Багцын зөвлөх үйлчилгээ", en: "Portfolio advisory" },
-      { mn: "Хувийн санхүүжилт", en: "Personal financing" },
-      { mn: "Нэгдэл, өөрчлөн байгуулалт", en: "M&A and restructuring" },
+      { mn: "Багцын зөвлөх үйлчилгээ", en: "Portfolio advisory", ja: "ポートフォリオ助言" },
+      { mn: "Хувийн санхүүжилт", en: "Personal financing", ja: "個人向け資金計画" },
+      { mn: "Нэгдэл, өөрчлөн байгуулалт", en: "M&A and restructuring", ja: "M&A・組織再編" },
     ],
   },
 ];
@@ -120,35 +120,35 @@ const OFFER: {
  */
 const STEPS: {
   href: string;
-  time: { mn: string; en: string };
-  title: { mn: string; en: string };
-  body: { mn: string; en: string };
+  time: { mn: string; en: string; ja: string };
+  title: { mn: string; en: string; ja: string };
+  body: { mn: string; en: string; ja: string };
 }[] = [
   {
     href: "/zaavar-dansneeh/",
-    time: { mn: "10 минут", en: "10 minutes" },
-    title: { mn: "Данс нээх", en: "Open an account" },
+    time: { mn: "10 минут", en: "10 minutes", ja: "10分" },
+    title: { mn: "Данс нээх", en: "Open an account", ja: "口座を開設する" },
     body: {
       mn: "Онлайнаар бүртгэлээ бөглөж, иргэний үнэмлэхээ хавсаргана. Баталгаажуулалт 24 цагийн дотор.",
-      en: "Fill in the form online and attach your ID. Verification takes place within 24 hours.",
+      en: "Fill in the form online and attach your ID. Verification takes place within 24 hours.", ja: "オンラインで登録フォームに記入し、身分証を添付します。確認は24時間以内に完了します。",
     },
   },
   {
     href: "/zaavar-tsenegleh/",
-    time: { mn: "Тэр өдөртөө", en: "Same day" },
-    title: { mn: "Мөнгө байршуулах", en: "Add money" },
+    time: { mn: "Тэр өдөртөө", en: "Same day", ja: "当日中" },
+    title: { mn: "Мөнгө байршуулах", en: "Add money", ja: "入金" },
     body: {
       mn: "Арилжааны дансаа банкны шилжүүлгээр цэнэглэснээр худалдан авах хүч бэлэн болно.",
-      en: "Fund your trading account by bank transfer and your buying power is ready.",
+      en: "Fund your trading account by bank transfer and your buying power is ready.", ja: "銀行振込で取引口座に入金すると、買付余力が使えるようになります。",
     },
   },
   {
     href: "/zaavar-mhb/",
-    time: { mn: "Бодит цагт", en: "Real time" },
-    title: { mn: "Арилжаа эхлүүлэх", en: "Start trading" },
+    time: { mn: "Бодит цагт", en: "Real time", ja: "リアルタイム" },
+    title: { mn: "Арилжаа эхлүүлэх", en: "Start trading", ja: "取引を始める" },
     body: {
       mn: "Онлайн систем эсвэл аппаараа эхний захиалгаа өгч, гүйцэтгэлээ бодит цагт хянана.",
-      en: "Place your first order in the online system or the app and track it in real time.",
+      en: "Place your first order in the online system or the app and track it in real time.", ja: "オンラインシステムまたはアプリから最初の注文を出し、執行状況をリアルタイムで確認できます。",
     },
   },
 ];
@@ -190,14 +190,14 @@ function Offer() {
       <section>
         <div className="wrap">
           <SecHead
-            eyebrow={{ mn: "Үйлчилгээ", en: "What we do" }}
+            eyebrow={{ mn: "Үйлчилгээ", en: "What we do", ja: "事業内容" }}
             title={{
               mn: "Хөрөнгө оруулалтын бүх шатанд",
-              en: "At every stage of investing",
+              en: "At every stage of investing", ja: "投資のあらゆる段階で",
             }}
             lead={{
               mn: "МХБ-ийн 52 гишүүнээс бүх 5 төрлийн тусгай зөвшөөрлийг бүрэн эзэмшдэг 9 компанийн нэг нь бид.",
-              en: "One of nine firms among the exchange's 52 members holding all five categories of licence.",
+              en: "One of nine firms among the exchange's 52 members holding all five categories of licence.", ja: "取引所の52の会員会社のうち、5種類すべての免許を保有する9社の1社です。",
             }}
           />
           <div className="dtrip">
@@ -221,20 +221,20 @@ function Offer() {
                   </span>
                 </div>
                 <h3>
-                  <T mn={entry.title.mn} en={entry.title.en} />
+                  <T mn={entry.title.mn} en={entry.title.en} ja={entry.title.ja} />
                 </h3>
                 <p>
-                  <T mn={entry.body.mn} en={entry.body.en} />
+                  <T mn={entry.body.mn} en={entry.body.en} ja={entry.body.ja} />
                 </p>
                 <ul>
                   {entry.items.map((item) => (
                     <li key={item.mn}>
-                      <T mn={item.mn} en={item.en} />
+                      <T mn={item.mn} en={item.en} ja={item.ja} />
                     </li>
                   ))}
                 </ul>
                 <span className="more">
-                  <T mn="Дэлгэрэнгүй" en="Learn more" /> →
+                  <T mn="Дэлгэрэнгүй" en="Learn more" ja="詳しく見る" /> →
                 </span>
               </Reveal>
             ))}
@@ -251,11 +251,11 @@ function StartSteps() {
     <section>
       <div className="wrap">
         <SecHead
-          eyebrow={{ mn: "Хэрхэн эхлэх", en: "Getting Started" }}
-          title={{ mn: "Гурван алхмаар эхэлнэ", en: "Start in three steps" }}
+          eyebrow={{ mn: "Хэрхэн эхлэх", en: "Getting Started", ja: "はじめに" }}
+          title={{ mn: "Гурван алхмаар эхэлнэ", en: "Start in three steps", ja: "3つのステップで始める" }}
           lead={{
             mn: "Данс нээхээс эхний захиалга хүртэл ихэвчлэн нэг ажлын өдөрт багтана.",
-            en: "From opening an account to your first order — usually inside one working day.",
+            en: "From opening an account to your first order — usually inside one working day.", ja: "口座開設から最初の注文まで、通常は1営業日以内に完了します。",
           }}
         />
 
@@ -270,16 +270,16 @@ function StartSteps() {
             >
               <div className="bs-n">{index + 1}</div>
               <div className="bs-t">
-                <T mn={step.time.mn} en={step.time.en} />
+                <T mn={step.time.mn} en={step.time.en} ja={step.time.ja} />
               </div>
               <h4>
-                <T mn={step.title.mn} en={step.title.en} />
+                <T mn={step.title.mn} en={step.title.en} ja={step.title.ja} />
               </h4>
               <p>
-                <T mn={step.body.mn} en={step.body.en} />
+                <T mn={step.body.mn} en={step.body.en} ja={step.body.ja} />
               </p>
               <span className="more">
-                <T mn="Заавар үзэх" en="Read the guide" /> →
+                <T mn="Заавар үзэх" en="Read the guide" ja="ガイドを読む" /> →
               </span>
             </Reveal>
           ))}
@@ -287,10 +287,10 @@ function StartSteps() {
 
         <Reveal className="start-cta" delay={280}>
           <A href={TRADING_URL} className="btn btn-p">
-            <T mn="Данс нээх — 10 минут" en="Open Account — 10 min" />
+            <T mn="Данс нээх — 10 минут" en="Open Account — 10 min" ja="口座開設 — 10分" />
           </A>
           <A href="/zaavar/" className="btn btn-o">
-            <T mn="Бүх заавар" en="All guides" />
+            <T mn="Бүх заавар" en="All guides" ja="ガイド一覧" />
           </A>
         </Reveal>
       </div>
@@ -310,14 +310,14 @@ function HomeFaq() {
     <section>
       <div className="wrap">
         <SecHead
-          eyebrow={{ mn: "Харилцагчийн туслах", en: "Customer Support" }}
-          title={{ mn: "Түгээмэл асуулт", en: "Frequently asked questions" }}
+          eyebrow={{ mn: "Харилцагчийн туслах", en: "Customer Support", ja: "サポート" }}
+          title={{ mn: "Түгээмэл асуулт", en: "Frequently asked questions", ja: "よくあるご質問" }}
         />
         <Reveal className="faq-list" delay={60}>
           {FAQ.slice(0, 5).map((entry) => (
             <A className="faq-row" href={`/${entry.route}/`} key={entry.route}>
               <span className="q">
-                <T mn={entry.question.mn} en={entry.question.en} />
+                <T mn={entry.question.mn} en={entry.question.en} ja={entry.question.ja} />
               </span>
               <span className="arrow" aria-hidden="true">
                 →
@@ -327,7 +327,7 @@ function HomeFaq() {
         </Reveal>
         <Reveal delay={140} style={{ marginTop: 28 }}>
           <A className="more" href="/faq/">
-            <T mn="Бүх асуулт үзэх" en="See all questions" /> →
+            <T mn="Бүх асуулт үзэх" en="See all questions" ja="質問をすべて見る" /> →
           </A>
         </Reveal>
       </div>
@@ -342,31 +342,33 @@ function ClosingCta() {
       <Rings className="rings2" />
       <section>
         <div className="wrap">
-          <Eyebrow mn="Эхлэх цаг" en="Get started" />
+          <Eyebrow mn="Эхлэх цаг" en="Get started" ja="はじめる" />
           <h2>
             <T
               mn="Хөрөнгө оруулалтаа өнөөдөр эхлүүлээрэй"
               en="Start investing today"
+              ja="今日から投資を始める"
             />
           </h2>
           <p>
             <T
               mn="Данс нээх хүсэлтээ онлайнаар илгээгээд 24 цагийн дотор баталгаажуулалтаа аваарай. Асуух зүйл байвал брокертой шууд ярина уу."
               en="Send your account application online and get verified within 24 hours. If anything is unclear, talk to a broker directly."
+              ja="口座開設の申込みをオンラインで送信し、24時間以内に確認をお受け取りください。ご不明な点はブローカーに直接ご相談ください。"
             />
           </p>
           <div className="cta-b">
             <A href={TRADING_URL} className="btn btn-w btn-lg">
-              <T mn="Данс нээх" en="Open an account" />
+              <T mn="Данс нээх" en="Open an account" ja="口座を開設する" />
             </A>
             <A href="/holboo-barih/" className="btn btn-g btn-lg">
-              <T mn="Холбоо барих" en="Contact us" />
+              <T mn="Холбоо барих" en="Contact us" ja="お問い合わせ" />
             </A>
           </div>
           <div className="cta-meta">
             <div>
               <small>
-                <T mn="Утас" en="Phone" />
+                <T mn="Утас" en="Phone" ja="電話" />
               </small>
               <A href={`tel:${CONTACT.phones[0].dial}`}>
                 {CONTACT.phones[0].label}
@@ -374,16 +376,16 @@ function ClosingCta() {
             </div>
             <div>
               <small>
-                <T mn="И-мэйл" en="Email" />
+                <T mn="И-мэйл" en="Email" ja="メール" />
               </small>
               <A href={`mailto:${CONTACT.email}`}>{CONTACT.email}</A>
             </div>
             <div>
               <small>
-                <T mn="Хаяг" en="Office" />
+                <T mn="Хаяг" en="Office" ja="所在地" />
               </small>
               <span>
-                <T mn="Eco Tower, 9 давхарт 904" en="Eco Tower, 9F, Room 904" />
+                <T mn="Eco Tower, 9 давхарт 904" en="Eco Tower, 9F, Room 904" ja="エコタワー 9階 904号室" />
               </span>
             </div>
           </div>
@@ -412,7 +414,7 @@ function Stat({
     >
       <b>{figure}</b>
       <span>
-        <T mn={stat.mn} en={stat.en} />
+        <T mn={stat.mn} en={stat.en} ja={stat.ja} />
       </span>
     </div>
   );
@@ -437,13 +439,22 @@ function Hero() {
               className="eyebrow-lic"
               mn="Санхүүгийн зохицуулах хорооны тусгай зөвшөөрөлтэй"
               en="Licensed by the Financial Regulatory Commission"
+              ja="金融規制委員会の特別ライセンスを取得"
             />
+            {/* Not a <T>: the emphasis falls on a different half of the
+                sentence in each language, and the line break with it. */}
             <h1>
               {lang === "en" ? (
                 <>
                   Your place in the{" "}
                   <br />
                   <em>capital market</em>
+                </>
+              ) : lang === "ja" ? (
+                <>
+                  資本市場における
+                  <br />
+                  <em>あなたのポジション</em>
                 </>
               ) : (
                 <>
@@ -457,37 +468,38 @@ function Hero() {
               <T
                 mn="Брокер, андеррайтер, хөрөнгө оруулалтын зөвлөхийн үйлчилгээг нэг дороос. Монголын хөрөнгийн биржийн арилжаанд шууд холбогдож, найдвартай, хурдан үйлчилгээ авна."
                 en="Broker, underwriter, and investment advisory services all in one place. Connect directly to trading on the Mongolian Stock Exchange for reliable, fast service."
+                ja="ブローカー、引受、投資助言のサービスをひとつの窓口で。モンゴル証券取引所の取引に直結し、確実で迅速なサービスを提供します。"
               />
             </p>
             <div className="hero-cta">
               <A href={TRADING_URL} className="btn btn-w btn-lg">
-                <T mn="Данс нээх — 10 минут" en="Open Account — 10 min" />
+                <T mn="Данс нээх — 10 минут" en="Open Account — 10 min" ja="口座開設 — 10分" />
               </A>
               {/* "Данс шалгах" pointed at the same login URL as the button
                   beside it — one action wearing two names, and a reader could
                   fairly read "check account" as "check whether I am eligible".
                   The site has two account actions and this is the other one. */}
               <A href={TRADING_URL} className="btn btn-g btn-lg">
-                <T mn="Нэвтрэх" en="Log In" />
+                <T mn="Нэвтрэх" en="Log In" ja="ログイン" />
               </A>
             </div>
             <div className="lic">
               <div>
                 <strong>МХБ</strong>
                 <span>
-                  <T mn="Гишүүн байгууллага" en="Member Organization" />
+                  <T mn="Гишүүн байгууллага" en="Member Organization" ja="会員機関" />
                 </span>
               </div>
               <div>
                 <strong>ҮЦТХТ</strong>
                 <span>
-                  <T mn="Гишүүн байгууллага" en="Member Organization" />
+                  <T mn="Гишүүн байгууллага" en="Member Organization" ja="会員機関" />
                 </span>
               </div>
               <div>
                 <strong>5 / 5</strong>
                 <span>
-                  <T mn="Тусгай зөвшөөрөл" en="Licence categories" />
+                  <T mn="Тусгай зөвшөөрөл" en="Licence categories" ja="保有免許" />
                 </span>
               </div>
             </div>

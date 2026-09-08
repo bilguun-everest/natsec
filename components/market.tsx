@@ -123,7 +123,9 @@ export function MarketProvider({
     () => ({
       snapshot,
       session,
-      board: snapshot.boards.data[lang as Lang],
+      // The exchange publishes its board in Mongolian and English only, so a
+      // Japanese reader gets the English company names rather than nothing.
+      board: snapshot.boards.data[lang === "mn" ? "mn" : "en"],
       live: snapshot.index.live && snapshot.boards.live,
     }),
     [snapshot, session, lang],
@@ -193,15 +195,17 @@ export function useTurnoverLeaders(limit = 10): TurnoverRow[] {
 
 /**
  * Turnover runs to nine digits, which is unreadable in a moving strip.
- * 127,328,800 → "127.3 сая" / "127.3M".
+ * 127,328,800 → "127.3 сая" / "127.3M" / "127.3百万".
  */
 export function compactTugrug(value: string, lang: Lang): string {
   const amount = Number(value.replace(/,/g, ""));
   if (!Number.isFinite(amount)) return value;
 
-  const billion = lang === "en" ? "B" : " тэрбум";
-  const million = lang === "en" ? "M" : " сая";
-  const thousand = lang === "en" ? "K" : " мянга";
+  const unit = (mn: string, en: string, ja: string) =>
+    lang === "en" ? en : lang === "ja" ? ja : mn;
+  const billion = unit(" тэрбум", "B", "十億");
+  const million = unit(" сая", "M", "百万");
+  const thousand = unit(" мянга", "K", "千");
 
   if (amount >= 1e9) return `${(amount / 1e9).toFixed(2)}${billion}`;
   if (amount >= 1e6) return `${(amount / 1e6).toFixed(1)}${million}`;

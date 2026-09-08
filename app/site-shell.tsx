@@ -1,7 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { LanguageProvider } from "@/components/lang";
-import { DESCRIPTIONS, TITLES, alternatesFor, type Lang } from "@/lib/routes";
+import {
+  DESCRIPTIONS,
+  TITLES,
+  alternatesFor,
+  pathOf,
+  type Lang,
+} from "@/lib/routes";
 import "./(frontend)/globals.css";
 
 /**
@@ -33,12 +39,26 @@ const mono = JetBrains_Mono({
 
 const SITE_URL = "https://natsec.mn";
 
+/** The name the company goes by in each language. */
+const SITE_NAME: Record<Lang, string> = {
+  mn: "Нэйшнл сэкюритис ҮЦК",
+  en: "National Securities",
+  ja: "ナショナル・セキュリティーズ証券",
+};
+
+/** Open Graph wants a full locale, not a bare language tag. */
+const OG_LOCALE: Record<Lang, string> = {
+  mn: "mn_MN",
+  en: "en_US",
+  ja: "ja_JP",
+};
+
 /**
- * Two root layouts share this: one for the Mongolian pages at the bare paths,
- * one for the English pages under `/en/`. They are separate layouts because
- * `<html lang>` has to be right in the exported file — a single layout can
- * only ever declare one language, which is how the English pages came to be
- * served as Mongolian.
+ * Three root layouts share this: one for the Mongolian pages at the bare
+ * paths, one for the English pages under `/en/`, one for the Japanese pages
+ * under `/ja/`. They are separate layouts because `<html lang>` has to be
+ * right in the exported file — a single layout can only ever declare one
+ * language, which is how the English pages came to be served as Mongolian.
  */
 export function siteMetadata(lang: Lang): Metadata {
   return {
@@ -47,16 +67,16 @@ export function siteMetadata(lang: Lang): Metadata {
     description: DESCRIPTIONS[lang],
     applicationName: "National Securities",
     alternates: {
-      canonical: lang === "en" ? "/en/" : "/",
+      canonical: pathOf("home", lang),
       languages: alternatesFor("home"),
     },
     openGraph: {
       type: "website",
-      url: lang === "en" ? `${SITE_URL}/en/` : SITE_URL,
-      siteName: lang === "en" ? "National Securities" : "Нэйшнл сэкюритис ҮЦК",
+      url: `${SITE_URL}${pathOf("home", lang)}`,
+      siteName: SITE_NAME[lang],
       title: TITLES.home[lang],
       description: DESCRIPTIONS[lang],
-      locale: lang === "en" ? "en_US" : "mn_MN",
+      locale: OG_LOCALE[lang],
     },
     twitter: {
       card: "summary_large_image",

@@ -23,19 +23,20 @@ export type { Lang };
 interface LangValue {
   lang: Lang;
   /** Pick the active string — for attributes (alt, aria-label, title). */
-  t: (mn: string, en: string) => string;
+  t: (mn: string, en: string, ja: string) => string;
 }
 
 const LangContext = createContext<LangValue | null>(null);
 
 /**
- * Site-wide MN/EN switch, driven by the URL.
+ * Site-wide MN / EN / JA switch, driven by the URL.
  *
- * The language used to live in `localStorage`, which meant both languages
+ * The language used to live in `localStorage`, which meant every language
  * shared one address: a search engine saw a single Mongolian page, and an
  * English link could not be shared. Each language has its own URL now —
- * Mongolian on the bare paths, English under `/en/` — so the path is the only
- * thing that decides, and `initial` comes from the page the reader loaded.
+ * Mongolian on the bare paths, English under `/en/`, Japanese under `/ja/` —
+ * so the path is the only thing that decides, and `initial` comes from the
+ * page the reader loaded.
  */
 export function LanguageProvider({
   initial,
@@ -63,7 +64,11 @@ export function LanguageProvider({
   }, [lang]);
 
   const value = useMemo<LangValue>(
-    () => ({ lang, t: (mn: string, en: string) => (lang === "en" ? en : mn) }),
+    () => ({
+      lang,
+      t: (mn: string, en: string, ja: string) =>
+        lang === "en" ? en : lang === "ja" ? ja : mn,
+    }),
     [lang],
   );
 
@@ -77,12 +82,12 @@ export function useLang(): LangValue {
 }
 
 /**
- * Bilingual text. Two characters get special treatment: `₮` is wrapped in a
+ * Translated text. Two characters get special treatment: `₮` is wrapped in a
  * font that actually has the glyph, and `\n` becomes a line break.
  */
-export function T({ mn, en }: { mn: string; en: string }) {
+export function T({ mn, en, ja }: { mn: string; en: string; ja: string }) {
   const { lang } = useLang();
-  return <>{rich(lang === "en" ? en : mn)}</>;
+  return <>{rich(lang === "en" ? en : lang === "ja" ? ja : mn)}</>;
 }
 
 /** Same rendering rules for plain (already-resolved) strings. */
@@ -96,11 +101,11 @@ export function Tg() {
 }
 
 /**
- * MN / EN segmented control.
+ * MN / EN / JA segmented control.
  *
- * Two real links to the same page in each language, rather than two buttons
- * that swap a variable. They can be copied, opened in a new tab and followed
- * by a crawler, and they work with no JavaScript at all.
+ * One real link to the same page in each language, rather than buttons that
+ * swap a variable. They can be copied, opened in a new tab and followed by a
+ * crawler, and they work with no JavaScript at all.
  */
 export function LangSwitch({ id }: { id?: string }) {
   const { lang } = useLang();
@@ -126,11 +131,12 @@ export function LangSwitch({ id }: { id?: string }) {
 /**
  * An internal link that keeps the reader in the language they are reading.
  *
- * Every href in the components is written as its Mongolian path; this adds the
- * `/en` in front when the page is the English one. Doing it here rather than at
- * seventy call sites means the exported English HTML links to English pages —
- * which is what a crawler follows, and what a middle click gives a reader.
- * External links, `tel:`, `mailto:` and the href-less placeholder pass through.
+ * Every href in the components is written as its Mongolian path; this puts the
+ * `/en` or `/ja` in front when the page is one of those. Doing it here rather
+ * than at seventy call sites means the exported English and Japanese HTML link
+ * to their own pages — which is what a crawler follows, and what a middle click
+ * gives a reader. External links, `tel:`, `mailto:` and the href-less
+ * placeholder pass through.
  */
 export function A({
   href,
@@ -139,8 +145,8 @@ export function A({
 }: AnchorHTMLAttributes<HTMLAnchorElement>) {
   const { lang } = useLang();
   const to =
-    lang === "en" && href?.startsWith("/") && !/^\/en(\/|$)/.test(href)
-      ? `/en${href}`
+    lang !== "mn" && href?.startsWith("/") && !/^\/(?:en|ja)(\/|$)/.test(href)
+      ? `/${lang}${href}`
       : href;
   return (
     <a href={to} {...rest}>

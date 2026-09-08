@@ -11,9 +11,9 @@ import { List, SecHead } from "@/components/ui";
  */
 const SERVICES: {
   icon: React.ReactNode;
-  title: { mn: string; en: string };
-  lead: { mn: string; en: string };
-  items: { mn: string; en: string }[];
+  title: { mn: string; en: string; ja: string };
+  lead: { mn: string; en: string; ja: string };
+  items: { mn: string; en: string; ja: string }[];
   href: string;
 }[] = [
   {
@@ -25,17 +25,17 @@ const SERVICES: {
         <path d="M17 20v-7" />
       </>
     ),
-    title: { mn: "Брокер", en: "Broker" },
+    title: { mn: "Брокер", en: "Broker", ja: "ブローカー" },
     lead: {
       mn: "МХБ-ийн арилжааны системтэй шууд холбогдсон платформоор хоцрогдолгүй арилжаа хийнэ.",
-      en: "Trade without delay through a platform directly connected to the MSE trading system.",
+      en: "Trade without delay through a platform directly connected to the MSE trading system.", ja: "MSEの取引システムに直結したプラットフォームで、遅延なく取引できます。",
     },
     items: [
-      { mn: "Дотоод арилжаанд оролцох", en: "Domestic trading" },
-      { mn: "Онлайн арилжааны систем", en: "Online trading system" },
+      { mn: "Дотоод арилжаанд оролцох", en: "Domestic trading", ja: "国内取引" },
+      { mn: "Онлайн арилжааны систем", en: "Online trading system", ja: "オンライン取引システム" },
       {
         mn: "Хувьцаа, бонд, засгийн газрын үнэт цаас",
-        en: "Equities, bonds & government securities",
+        en: "Equities, bonds & government securities", ja: "株式・社債・国債",
       },
     ],
     href: "/zaavar/",
@@ -49,17 +49,17 @@ const SERVICES: {
         <path d="M10 11h4" />
       </>
     ),
-    title: { mn: "Андеррайтер", en: "Underwriter" },
+    title: { mn: "Андеррайтер", en: "Underwriter", ja: "引受業務" },
     lead: {
       mn: "Компанийн хувьцаа, бондыг зах зээлд гаргах бүх үе шатыг хариуцна.",
-      en: "We manage every stage of bringing a company's shares or bonds to market.",
+      en: "We manage every stage of bringing a company's shares or bonds to market.", ja: "企業の株式・社債を市場に出すまでの全段階を担います。",
     },
     items: [
       {
         mn: "Хувьцааны санхүүжилт (IPO, FPO)",
-        en: "Equity financing (IPO, FPO)",
+        en: "Equity financing (IPO, FPO)", ja: "株式による資金調達（IPO・FPO）",
       },
-      { mn: "Бондын санхүүжилт", en: "Bond financing" },
+      { mn: "Бондын санхүүжилт", en: "Bond financing", ja: "社債による資金調達" },
     ],
     href: "/anderraiter/",
   },
@@ -72,22 +72,22 @@ const SERVICES: {
     ),
     title: {
       mn: "Хөрөнгө оруулалтын зөвлөгөө",
-      en: "Investment Advisory",
+      en: "Investment Advisory", ja: "投資助言",
     },
     lead: {
       mn: "Эрсдэл даах чадвар, зорилгод тань тохирсон багц бүрдүүлж, тогтмол хянана.",
-      en: "We build a portfolio suited to your risk tolerance and goals, and monitor it continuously.",
+      en: "We build a portfolio suited to your risk tolerance and goals, and monitor it continuously.", ja: "お客様のリスク許容度と目標に合ったポートフォリオを構築し、継続的にモニタリングします。",
     },
     items: [
-      { mn: "Зөвлөх үйлчилгээ", en: "Advisory services" },
-      { mn: "Хувийн санхүүжилт", en: "Personal financing" },
+      { mn: "Зөвлөх үйлчилгээ", en: "Advisory services", ja: "アドバイザリー業務" },
+      { mn: "Хувийн санхүүжилт", en: "Personal financing", ja: "個人向け資金計画" },
       {
         mn: "Компанийн нэгдэл, өөрчлөн байгуулалтын зөвлөгөө",
-        en: "Corporate restructuring & M&A advisory",
+        en: "Corporate restructuring & M&A advisory", ja: "組織再編・M&Aアドバイザリー",
       },
       {
         mn: "Хөрөнгө оруулагчидтай холбож өгөх",
-        en: "Connecting companies with potential investors",
+        en: "Connecting companies with potential investors", ja: "企業と投資家をつなぐ",
       },
     ],
     href: "/zuvluh/",
@@ -102,21 +102,21 @@ const SERVICES: {
         <path d="M19 19v1a2 2 0 01-2 2h-3" />
       </>
     ),
-    title: { mn: "Харилцагчийн туслах", en: "Customer Support" },
+    title: { mn: "Харилцагчийн туслах", en: "Customer Support", ja: "サポート" },
     lead: {
       mn: "Данс нээхээс ногдол ашиг авах хүртэл алхам бүрийн заавар.",
-      en: "Guidance for every step, from opening an account to receiving dividends.",
+      en: "Guidance for every step, from opening an account to receiving dividends.", ja: "口座開設から配当の受け取りまで、各ステップの手引き。",
     },
     items: [
       {
         mn: "Данс нээх, IPO-д оролцох заавар",
-        en: "Account opening & IPO participation guide",
+        en: "Account opening & IPO participation guide", ja: "口座開設とIPO参加のガイド",
       },
       {
         mn: "Мөнгө байршуулах, татах, данс цэнэглэх",
-        en: "Deposits, withdrawals & top-ups",
+        en: "Deposits, withdrawals & top-ups", ja: "入金・出金・資金の追加",
       },
-      { mn: "Ногдол ашиг авах", en: "Receiving dividends" },
+      { mn: "Ногдол ашиг авах", en: "Receiving dividends", ja: "配当の受け取り" },
     ],
     href: "/zaavar/",
   },
@@ -127,14 +127,14 @@ export default function Services() {
     <section id="services">
       <div className="wrap">
         <SecHead
-          eyebrow={{ mn: "Үйлчилгээ", en: "Services" }}
+          eyebrow={{ mn: "Үйлчилгээ", en: "Services", ja: "サービス" }}
           title={{
             mn: "Хөрөнгө оруулалтын бүх шатанд",
-            en: "At every stage of investing",
+            en: "At every stage of investing", ja: "投資のあらゆる段階で",
           }}
           lead={{
             mn: "Хувь хүн, байгууллагын харилцагчдад зориулсан лицензтэй үйлчилгээ.",
-            en: "Licensed services for individual and institutional clients.",
+            en: "Licensed services for individual and institutional clients.", ja: "個人・機関投資家のお客様向けの免許業務。",
           }}
         />
         <div className="svc">
@@ -151,14 +151,14 @@ export default function Services() {
                 </svg>
               </span>
               <h3>
-                <T mn={service.title.mn} en={service.title.en} />
+                <T mn={service.title.mn} en={service.title.en} ja={service.title.ja} />
               </h3>
               <p>
-                <T mn={service.lead.mn} en={service.lead.en} />
+                <T mn={service.lead.mn} en={service.lead.en} ja={service.lead.ja} />
               </p>
               <List items={service.items} />
               <A href={service.href} className="more">
-                <T mn="Дэлгэрэнгүй →" en="Learn more →" />
+                <T mn="Дэлгэрэнгүй →" en="Learn more →" ja="詳しく見る →" />
               </A>
             </Reveal>
           ))}

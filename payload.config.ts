@@ -26,8 +26,8 @@ export default buildConfig({
 
   /**
    * Content locales, not admin UI language. Every `localized: true` field gets
-   * an mn/en pair behind a switcher in the editor, replacing the paired-string
-   * shape the static pages use (`{ mn, en }` in `lib/guides.ts`).
+   * an mn/en/ja set behind a switcher in the editor, replacing the paired
+   * shape the static pages use (`Bi` in `lib/guides.ts`).
    *
    * `fallback` means an entry with no English title renders its Mongolian one
    * rather than a blank — a half-translated report is still worth publishing.
@@ -36,6 +36,7 @@ export default buildConfig({
     locales: [
       { code: "mn", label: "Монгол" },
       { code: "en", label: "English" },
+      { code: "ja", label: "日本語" },
     ],
     defaultLocale: "mn",
     fallback: true,

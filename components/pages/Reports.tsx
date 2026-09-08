@@ -10,11 +10,11 @@ export default function Reports({ reports }: { reports: ReportItem[] }) {
     <section id="tailan">
       <div className="wrap">
         <SecHead
-          eyebrow={{ mn: "Ил тод байдал", en: "Disclosure" }}
-          title={{ mn: "Санхүүгийн тайлан", en: "Financial Reports" }}
+          eyebrow={{ mn: "Ил тод байдал", en: "Disclosure", ja: "情報開示" }}
+          title={{ mn: "Санхүүгийн тайлан", en: "Financial Reports", ja: "財務報告" }}
           lead={{
             mn: "Зохицуулагчийн шаардлагын дагуу нийтэлдэг, аудит хийгдсэн жил болон улирлын санхүүгийн тайлангууд.",
-            en: "Our audited annual and quarterly financial statements, published in accordance with regulatory requirements.",
+            en: "Our audited annual and quarterly financial statements, published in accordance with regulatory requirements.", ja: "規制上の要件に従って公表している、監査済みの年次・四半期財務諸表です。",
           }}
         />
         {reports.length === 0 ? (
@@ -27,16 +27,18 @@ export default function Reports({ reports }: { reports: ReportItem[] }) {
               <T
                 mn="Тайлангууд удахгүй нийтлэгдэнэ"
                 en="Statements are being published shortly"
+                ja="財務諸表は近日公開します"
               />
             </h4>
             <p>
               <T
                 mn="Аудит хийгдсэн жилийн болон улирлын тайланг энэ хэсэгт татаж авах боломжтой болно. Тэр хүртэл хуулбарыг хүсвэл бидэнтэй холбогдоно уу."
                 en="Audited annual and quarterly statements will be available to download here. Until then, contact us if you would like a copy."
+                ja="監査済みの年次・四半期財務諸表をこちらからダウンロードいただけるようになります。それまでの間、写しをご希望の方はお問い合わせください。"
               />
             </p>
             <A className="more" href="/holboo-barih/">
-              <T mn="Холбоо барих" en="Contact us" /> →
+              <T mn="Холбоо барих" en="Contact us" ja="お問い合わせ" /> →
             </A>
           </Reveal>
         ) : (
@@ -45,17 +47,17 @@ export default function Reports({ reports }: { reports: ReportItem[] }) {
               <Reveal as="li" className="report-row" key={report.id} delay={index * 70}>
                 <div>
                   <span className="name">
-                    <T mn={report.title.mn} en={report.title.en} />
+                    <T mn={report.title.mn} en={report.title.en} ja={report.title.ja} />
                   </span>
                   <span className="yr">{report.year}</span>
                 </div>
                 {report.url ? (
                   <A className="dl" href={report.url} download>
-                    <T mn="Татах ↓" en="Download ↓" />
+                    <T mn="Татах ↓" en="Download ↓" ja="ダウンロード ↓" />
                   </A>
                 ) : (
                   <PendingLink className="dl">
-                    <T mn="Татах ↓" en="Download ↓" />
+                    <T mn="Татах ↓" en="Download ↓" ja="ダウンロード ↓" />
                   </PendingLink>
                 )}
               </Reveal>

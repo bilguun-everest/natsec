@@ -8,17 +8,19 @@ import { Reveal } from "@/components/motion";
 export function Eyebrow({
   mn,
   en,
+  ja,
   style,
   className,
 }: {
   mn: string;
   en: string;
+  ja: string;
   style?: CSSProperties;
   className?: string;
 }) {
   return (
     <div className={className ? `eyebrow ${className}` : "eyebrow"} style={style}>
-      <T mn={mn} en={en} />
+      <T mn={mn} en={en} ja={ja} />
     </div>
   );
 }
@@ -31,22 +33,22 @@ export function SecHead({
   style,
   level = 2,
 }: {
-  eyebrow: { mn: string; en: string };
-  title: { mn: string; en: string };
-  lead?: { mn: string; en: string };
+  eyebrow: { mn: string; en: string; ja: string };
+  title: { mn: string; en: string; ja: string };
+  lead?: { mn: string; en: string; ja: string };
   style?: CSSProperties;
   level?: 2 | 3;
 }) {
   const Heading = level === 3 ? "h3" : "h2";
   return (
     <Reveal className="sec-h" style={style}>
-      <Eyebrow mn={eyebrow.mn} en={eyebrow.en} />
+      <Eyebrow mn={eyebrow.mn} en={eyebrow.en} ja={eyebrow.ja} />
       <Heading>
-        <T mn={title.mn} en={title.en} />
+        <T mn={title.mn} en={title.en} ja={title.ja} />
       </Heading>
       {lead && (
         <p>
-          <T mn={lead.mn} en={lead.en} />
+          <T mn={lead.mn} en={lead.en} ja={lead.ja} />
         </p>
       )}
     </Reveal>
@@ -54,12 +56,12 @@ export function SecHead({
 }
 
 /** Bulleted list in the house style (square outline markers). */
-export function List({ items }: { items: { mn: string; en: string }[] }) {
+export function List({ items }: { items: { mn: string; en: string; ja: string }[] }) {
   return (
     <ul>
       {items.map((item) => (
         <li key={item.mn}>
-          <T mn={item.mn} en={item.en} />
+          <T mn={item.mn} en={item.en} ja={item.ja} />
         </li>
       ))}
     </ul>
@@ -97,7 +99,7 @@ export function CopyButton({
       className={copied ? `${className} copied` : className}
       style={style}
       onClick={copy}
-      aria-label={t("Хуулах", "Copy")}
+      aria-label={t("Хуулах", "Copy", "コピー")}
     >
       {children}
     </button>
@@ -124,6 +126,7 @@ export interface PageLink {
   href: string;
   mn: string;
   en: string;
+  ja: string;
 }
 
 /** Previous / next pager closing each guide, FAQ answer, and policy page. */
@@ -134,12 +137,12 @@ export function PageNav({ prev, next }: { prev?: PageLink; next?: PageLink }) {
         {prev && (
           <>
             <small>
-              <T mn="ӨМНӨХ" en="Previous" />
+              <T mn="ӨМНӨХ" en="Previous" ja="前へ" />
             </small>
             <A href={prev.href}>
               {/* Non-breaking space keeps the arrow from orphaning onto its
                   own line when a label wraps. */}
-              ← <T mn={prev.mn} en={prev.en} />
+              ← <T mn={prev.mn} en={prev.en} ja={prev.ja} />
             </A>
           </>
         )}
@@ -148,10 +151,10 @@ export function PageNav({ prev, next }: { prev?: PageLink; next?: PageLink }) {
         {next && (
           <>
             <small>
-              <T mn="ДАРААХ" en="Next" />
+              <T mn="ДАРААХ" en="Next" ja="次へ" />
             </small>
             <A href={next.href}>
-              <T mn={next.mn} en={next.en} /> →
+              <T mn={next.mn} en={next.en} ja={next.ja} /> →
             </A>
           </>
         )}
@@ -203,7 +206,7 @@ export function PendingLink({
       className={className}
       role="link"
       aria-disabled="true"
-      title={label ?? t("Удахгүй нэмэгдэнэ", "Coming soon")}
+      title={label ?? t("Удахгүй нэмэгдэнэ", "Coming soon", "近日公開")}
     >
       {children}
     </A>
@@ -215,14 +218,16 @@ export function BackLink({
   href,
   mn,
   en,
+  ja,
 }: {
   href: string;
   mn: string;
   en: string;
+  ja: string;
 }) {
   return (
     <A href={href} className="guide-back">
-      ← <T mn={mn} en={en} />
+      ← <T mn={mn} en={en} ja={ja} />
     </A>
   );
 }
@@ -232,7 +237,7 @@ export function DetailPage({
   back,
   children,
 }: {
-  back: { href: string; mn: string; en: string };
+  back: { href: string; mn: string; en: string; ja: string };
   children: ReactNode;
 }) {
   return (

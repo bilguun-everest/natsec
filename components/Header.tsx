@@ -11,6 +11,7 @@ interface DropItem {
   href: string;
   mn: string;
   en: string;
+  ja: string;
   /** Renders as a non-clickable group heading inside the dropdown. */
   group?: boolean;
   /** No page behind it yet — shown, but inert rather than dead-ending. */
@@ -21,6 +22,7 @@ interface NavItem {
   href: string;
   mn: string;
   en: string;
+  ja: string;
   /** Matches `sectionOf(route)` so the current section can be marked. */
   section: string;
   drop: DropItem[];
@@ -39,7 +41,7 @@ const NAV: NavItem[] = [
     href: "/tanilcuulga/",
     section: "about",
     mn: "Бидний тухай",
-    en: "About Us",
+    en: "About Us", ja: "会社概要",
     // No dropdown: the overview, track record and financial reports are
     // short, and all of them sit on the one page this opens.
     drop: [],
@@ -48,45 +50,45 @@ const NAV: NavItem[] = [
     href: "/broker/",
     section: "services",
     mn: "Үйлчилгээ",
-    en: "Services",
+    en: "Services", ja: "サービス",
     drop: [
-      { href: "", mn: "Брокер", en: "Broker", group: true },
+      { href: "", mn: "Брокер", en: "Broker", ja: "ブローカー", group: true },
       {
         href: TRADING_URL,
         mn: "Дотоод арилжаанд оролцох",
-        en: "Domestic Trading",
+        en: "Domestic Trading", ja: "国内取引に参加する",
       },
       {
         href: "/broker/",
         mn: "Онлайн арилжааны систем",
-        en: "Online Trading System",
+        en: "Online Trading System", ja: "オンライン取引システム",
       },
-      { href: "", mn: "Андеррайтер", en: "Underwriter", group: true },
+      { href: "", mn: "Андеррайтер", en: "Underwriter", ja: "引受業務", group: true },
       {
         href: "/anderraiter/",
         mn: "Хувьцааны санхүүжилт (IPO, FPO)",
-        en: "Equity Financing (IPO, FPO)",
+        en: "Equity Financing (IPO, FPO)", ja: "株式による資金調達（IPO・FPO）",
       },
       {
         href: "/anderraiter/",
         mn: "Бондын санхүүжилт",
-        en: "Bond Financing",
+        en: "Bond Financing", ja: "社債による資金調達",
       },
       {
         href: "",
         mn: "Хөрөнгө оруулалтын зөвлөгөө",
-        en: "Investment Advisory",
+        en: "Investment Advisory", ja: "投資助言",
         group: true,
       },
-      { href: "/zuvluh/", mn: "Зөвлөх үйлчилгээ", en: "Advisory Services" },
-      { href: "/zuvluh/", mn: "Хувийн санхүүжилт", en: "Personal Financing" },
+      { href: "/zuvluh/", mn: "Зөвлөх үйлчилгээ", en: "Advisory Services", ja: "アドバイザリー業務" },
+      { href: "/zuvluh/", mn: "Хувийн санхүүжилт", en: "Personal Financing", ja: "個人向け資金計画" },
     ],
   },
   {
     href: "/sudalgaa/",
     section: "research",
     mn: "Судалгаа",
-    en: "Research",
+    en: "Research", ja: "リサーチ",
     // No dropdown: the menu listed three categories, two of which — macro and
     // the weekly review — were placeholders that never got a page. Securities
     // research is the one the firm actually publishes, and it is what this
@@ -98,31 +100,31 @@ const NAV: NavItem[] = [
     href: "/faq/",
     section: "support",
     mn: "Харилцагчийн туслах",
-    en: "Customer Support",
+    en: "Customer Support", ja: "サポート",
     // "Хэрхэн эхлэх" was the second of six top-level entries until the bar ran
     // out of room. It is a group in here instead: the guides are the thing a
     // reader comes looking for help with, so they have not moved far.
     drop: [
-      { href: "", mn: "Хэрхэн эхлэх", en: "Getting Started", group: true },
-      { href: "/zaavar/", mn: "Бүх заавар", en: "All guides" },
-      { href: "/zaavar-dansneeh/", mn: "Данс нээх", en: "Opening an account" },
-      { href: "/zaavar-tsenegleh/", mn: "Мөнгө байршуулах", en: "Add money" },
-      { href: "/zaavar-mungu/", mn: "Мөнгө татах", en: "Withdraw money" },
+      { href: "", mn: "Хэрхэн эхлэх", en: "Getting Started", ja: "はじめに", group: true },
+      { href: "/zaavar/", mn: "Бүх заавар", en: "All guides", ja: "ガイド一覧" },
+      { href: "/zaavar-dansneeh/", mn: "Данс нээх", en: "Opening an account", ja: "口座開設" },
+      { href: "/zaavar-tsenegleh/", mn: "Мөнгө байршуулах", en: "Add money", ja: "入金" },
+      { href: "/zaavar-mungu/", mn: "Мөнгө татах", en: "Withdraw money", ja: "出金" },
       // The iOS app ships (the footer links to it), but no written guide for
       // it exists yet, so the entry is shown and goes nowhere on purpose.
       {
         href: "",
         mn: "Аппликейшны заавар",
-        en: "App user guide",
+        en: "App user guide", ja: "アプリ操作ガイド",
         pending: true,
       },
-      { href: "", mn: "Тусламж", en: "Help", group: true },
-      { href: "/faq/", mn: "Түгээмэл асуулт", en: "FAQ" },
-      { href: "/holboo-barih/", mn: "Холбоо барих", en: "Contact us" },
+      { href: "", mn: "Тусламж", en: "Help", ja: "ヘルプ", group: true },
+      { href: "/faq/", mn: "Түгээмэл асуулт", en: "FAQ", ja: "よくあるご質問" },
+      { href: "/holboo-barih/", mn: "Холбоо барих", en: "Contact us", ja: "お問い合わせ" },
       {
         href: "/tog-hugjil-terms/",
         mn: "Үйлчилгээний нөхцөл",
-        en: "Terms of Service",
+        en: "Terms of Service", ja: "利用規約",
       },
     ],
   },
@@ -130,18 +132,18 @@ const NAV: NavItem[] = [
     href: "/tog-hugjil/",
     section: "sustainability",
     mn: "Тогтвортой хөгжил",
-    en: "Sustainability",
+    en: "Sustainability", ja: "サステナビリティ",
     alignRight: true,
     drop: [
       {
         href: "/tog-hugjil-esg/",
         mn: "Тогтвортой хөгжлийн бодлого (ESG)",
-        en: "Sustainability Policy (ESG)",
+        en: "Sustainability Policy (ESG)", ja: "サステナビリティ方針（ESG）",
       },
       {
         href: "/tog-hugjil-privacy/",
         mn: "Нууцлалын бодлого",
-        en: "Privacy Policy",
+        en: "Privacy Policy", ja: "プライバシーポリシー",
       },
     ],
   },
@@ -219,7 +221,11 @@ export default function Header() {
         <A href="/" className="logo">
           <Image
             src="/logo.png"
-            alt="«Нэйшнл сэкюритис ҮЦК» ХХК"
+            alt={t(
+                "«Нэйшнл сэкюритис ҮЦК» ХХК",
+                '"National Securities" LLC',
+                "ナショナル・セキュリティーズ証券",
+              )}
             width={495}
             height={109}
             priority
@@ -232,12 +238,12 @@ export default function Header() {
         <div className="drawer" data-open={open || undefined}>
           <div className="drawer-top">
             <span className="drawer-title">
-              <T mn="Цэс" en="Menu" />
+              <T mn="Цэс" en="Menu" ja="メニュー" />
             </span>
             <button
               type="button"
               className="drawer-close"
-              aria-label={t("Цэс хаах", "Close menu")}
+              aria-label={t("Цэс хаах", "Close menu", "メニューを閉じる")}
               onClick={() => setOpen(false)}
             >
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -256,7 +262,7 @@ export default function Header() {
                   href={item.href}
                   aria-current={item.section === active ? "page" : undefined}
                 >
-                  <T mn={item.mn} en={item.en} />
+                  <T mn={item.mn} en={item.en} ja={item.ja} />
                 </A>
                 {item.drop.length > 0 && (
                   <div
@@ -266,18 +272,18 @@ export default function Header() {
                     {item.drop.map((entry, index) =>
                       entry.group ? (
                         <div className="grp" key={`${entry.mn}-${index}`}>
-                          <T mn={entry.mn} en={entry.en} />
+                          <T mn={entry.mn} en={entry.en} ja={entry.ja} />
                         </div>
                       ) : entry.pending ? (
                         <PendingLink
                           key={`${entry.mn}-${index}`}
-                          label={t("Удахгүй нэмэгдэнэ", "Coming soon")}
+                          label={t("Удахгүй нэмэгдэнэ", "Coming soon", "近日公開")}
                         >
-                          <T mn={entry.mn} en={entry.en} />
+                          <T mn={entry.mn} en={entry.en} ja={entry.ja} />
                         </PendingLink>
                       ) : (
                         <A href={entry.href} key={`${entry.mn}-${index}`}>
-                          <T mn={entry.mn} en={entry.en} />
+                          <T mn={entry.mn} en={entry.en} ja={entry.ja} />
                         </A>
                       ),
                     )}
@@ -292,10 +298,10 @@ export default function Header() {
               belong here, where there is room for them. */}
           <div className="drawer-foot">
             <A href={TRADING_URL} className="btn btn-p">
-              <T mn="Данс нээх" en="Open Account" />
+              <T mn="Данс нээх" en="Open Account" ja="口座開設" />
             </A>
             <A href={TRADING_URL} className="btn btn-o">
-              <T mn="Нэвтрэх" en="Log In" />
+              <T mn="Нэвтрэх" en="Log In" ja="ログイン" />
             </A>
           </div>
         </div>
@@ -313,15 +319,15 @@ export default function Header() {
               <path d="M15 12H3" />
               <path d="M15 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4" />
             </svg>
-            <T mn="Нэвтрэх" en="Log In" />
+            <T mn="Нэвтрэх" en="Log In" ja="ログイン" />
           </A>
           <LangSwitch id="langSwitchHeader" />
           <A href={TRADING_URL} className="btn btn-p">
-            <T mn="Данс нээх" en="Open Account" />
+            <T mn="Данс нээх" en="Open Account" ja="口座開設" />
           </A>
           <button
             className="burger"
-            aria-label={t("Цэс нээх", "Open menu")}
+            aria-label={t("Цэс нээх", "Open menu", "メニューを開く")}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
           >

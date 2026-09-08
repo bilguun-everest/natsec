@@ -10,78 +10,79 @@ import { APP_STORE_URL, CONTACT } from "@/lib/site";
 const COLUMNS: {
   mn: string;
   en: string;
-  links: { href: string; mn: string; en: string }[];
+  ja: string;
+  links: { href: string; mn: string; en: string; ja: string }[];
 }[] = [
   {
     mn: "ХЭРХЭН ЭХЛЭХ",
-    en: "GETTING STARTED",
+    en: "GETTING STARTED", ja: "はじめに",
     links: [
-      { href: "/zaavar-dansneeh/", mn: "Данс нээх", en: "Opening an account" },
-      { href: "/zaavar-tsenegleh/", mn: "Мөнгө байршуулах", en: "Add money" },
-      { href: "/zaavar-mungu/", mn: "Мөнгө татах", en: "Withdraw money" },
-      { href: "/zaavar/", mn: "Бүх заавар", en: "All guides" },
+      { href: "/zaavar-dansneeh/", mn: "Данс нээх", en: "Opening an account", ja: "口座開設" },
+      { href: "/zaavar-tsenegleh/", mn: "Мөнгө байршуулах", en: "Add money", ja: "入金" },
+      { href: "/zaavar-mungu/", mn: "Мөнгө татах", en: "Withdraw money", ja: "出金" },
+      { href: "/zaavar/", mn: "Бүх заавар", en: "All guides", ja: "ガイド一覧" },
     ],
   },
   {
     mn: "ҮЙЛЧИЛГЭЭ",
-    en: "SERVICES",
+    en: "SERVICES", ja: "サービス",
     links: [
-      { href: "/broker/", mn: "Брокер", en: "Broker" },
-      { href: "/anderraiter/", mn: "Андеррайтер", en: "Underwriter" },
+      { href: "/broker/", mn: "Брокер", en: "Broker", ja: "ブローカー" },
+      { href: "/anderraiter/", mn: "Андеррайтер", en: "Underwriter", ja: "引受業務" },
       {
         href: "/zuvluh/",
         mn: "Хөрөнгө оруулалтын зөвлөгөө",
-        en: "Investment Advisory",
+        en: "Investment Advisory", ja: "投資助言",
       },
     ],
   },
   {
     mn: "СУДАЛГАА",
-    en: "RESEARCH",
+    en: "RESEARCH", ja: "リサーチ",
     links: [
       {
         href: "/sudalgaa/",
         mn: "Үнэт цаасны судалгаа",
-        en: "Securities Research",
+        en: "Securities Research", ja: "証券リサーチ",
       },
     ],
   },
   {
     mn: "ХАРИЛЦАГЧИЙН ТУСЛАХ",
-    en: "CUSTOMER SUPPORT",
+    en: "CUSTOMER SUPPORT", ja: "サポート",
     links: [
-      { href: "/faq/", mn: "Түгээмэл асуулт", en: "FAQ" },
-      { href: "/holboo-barih/", mn: "Холбоо барих", en: "Contact us" },
+      { href: "/faq/", mn: "Түгээмэл асуулт", en: "FAQ", ja: "よくあるご質問" },
+      { href: "/holboo-barih/", mn: "Холбоо барих", en: "Contact us", ja: "お問い合わせ" },
       {
         href: "/tog-hugjil-terms/",
         mn: "Үйлчилгээний нөхцөл",
-        en: "Terms of Service",
+        en: "Terms of Service", ja: "利用規約",
       },
     ],
   },
   {
     mn: "ТОГТВОРТОЙ ХӨГЖИЛ",
-    en: "SUSTAINABILITY",
+    en: "SUSTAINABILITY", ja: "サステナビリティ",
     links: [
       {
         href: "/tog-hugjil-esg/",
         mn: "Тогтвортой хөгжлийн бодлого (ESG)",
-        en: "Sustainability Policy (ESG)",
+        en: "Sustainability Policy (ESG)", ja: "サステナビリティ方針（ESG）",
       },
       {
         href: "/tog-hugjil-privacy/",
         mn: "Нууцлалын бодлого",
-        en: "Privacy Policy",
+        en: "Privacy Policy", ja: "プライバシーポリシー",
       },
     ],
   },
   {
     mn: "БИДНИЙ ТУХАЙ",
-    en: "ABOUT US",
+    en: "ABOUT US", ja: "会社概要",
     links: [
-      { href: "/tanilcuulga/", mn: "Танилцуулга", en: "Overview" },
-      { href: "/ololt/", mn: "Ололт амжилт", en: "Achievements" },
-      { href: "/tailan/", mn: "Санхүүгийн тайлан", en: "Financial Reports" },
+      { href: "/tanilcuulga/", mn: "Танилцуулга", en: "Overview", ja: "会社案内" },
+      { href: "/ololt/", mn: "Ололт амжилт", en: "Achievements", ja: "実績" },
+      { href: "/tailan/", mn: "Санхүүгийн тайлан", en: "Financial Reports", ja: "財務報告" },
     ],
   },
 ];
@@ -101,7 +102,11 @@ export default function Footer() {
                 the navy taken to white and that blue left alone. */}
             <Image
               src="/logo-reverse.png"
-              alt="«Нэйшнл сэкюритис ҮЦК» ХХК"
+              alt={t(
+                  "«Нэйшнл сэкюритис ҮЦК» ХХК",
+                  '"National Securities" LLC',
+                  "ナショナル・セキュリティーズ証券",
+                )}
               width={495}
               height={109}
             />
@@ -116,11 +121,14 @@ export default function Footer() {
                 en={
                   '"National Securities" LLC\nSukhbaatar District, Ulaanbaatar,\nEco Tower, 9th floor, Room 904'
                 }
+                ja={
+                  "ナショナル・セキュリティーズ証券\nウランバートル市 スフバートル区、\nエコタワー 9階 904号室"
+                }
               />
             </p>
             <p className="fcontact">
               <span>
-                <T mn="Утас:" en="Phone:" />{" "}
+                <T mn="Утас:" en="Phone:" ja="電話：" />{" "}
                 {CONTACT.phones.map((phone, index) => (
                   <Fragment key={phone.dial}>
                     {index > 0 && ", "}
@@ -129,7 +137,7 @@ export default function Footer() {
                 ))}
               </span>
               <span>
-                <T mn="И-мэйл:" en="Email:" />{" "}
+                <T mn="И-мэйл:" en="Email:" ja="メール：" />{" "}
                 <A href={`mailto:${CONTACT.email}`}>{CONTACT.email}</A>
               </span>
             </p>
@@ -158,13 +166,13 @@ export default function Footer() {
                 </svg>
                 <span className="txt">
                   <small>
-                    <T mn="Татах" en="Download on the" />
+                    <T mn="Татах" en="Download on the" ja="ダウンロード" />
                   </small>
                   <b>App Store</b>
                 </span>
               </A>
               <PendingLink
-                label={t("Google Play — удахгүй", "Google Play — coming soon")}
+                label={t("Google Play — удахгүй", "Google Play — coming soon", "Google Play — 近日公開")}
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M3.6 2.2c-.4.4-.6.9-.6 1.6v16.4c0 .7.2 1.2.6 1.6l.1.1L13 12.6v-.2L3.7 2.1l-.1.1z" />
@@ -180,7 +188,7 @@ export default function Footer() {
                 </svg>
                 <span className="txt">
                   <small>
-                    <T mn="Татах" en="Get it on" />
+                    <T mn="Татах" en="Get it on" ja="手に入れよう" />
                   </small>
                   <b>Google Play</b>
                 </span>
@@ -195,13 +203,13 @@ export default function Footer() {
             {COLUMNS.map((column) => (
               <div className="fcol" key={column.mn}>
                 <h5>
-                  <T mn={column.mn} en={column.en} />
+                  <T mn={column.mn} en={column.en} ja={column.ja} />
                 </h5>
                 <ul>
                   {column.links.map((link) => (
                     <li key={`${link.href}-${link.mn}`}>
                       <A href={link.href}>
-                        <T mn={link.mn} en={link.en} />
+                        <T mn={link.mn} en={link.en} ja={link.ja} />
                       </A>
                     </li>
                   ))}
@@ -215,6 +223,7 @@ export default function Footer() {
           <T
             mn="Үнэт цаасны арилжаанд оролцоход зах зээлийн эрсдэл дагалддаг бөгөөд хөрөнгө оруулалтын өнгөрсөн үр дүн ирээдүйн өгөөжийн баталгаа болохгүй. Энэ хуудсанд байрлуулсан зах зээлийн үзүүлэлт нь Монголын хөрөнгийн биржийн нийтэлсэн мэдээлэлд тулгуурласан лавлагаа мэдээлэл юм."
             en="Trading securities carries market risk, and past investment performance is no guarantee of future returns. The market figures shown on this page are reference data drawn from the Mongolian Stock Exchange's own published feed."
+            ja="証券の取引には市場リスクが伴い、過去の運用実績は将来の収益を保証するものではありません。本ページに表示される市場データは、モンゴル証券取引所が公表するフィードに基づく参考情報です。"
           />
         </div>
 
@@ -223,12 +232,14 @@ export default function Footer() {
             <T
               mn="© 2026 «Нэйшнл сэкюритис ҮЦК» ХХК."
               en="© 2026 National Securities LLC. All rights reserved."
+              ja="© 2026 ナショナル・セキュリティーズ証券。無断転載を禁じます。"
             />
           </span>
           <span>
             <T
               mn="Санхүүгийн зохицуулах хорооны тусгай зөвшөөрөлтэй"
               en="Licensed by the Financial Regulatory Commission"
+              ja="金融規制委員会の特別ライセンスを取得"
             />
           </span>
         </div>

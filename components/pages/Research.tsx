@@ -27,11 +27,11 @@ export default function Research({ research }: { research: ResearchItem[] }) {
       <div className="wrap split">
         <div>
           <SecHead
-            eyebrow={{ mn: "Судалгаа, шинжилгээ", en: "Research & Analysis" }}
-            title={{ mn: "Үнэт цаасны судалгаа", en: "Securities Research" }}
+            eyebrow={{ mn: "Судалгаа, шинжилгээ", en: "Research & Analysis", ja: "リサーチ・分析" }}
+            title={{ mn: "Үнэт цаасны судалгаа", en: "Securities Research", ja: "証券リサーチ" }}
             lead={{
               mn: "Бирж дээр бүртгэлтэй компаниудын үнэлгээ, салбарын шинжилгээг PDF хэлбэрээр нийтэлнэ.",
-              en: "Valuations of listed companies and sector analysis, published as PDFs.",
+              en: "Valuations of listed companies and sector analysis, published as PDFs.", ja: "上場企業の評価と業種分析をPDFで公開します。",
             }}
             style={{ marginBottom: 22 }}
           />
@@ -40,6 +40,7 @@ export default function Research({ research }: { research: ResearchItem[] }) {
               <T
                 mn="Эхний судалгаа удахгүй энд нийтлэгдэнэ."
                 en="The first report will be published here shortly."
+                ja="最初のレポートは近日中にこちらで公開します。"
               />
             </p>
           ) : (
@@ -50,7 +51,7 @@ export default function Research({ research }: { research: ResearchItem[] }) {
                     <time>{item.date}</time>
                     <div>
                       <h4>
-                        <T mn={item.title.mn} en={item.title.en} />
+                        <T mn={item.title.mn} en={item.title.en} ja={item.title.ja} />
                       </h4>
                       {item.size ? <span className="tag">{item.size}</span> : null}
                     </div>
@@ -62,14 +63,15 @@ export default function Research({ research }: { research: ResearchItem[] }) {
         </div>
 
         <Reveal className="rbox" delay={120}>
-          <Eyebrow mn="Судалгаа" en="Research" />
+          <Eyebrow mn="Судалгаа" en="Research" ja="リサーチ" />
           <h3>
-            <T mn="Шинжээчийн тайлан" en="Analyst Reports" />
+            <T mn="Шинжээчийн тайлан" en="Analyst Reports" ja="アナリストレポート" />
           </h3>
           <p>
             <T
               mn="Тодорхой компани, салбарын талаар шинжилгээ хүсэх бол брокертойгоо шууд холбогдоно уу."
               en="To request analysis of a particular company or sector, talk to your broker directly."
+              ja="特定の企業や業種の分析をご希望の場合は、担当ブローカーに直接ご相談ください。"
             />
           </p>
           <ul className="rlist">

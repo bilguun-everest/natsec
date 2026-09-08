@@ -90,7 +90,22 @@
      separate from body copy by weight, size and tracking instead. */
   --display:var(--font-inter),"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:var(--font-mono),"JetBrains Mono",ui-monospace,SFMono-Regular,monospace;
+}
 
+/* No Japanese webfont is downloaded. Inter and JetBrains Mono carry Latin and
+   Cyrillic and no CJK at all, so a Japanese page would fall back glyph by
+   glyph to whatever the browser picked. These name the faces every Japanese
+   system already has — the reader gets a native face at no transfer cost, and
+   the Latin in a mixed line still sets in Inter, which is listed first. */
+:root[lang="ja"]{
+  --sans:var(--font-inter),"Inter","Hiragino Sans","Hiragino Kaku Gothic ProN",
+    "Yu Gothic","Noto Sans JP","Meiryo",system-ui,sans-serif;
+  --display:var(--sans);
+  --mono:var(--font-mono),"JetBrains Mono",ui-monospace,SFMono-Regular,
+    "Hiragino Sans","Yu Gothic","Noto Sans JP","Meiryo",monospace;
+}
+
+:root{
   /* The type scale. These tokens existed before and were used by about ten
      declarations out of a hundred and thirty; the rest carried their own
      numbers, which is how the site ended up with 13.2, 13.4, 13.5, 13.6 and
@@ -1573,15 +1588,18 @@ footer{
    within sixty pixels of each other with no reason recorded for any of them.
    Add one here only with the reason written next to it. */
 
-/* Re-measured after "Log In" came back into the bar from the deleted utility
-   strip. The five menu items are still 617px, but the action group went from
-   200 to 285, so the row now needs 191 + 617 + 285 plus its two 18px gaps.
-   Measured against the built site rather than calculated: the menu sits
-   uncompressed at 1260 and is being squeezed by 1220, so the handover goes
-   back to 1259 — where it was before "Хэрхэн эхлэх" moved into the Customer
-   Support menu and briefly bought the room. Below it the header hands over to
-   the drawer rather than letting the menu run into the logo, and the drawer
-   carries both account actions. Re-measure here rather than nudging font
+/* Re-measured after Japanese was added: the language switch went from two
+   buttons to three, which took the action group from 285 to 322. Mongolian is
+   the widest of the three headers — logo 191, menu 633, actions 322 — and at
+   1260, the narrowest width this bar is ever asked to hold, it still lays out
+   with both 18px gaps intact, its items at their intrinsic widths and no
+   overflow on the row. So the handover stays at 1259. (English needs 1150 and
+   Japanese 1064; neither is what sets this number.)
+
+   Below it the header hands over to the drawer rather than letting the menu
+   run into the logo, and the drawer carries both account actions. Measure
+   against the built site rather than calculating — the arithmetic double-
+   counts the wrap padding — and re-measure here rather than nudging font
    sizes if the nav changes again. */
 /* The drawer is a full-height overlay rather than a panel hung off the bottom
    of the header. The header's own offset changes as the utility strip scrolls

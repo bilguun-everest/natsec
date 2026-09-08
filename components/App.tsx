@@ -172,7 +172,7 @@ function SkipLink({ target }: { target: React.RefObject<HTMLElement | null> }) {
       className="skip-link"
       onClick={() => target.current?.focus({ preventScroll: true })}
     >
-      {t("Үндсэн хэсэг рүү очих", "Skip to main content")}
+      {t("Үндсэн хэсэг рүү очих", "Skip to main content", "メインコンテンツへ移動")}
     </button>
   );
 }

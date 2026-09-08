@@ -40,18 +40,18 @@ export default function Sustainability() {
     <section id="tog-hugjil">
       <div className="wrap">
         <SecHead
-          eyebrow={{ mn: "Тогтвортой хөгжил", en: "Sustainability" }}
+          eyebrow={{ mn: "Тогтвортой хөгжил", en: "Sustainability", ja: "サステナビリティ" }}
           title={{
             // Non-breaking space: "ил тод" is one idea ("transparent"), and
             // `text-wrap:balance` on headings was splitting it across the two
             // lines, leaving "ил" dangling at the end of the first. Glued, the
             // balance falls at the comma instead, which is where it belongs.
             mn: "Хариуцлагатай, ил\u00A0тод үйл ажиллагаа",
-            en: "Responsible and transparent operations",
+            en: "Responsible and transparent operations", ja: "責任と透明性のある経営",
           }}
           lead={{
             mn: "Тогтвортой хөгжлийн бодлого, харилцагчийн мэдээллийн нууцлал, үйлчилгээний нөхцөлтэй холбоотой бодлогууд.",
-            en: "Our policies on sustainable development, data privacy, and terms of service.",
+            en: "Our policies on sustainable development, data privacy, and terms of service.", ja: "サステナビリティ、個人情報の取扱い、利用規約に関する方針。",
           }}
         />
         <div className="policy-grid">
@@ -69,13 +69,13 @@ export default function Sustainability() {
                 </svg>
               </span>
               <h4>
-                <T mn={policy.title.mn} en={policy.title.en} />
+                <T mn={policy.title.mn} en={policy.title.en} ja={policy.title.ja} />
               </h4>
               <p>
-                <T mn={policy.card.mn} en={policy.card.en} />
+                <T mn={policy.card.mn} en={policy.card.en} ja={policy.card.ja} />
               </p>
               <span className="more">
-                <T mn={policy.cta.mn} en={policy.cta.en} />
+                <T mn={policy.cta.mn} en={policy.cta.en} ja={policy.cta.ja} />
               </span>
             </Reveal>
           ))}
@@ -95,15 +95,15 @@ export function PolicyDetail({ policy }: { policy: Policy }) {
       back={{
         href: "/tog-hugjil/",
         mn: "Тогтвортой хөгжил рүү буцах",
-        en: "All policies",
+        en: "All policies", ja: "方針一覧",
       }}
     >
-      <Eyebrow mn="Тогтвортой хөгжил" en="Sustainability" />
+      <Eyebrow mn="Тогтвортой хөгжил" en="Sustainability" ja="サステナビリティ" />
       <h2>
-        <T mn={policy.title.mn} en={policy.title.en} />
+        <T mn={policy.title.mn} en={policy.title.en} ja={policy.title.ja} />
       </h2>
       <p className="mp-lead">
-        <T mn={policy.lead.mn} en={policy.lead.en} />
+        <T mn={policy.lead.mn} en={policy.lead.en} ja={policy.lead.ja} />
       </p>
       <List items={policy.points} />
 

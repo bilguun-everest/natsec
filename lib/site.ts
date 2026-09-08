@@ -13,6 +13,8 @@ export const CONTACT = {
     "Монгол Улаанбаатар хот, Сүхбаатар дүүрэг, Eco Tower, 9 давхарт 904",
   addressEn:
     "Eco Tower, 9th floor, Room 904, Sukhbaatar District, Ulaanbaatar, Mongolia",
+  addressJa:
+    "モンゴル ウランバートル市 スフバートル区 エコタワー 9階 904号室",
   /**
    * Split so each number can be its own `tel:` link — on a phone, a number you
    * cannot tap is a number you have to memorise and retype.

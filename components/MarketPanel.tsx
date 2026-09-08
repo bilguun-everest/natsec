@@ -27,16 +27,16 @@ export default function MarketPanel() {
     <div className="panel">
       <div className="panel-h">
         <span>
-          <T mn="Зах зээл — өнөөдөр" en="Market — Today" />
+          <T mn="Зах зээл — өнөөдөр" en="Market — Today" ja="本日の市場" />
         </span>
         <span className="status" style={{ color: statusColour(live, session.open) }}>
           {live && session.open && <span className="live-dot" />}
           {!live ? (
-            <T mn="Холбогдож байна" en="Reconnecting" />
+            <T mn="Холбогдож байна" en="Reconnecting" ja="再接続中" />
           ) : session.open ? (
-            <T mn="Арилжаа нээлттэй" en="Trading Open" />
+            <T mn="Арилжаа нээлттэй" en="Trading Open" ja="取引時間中" />
           ) : (
-            <T mn="Арилжаа хаалттай" en="Market Closed" />
+            <T mn="Арилжаа хаалттай" en="Market Closed" ja="取引時間外" />
           )}
         </span>
       </div>
@@ -44,14 +44,14 @@ export default function MarketPanel() {
       {indices && (
         <>
           <Row
-            name={t("ТОП-20 индекс", "TOP-20 Index")}
+            name={t("ТОП-20 индекс", "TOP-20 Index", "TOP-20 指数")}
             sub="MSE TOP-20"
             value={indices.top20.unit}
             note={indices.top20.percent}
             dir={indices.top20.dir}
           />
           <Row
-            name={t("MSE A индекс", "MSE A Index")}
+            name={t("MSE A индекс", "MSE A Index", "MSE A 指数")}
             sub="MSE A"
             value={indices.mseA.unit}
             note={indices.mseA.percent}
@@ -64,7 +64,7 @@ export default function MarketPanel() {
         <Row
           key={quote.symbol}
           name={quote.name}
-          sub={`${quote.symbol} · ${t("сүүлийн ханш", "last price")}`}
+          sub={`${quote.symbol} · ${t("сүүлийн ханш", "last price", "現在値")}`}
           value={quote.price}
           tugrug
           note={`${quote.percent > 0 ? "▲" : quote.percent < 0 ? "▼" : "–"} ${Math.abs(
@@ -77,10 +77,10 @@ export default function MarketPanel() {
       {when && (
         <div className="panel-f">
           <span>
-            <T mn="Эх сурвалж: mse.mn" en="Source: mse.mn" />
+            <T mn="Эх сурвалж: mse.mn" en="Source: mse.mn" ja="出典：mse.mn" />
           </span>
           <span>
-            <T mn="Шинэчлэгдсэн " en="Updated " />
+            <T mn="Шинэчлэгдсэн " en="Updated " ja="更新 " />
             {when}
           </span>
         </div>

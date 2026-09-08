@@ -23,6 +23,7 @@ export default function MarketTicker() {
       title={t(
         `${quote.name} — өдрийн эргэлт`,
         `${quote.name} — traded today`,
+        `${quote.name} — 本日の売買`,
       )}
     >
       {quote.symbol}{" "}
@@ -40,11 +41,11 @@ export default function MarketTicker() {
   return (
     <div
       className="mkt-ticker"
-      aria-label={t("Өдрийн эргэлтээр тэргүүлэгчид", "Today's turnover leaders")}
+      aria-label={t("Өдрийн эргэлтээр тэргүүлэгчид", "Today's turnover leaders", "本日の売買代金上位")}
     >
       <div className="track">
         <span className="item mkt-label">
-          <T mn="ӨДРИЙН ЭРГЭЛТ" en="TRADED TODAY" />
+          <T mn="ӨДРИЙН ЭРГЭЛТ" en="TRADED TODAY" ja="本日の売買" />
         </span>
         {/* Duplicated for a seamless loop; the copy is hidden from assistive
             tech so the figures are not announced twice. */}

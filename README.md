@@ -4,7 +4,7 @@ Corporate site for **«Нэйшнл сэкюритис ҮЦК» ХХК** (Nation
 licensed Mongolian broker / underwriter / investment advisor, built with
 **Next.js (App Router)**, **TypeScript** and **Tailwind CSS**.
 
-The page is bilingual (Монгол / English) and pulls **live trading data from the
+The site is trilingual (Монгол / English / 日本語) and pulls **live trading data from the
 Mongolian Stock Exchange** at build / revalidate time.
 
 ## Design system
@@ -55,10 +55,20 @@ public/
 
 ## Language switching
 
-All copy lives in `lib/content.ts` as `{ mn, en }` pairs and is rendered through
-`<T>`, which also turns `₮` into a fallback-font span and `\n` into a line
-break. Mongolian is what the server renders (and what no-JS users see); the
-stored preference is applied on mount and mirrored onto `<html lang>`.
+Copy is written as `{ mn, en, ja }` triples and rendered through `<T>`, which
+also turns `₮` into a fallback-font span and `\n` into a line break.
+
+The language is **the URL**, not a stored preference. Mongolian holds the bare
+paths, English lives under `/en/`, Japanese under `/ja/`, and each is its own
+root layout so `<html lang>` is right in the exported file. `<A>` puts the
+prefix on every internal href, so an exported Japanese page links to Japanese
+pages. Adding a fourth language means: a `Lang` member and its prefix in
+`lib/routes.ts`, a title per route, a route group under `app/`, and the third
+argument at every `<T>`.
+
+The exchange publishes its board in Mongolian and English only, so a Japanese
+reader gets the English company names. No Japanese webfont is downloaded —
+`:root[lang="ja"]` names the system faces instead.
 
 ## Live market data (mse.mn)
 
@@ -110,10 +120,10 @@ Notes on how it is wired:
   only ever see `_status: published`, enforced in two places: `publishedOrStaff`
   in `collections/access.ts` for the REST API, and an explicit `where` clause in
   `lib/content.ts` because the Local API bypasses access control.
-- **Locales are `mn` / `en`** at the Payload level. Editors get a language
-  switcher rather than paired fields. `lib/content.ts` queries with
-  `locale: "all"` and hands components `{ mn, en }` pairs, because the language
-  switch happens in the browser.
+- **Locales are `mn` / `en` / `ja`** at the Payload level. Editors get a
+  language switcher rather than paired fields. `lib/content.ts` queries with
+  `locale: "all"` and hands components `{ mn, en, ja }` triples, because the
+  language switch happens in the browser.
 - **File sizes are measured**, not typed — `PDF · 2.1MB` is derived from
   `filesize`.
 - Admin chrome is English: Payload ships no Mongolian translation. Field labels
@@ -146,7 +156,7 @@ npm run migrate:create      # create a migration (push is off in production)
 
 ## TODO — picking this up on another device
 
-State as of this commit: the full design is implemented, bilingual, building
+State as of this commit: the full design is implemented, trilingual, building
 clean (`npm run build`), verified in headless Chrome at 1280px / 500px, and the
 MSE board / index / disclosures are live.
 
