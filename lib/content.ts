@@ -16,7 +16,6 @@ export interface ResearchItem {
   id: number;
   title: Bi;
   summary: Bi | null;
-  category: "macro" | "securities" | "weekly";
   /** Pre-formatted `2026.07.20`, matching the design's date style. */
   date: string;
   url: string | null;
@@ -33,18 +32,9 @@ export interface ReportItem {
   size: string | null;
 }
 
-export interface WeeklyItem {
-  id: number;
-  title: Bi;
-  lead: Bi | null;
-  date: string;
-  content: { mn: unknown; en: unknown };
-}
-
 export interface SiteContent {
   research: ResearchItem[];
   reports: ReportItem[];
-  weekly: WeeklyItem | null;
 }
 
 /** Payload hands back `{ mn, en }` under `locale: "all"`; missing values fall
@@ -92,7 +82,7 @@ function formatSize(bytes: number | null | undefined): string | null {
  */
 const publishedOnly = { _status: { equals: "published" } } as const;
 
-const EMPTY: SiteContent = { research: [], reports: [], weekly: null };
+const EMPTY: SiteContent = { research: [], reports: [] };
 
 /**
  * The dashboard is not deployed while this runs as a static landing page, and
@@ -118,7 +108,7 @@ export async function getSiteContent(): Promise<SiteContent> {
   try {
     const payload = await getPayload({ config });
 
-    const [research, reports, weekly] = await Promise.all([
+    const [research, reports] = await Promise.all([
       payload.find({
         collection: "research",
         where: publishedOnly,
@@ -135,24 +125,13 @@ export async function getSiteContent(): Promise<SiteContent> {
         sort: "-year",
         depth: 0,
       }),
-      payload.find({
-        collection: "weekly",
-        where: publishedOnly,
-        locale: "all",
-        limit: 1,
-        sort: "-publishedAt",
-        depth: 1,
-      }),
     ]);
-
-    const latest = weekly.docs[0];
 
     return {
       research: research.docs.map((doc) => ({
         id: doc.id,
         title: bi(doc.title),
         summary: biOrNull(doc.summary),
-        category: doc.category,
         date: formatDate(doc.publishedAt),
         url: doc.url ?? null,
         size: formatSize(doc.filesize),
@@ -171,21 +150,6 @@ export async function getSiteContent(): Promise<SiteContent> {
             Number(b.year) - Number(a.year) ||
             PERIOD_RANK[a.period] - PERIOD_RANK[b.period],
         ),
-      weekly: latest
-        ? {
-            id: latest.id,
-            title: bi(latest.title),
-            lead: biOrNull(latest.lead),
-            date: formatDate(latest.publishedAt),
-            // `payload-types.ts` describes a localized field as its resolved
-            // single-locale value. Under `locale: "all"` it is really a map
-            // keyed by locale, which the generated types cannot express.
-            content: (latest.content ?? {}) as unknown as {
-              mn: unknown;
-              en: unknown;
-            },
-          }
-        : null,
     };
   } catch (error) {
     // A database that is unreachable should cost the reader the research

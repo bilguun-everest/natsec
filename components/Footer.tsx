@@ -39,16 +39,10 @@ const COLUMNS: {
     mn: "СУДАЛГАА",
     en: "RESEARCH",
     links: [
-      { href: "/sudalgaa/", mn: "Макро орчны судалгаа", en: "Macro Research" },
       {
         href: "/sudalgaa/",
         mn: "Үнэт цаасны судалгаа",
         en: "Securities Research",
-      },
-      {
-        href: "/sudalgaa-toim/",
-        mn: "Долоо хоногийн тойм",
-        en: "Weekly Review",
       },
     ],
   },

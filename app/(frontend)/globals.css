@@ -1457,27 +1457,6 @@ table.co tbody tr:hover{background:var(--blue-50)}
 .empty-panel p{font-size:var(--t-sm);color:var(--grey);line-height:1.7;margin-bottom:16px}
 .nf-links{display:flex;gap:12px;flex-wrap:wrap}
 
-/* Weekly review article — editor-authored rich text, so element selectors. */
-.article-date{font-family:var(--mono);font-size:var(--t-label);color:var(--grey-2);margin:-10px 0 28px;letter-spacing:.06em}
-.article-body{max-width:68ch}
-.article-body h2,.article-body h3,.article-body h4{margin:38px 0 14px;line-height:1.3}
-.article-body h2{font-size:var(--t-h2-s)}
-.article-body h3{font-size:var(--t-card)}
-.article-body h4{font-size:var(--t-h4)}
-.article-body p{font-size:var(--t-body);line-height:1.85;color:var(--ink-2);margin-bottom:18px}
-.article-body ul,.article-body ol{margin:0 0 20px 20px;list-style:disc}
-.article-body ol{list-style:decimal}
-.article-body li{font-size:var(--t-body);line-height:1.85;color:var(--ink-2);margin-bottom:7px}
-.article-body a{color:var(--blue-700);text-decoration:underline;text-underline-offset:3px}
-.article-body blockquote{
-  border-left:3px solid var(--blue);padding:4px 0 4px 20px;margin:0 0 20px;
-  color:var(--grey);font-family:var(--display);font-style:italic;font-size:var(--t-h4);
-}
-.article-body img{max-width:100%;height:auto;border-radius:var(--r-md);margin:10px 0 22px}
-.article-body table{width:100%;border-collapse:collapse;margin:0 0 22px;font-size:var(--t-sm);display:block;overflow-x:auto}
-.article-body th,.article-body td{border:1px solid var(--line);padding:10px 14px;text-align:left}
-.article-body th{background:var(--blue-50);color:var(--navy-900);font-weight:600}
-
 /* ---------------------------------------------------------------- 21 footer */
 footer{
   position:relative;

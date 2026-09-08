@@ -19,7 +19,6 @@ import Research from "@/components/pages/Research";
 import Services from "@/components/pages/Services";
 import Sustainability, { PolicyDetail } from "@/components/pages/Sustainability";
 import Underwriter from "@/components/pages/Underwriter";
-import WeeklyReview from "@/components/pages/WeeklyReview";
 import {
   RouteProvider,
   navigate,
@@ -62,9 +61,7 @@ function Page({ route, content }: { route: Route; content: SiteContent }) {
     case "zuvluh":
       return <Advisory />;
     case "sudalgaa":
-      return <Research research={content.research} weekly={content.weekly} />;
-    case "sudalgaa-toim":
-      return <WeeklyReview weekly={content.weekly} />;
+      return <Research research={content.research} />;
     case "zaavar":
       return <Guides />;
     case "faq":

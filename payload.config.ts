@@ -10,7 +10,6 @@ import { Media } from "./collections/Media";
 import { Reports } from "./collections/Reports";
 import { Research } from "./collections/Research";
 import { Users } from "./collections/Users";
-import { Weekly } from "./collections/Weekly";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -23,7 +22,7 @@ export default buildConfig({
     },
   },
 
-  collections: [Research, Reports, Weekly, Media, Users],
+  collections: [Research, Reports, Media, Users],
 
   /**
    * Content locales, not admin UI language. Every `localized: true` field gets
@@ -54,7 +53,7 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: { outputFile: path.resolve(dirname, "payload-types.ts") },
 
-  // Resizes images uploaded into weekly review articles.
+  // Resizes images uploaded to the media library.
   sharp,
 
   plugins: [

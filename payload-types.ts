@@ -69,7 +69,6 @@ export interface Config {
   collections: {
     research: Research;
     reports: Report;
-    weekly: Weekly;
     media: Media;
     users: User;
     'payload-kv': PayloadKv;
@@ -81,7 +80,6 @@ export interface Config {
   collectionsSelect: {
     research: ResearchSelect<false> | ResearchSelect<true>;
     reports: ReportsSelect<false> | ReportsSelect<true>;
-    weekly: WeeklySelect<false> | WeeklySelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -124,7 +122,7 @@ export interface UserAuthOperations {
   };
 }
 /**
- * PDF тайлан байршуулж, гарчиг, огноо, ангиллыг оруулна.
+ * PDF тайлан байршуулж, гарчиг, огноог оруулна.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "research".
@@ -132,7 +130,6 @@ export interface UserAuthOperations {
 export interface Research {
   id: number;
   title: string;
-  category: 'macro' | 'securities' | 'weekly';
   publishedAt: string;
   /**
    * Заавал биш. Жагсаалтад гарчгийн доор харагдана.
@@ -174,36 +171,6 @@ export interface Report {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * Долоо хоногийн зах зээлийн тойм. Хамгийн сүүлийнх нь сайтад харагдана.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "weekly".
- */
-export interface Weekly {
-  id: number;
-  title: string;
-  publishedAt: string;
-  lead?: string | null;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -296,10 +263,6 @@ export interface PayloadLockedDocument {
         value: number | Report;
       } | null)
     | ({
-        relationTo: 'weekly';
-        value: number | Weekly;
-      } | null)
-    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -355,7 +318,6 @@ export interface PayloadMigration {
  */
 export interface ResearchSelect<T extends boolean = true> {
   title?: T;
-  category?: T;
   publishedAt?: T;
   summary?: T;
   updatedAt?: T;
@@ -391,19 +353,6 @@ export interface ReportsSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "weekly_select".
- */
-export interface WeeklySelect<T extends boolean = true> {
-  title?: T;
-  publishedAt?: T;
-  lead?: T;
-  content?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -89,17 +89,16 @@ animation is the pulsing "live" dot.
 
 ## Content management (Payload CMS)
 
-Research reports, financial statements and the weekly review are edited in a
+Research reports and financial statements are edited in a
 dashboard at **`/admin`**, not in code. Payload 3 runs inside this same Next
 app — same repo, same deploy, same domain — backed by Postgres for content and
 Vercel Blob for the PDFs.
 
 | Collection | Slug | What it holds |
 | --- | --- | --- |
-| Судалгаа | `research` | Research PDFs — category (macro / securities / weekly), date, optional summary |
+| Судалгаа | `research` | Securities research PDFs — title, date, optional summary |
 | Санхүүгийн тайлан | `reports` | Audited statements — year, period, PDF |
-| Долоо хоногийн тойм | `weekly` | The weekly review *page* — rich text, not a file |
-| Зураг | `media` | Images placed inside weekly articles |
+| Зураг | `media` | The image library |
 | Хэрэглэгчид | `users` | Admin accounts |
 
 Notes on how it is wired:
@@ -107,7 +106,7 @@ Notes on how it is wired:
 - **Publishing is one action.** `research` and `reports` are upload-enabled
   collections, so creating an entry *is* uploading the PDF — no separate media
   step.
-- **Drafts are enabled** on all three content collections. Anonymous readers
+- **Drafts are enabled** on both content collections. Anonymous readers
   only ever see `_status: published`, enforced in two places: `publishedOrStaff`
   in `collections/access.ts` for the REST API, and an explicit `where` clause in
   `lib/content.ts` because the Local API bypasses access control.

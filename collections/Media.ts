@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { anyone, staffOnly } from "./access";
 
-/** Images placed inside weekly review articles — charts, tables, photos. */
+/** The site's image library — charts, tables, photos. */
 export const Media: CollectionConfig = {
   slug: "media",
   admin: { group: "Тохиргоо" },

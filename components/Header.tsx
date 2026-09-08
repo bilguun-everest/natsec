@@ -87,20 +87,12 @@ const NAV: NavItem[] = [
     section: "research",
     mn: "Судалгаа",
     en: "Research",
-    // Placeholder categories: the real list is still being decided.
-    drop: [
-      { href: "/sudalgaa/", mn: "Макро орчны судалгаа", en: "Macro Research" },
-      {
-        href: "/sudalgaa/",
-        mn: "Үнэт цаасны судалгаа",
-        en: "Securities Research",
-      },
-      {
-        href: "/sudalgaa-toim/",
-        mn: "Долоо хоногийн тойм",
-        en: "Weekly Review",
-      },
-    ],
+    // No dropdown: the menu listed three categories, two of which — macro and
+    // the weekly review — were placeholders that never got a page. Securities
+    // research is the one the firm actually publishes, and it is what this
+    // opens, so a menu of one entry pointing at the page behind it would only
+    // be asking for the same click twice.
+    drop: [],
   },
   {
     href: "/faq/",
