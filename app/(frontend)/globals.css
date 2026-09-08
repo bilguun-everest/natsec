@@ -24,6 +24,11 @@
   --blue-600:#0153CC;
   --blue-400:#3D8DFF;
   --blue-300:#7FBBFF;
+  /* Asked for by name for the hero's second line. It is a mid blue, not a
+     lifted one, so it clears 3:1 on the hero ground rather than 4.5:1 — which
+     is the AA bar for text at that size, and the reason it is scoped to that
+     one display-size headline instead of joining the palette above. */
+  --blue-hero:#2863FE;
   --blue-100:#D5E4FF;
   --blue-50:#EEF4FF;
 
@@ -599,11 +604,15 @@ header .wrap{max-width:1340px}
 }
 /* The second line is set in the same face and weight as the first — only the
    colour changes. It was italic at weight 400, which put three treatments in a
-   two-line headline; the blue is the one distinction that stays. */
+   two-line headline; the blue is the one distinction that stays.
+
+   Flat, not a gradient: it was a three-stop sweep clipped to the glyphs, and
+   the brand colour was asked for by name. `color` alone here — the gradient
+   needed `background-clip:text` and a transparent fill, and leaving either
+   behind would paint the line invisible. */
 .hero h1 em{
   font-style:normal;font-weight:inherit;
-  background:linear-gradient(96deg,var(--blue-300),#B7D7FF 55%,var(--blue-300));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
+  color:var(--blue-hero);
 }
 .hero p.lead{
   font-size:var(--t-lead);color:#AFB8DC;line-height:1.72;
