@@ -8,40 +8,6 @@ import { FAQ } from "@/lib/faq";
 import { CONTACT, TRADING_URL } from "@/lib/site";
 
 /**
- * Headlines carry a date or they do not appear.
- *
- * These four ran as an unlabelled five-second carousel. Without dates there was
- * nothing to expose how old they were — "subscription closes in 7 days" had
- * been saying so indefinitely, and "the weekly review is now published" points
- * at a research section that has nothing in it yet. A date makes stale copy
- * admit to being stale, which is why an entry without one is not rendered.
- *
- * `date` is ISO (`2026-08-28`). Fill these in, or replace them with real news.
- */
-const HEADLINES: { mn: string; en: string; date: string }[] = [
-  {
-    mn: "Шинэ IPO-ийн захиалга 7 хоногийн дараа хаагдана",
-    en: "New IPO subscription window closes in 7 days",
-    date: "",
-  },
-  {
-    mn: "2025 оны эхний хагас жилийн аудитлагдсан тайланг нийтэллээ",
-    en: "H1 2025 audited financial statements now published",
-    date: "",
-  },
-  {
-    mn: "Долоо хоногийн зах зээлийн тойм судалгаа хэсэгт нийтлэгдлээ",
-    en: "Weekly market review is now available",
-    date: "",
-  },
-  {
-    mn: "Бондын гаргалтын зөвлөгөө үйлчилгээний шинэ хөтөлбөр эхэллээ",
-    en: "New bond issuance advisory program launched",
-    date: "",
-  },
-];
-
-/**
  * Four figures on one row, so the labels are kept to a similar length (mn
  * 24–27 characters) and short enough to sit on a single line. They used to run
  * 26–30: two of them wrapped and two did not, which left the row with a ragged
@@ -525,37 +491,10 @@ function Hero() {
                 </span>
               </div>
             </div>
-            <HeroNews />
           </div>
 
           <MarketPanel />
         </div>
-      </div>
-    </div>
-  );
-}
-
-/** The newest dated headline, standing still. */
-function HeroNews() {
-  // Newest first, and only the ones that can say when they happened.
-  const latest = HEADLINES.filter((entry) => entry.date).sort((a, b) =>
-    b.date.localeCompare(a.date),
-  )[0];
-
-  // Nothing datable to report is a better hero than four undated claims
-  // rotating past faster than they can be read.
-  if (!latest) return null;
-
-  return (
-    <div className="hero-news" id="heroNews">
-      <span className="tag">
-        <T mn="Мэдээ" en="News" />
-      </span>
-      <div className="txt" id="heroNewsTxt">
-        <time dateTime={latest.date}>{latest.date.replace(/-/g, ".")}</time>
-        <span>
-          <T mn={latest.mn} en={latest.en} />
-        </span>
       </div>
     </div>
   );
