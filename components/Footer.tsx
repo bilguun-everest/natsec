@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Fragment } from "react";
 import { A, T, useLang } from "@/components/lang";
 import { PendingLink } from "@/components/ui";
-import { APP_STORE_URL, CONTACT } from "@/lib/site";
+import { APP_STORE_URL, CONTACT, SOCIAL } from "@/lib/site";
 
 /** Same order, same contents as the header menu — one site map, not two. */
 const COLUMNS: {
@@ -142,18 +142,28 @@ export default function Footer() {
               </span>
             </p>
             <div className="soc">
-              <PendingLink label="Facebook">
+              <A
+                href={SOCIAL.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Facebook"
+              >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0022 12z" />
                 </svg>
                 <span className="sr-only">Facebook</span>
-              </PendingLink>
-              <PendingLink label="LinkedIn">
+              </A>
+              <A
+                href={SOCIAL.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="LinkedIn"
+              >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M20.4 3H3.6C2.7 3 2 3.7 2 4.6v16.8c0 .9.7 1.6 1.6 1.6h16.8c.9 0 1.6-.7 1.6-1.6V4.6c0-.9-.7-1.6-1.6-1.6zM8.1 19H5.3V9.7h2.8V19zM6.7 8.4a1.6 1.6 0 110-3.2 1.6 1.6 0 010 3.2zM19 19h-2.8v-4.5c0-1.1 0-2.5-1.5-2.5s-1.7 1.2-1.7 2.4V19H10.2V9.7H13v1.3h.1c.4-.7 1.3-1.5 2.7-1.5 2.9 0 3.4 1.9 3.4 4.4V19z" />
                 </svg>
                 <span className="sr-only">LinkedIn</span>
-              </PendingLink>
+              </A>
             </div>
             <div className="fapps">
               <A

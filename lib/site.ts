@@ -8,6 +8,12 @@ export const TRADING_URL = "https://natsec.istock.mn/auth/login";
 export const APP_STORE_URL =
   "https://apps.apple.com/mn/app/natsec/id1508977939";
 
+/** The two social accounts the footer links out to. */
+export const SOCIAL = {
+  facebook: "https://www.facebook.com/natsecmongolia",
+  linkedin: "https://www.linkedin.com/company/national-securities-sc/",
+};
+
 export const CONTACT = {
   addressMn:
     "Монгол Улаанбаатар хот, Сүхбаатар дүүрэг, Eco Tower, 9 давхарт 904",
