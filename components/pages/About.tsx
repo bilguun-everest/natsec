@@ -24,7 +24,8 @@ const VALUES: {
     title: { mn: "Эрхэм зорилго", en: "Mission", ja: "ミッション" },
     body: {
       mn: "Харилцагчдынхаа хөрөнгийг өсгөн нэмэгдүүлэхэд тэдэнтэй хамт зүтгэж, мэдээлэлд суурилсан, ухаалаг хөрөнгө оруулалтын соёлыг түгээх.",
-      en: "To stand alongside our clients in growing their wealth, and to promote an informed, intelligent investment culture.", ja: "お客様の資産形成に寄り添い、知識に基づく賢明な投資文化を広めます。",
+      en: "To stand alongside our clients in growing their wealth, and to promote an informed, intelligent investment culture.",
+      ja: "お客様の資産形成に寄り添い、知識に基づく賢明な投資文化を広めます。",
     },
   },
   {
@@ -37,7 +38,8 @@ const VALUES: {
     title: { mn: "Алсын хараа", en: "Vision", ja: "ビジョン" },
     body: {
       mn: "Монголын үнэт цаасны зах зээлд тэргүүлэгч, олон улсын стандартад нийцсэн брокер, хөрөнгө оруулалтын байгууллага болох.",
-      en: "To become a leading broker and investment institution in Mongolia's securities market that meets international standards.", ja: "国際基準を満たす、モンゴル証券市場の主導的なブローカー兼投資機関となります。",
+      en: "To become a leading broker and investment institution in Mongolia's securities market that meets international standards.",
+      ja: "国際基準を満たす、モンゴル証券市場の主導的なブローカー兼投資機関となります。",
     },
   },
   {
@@ -50,7 +52,8 @@ const VALUES: {
     title: { mn: "Үнэт зүйл", en: "Values", ja: "バリュー" },
     body: {
       mn: "Бид хариуцлагатайгаар үйл ажиллагаагаа явуулж, харилцагчдынхаа итгэлийг эрхэмлэн, мэдлэг чадвараа дайчилж, шударга бөгөөд хурдан шийдлээр үйлчилгээгээ хүргэдэг.",
-      en: "We operate responsibly, hold our clients' trust in the highest regard, mobilize our knowledge and skills, and deliver honest, fast securities market services.", ja: "責任をもって業務にあたり、お客様の信頼を何よりも重んじ、知識と技術を結集して、誠実で迅速な証券サービスを提供します。",
+      en: "We operate responsibly, hold our clients' trust in the highest regard, mobilize our knowledge and skills, and deliver honest, fast securities market services.",
+      ja: "責任をもって業務にあたり、お客様の信頼を何よりも重んじ、知識と技術を結集して、誠実で迅速な証券サービスを提供します。",
     },
   },
   {
@@ -65,7 +68,8 @@ const VALUES: {
     title: { mn: "Хамтын ажиллагаа", en: "Collaboration", ja: "協働" },
     body: {
       mn: "Харилцагч, түнш байгууллагуудтайгаа хамтран ажиллаж, хамтын хүчээр илүү их үнэ цэнийг бүтээдэг.",
-      en: "We work together with our clients and partner organizations, creating greater value through joint effort.", ja: "お客様およびパートナー企業とともに歩み、協働によってより大きな価値を生み出します。",
+      en: "We work together with our clients and partner organizations, creating greater value through joint effort.",
+      ja: "お客様およびパートナー企業とともに歩み、協働によってより大きな価値を生み出します。",
     },
   },
 ];
@@ -101,9 +105,9 @@ export default function About({ reports }: { reports: ReportItem[] }) {
               </p>
               <p>
                 <T
-                  mn="Монголын хөрөнгийн биржийн нийт 52 гишүүн компанийн дотроос Брокер, Дилер, Хөрөнгө оруулалтын зөвлөх, Андеррайтер, Номинал данс гэсэн бүх 5 төрлийн тусгай зөвшөөрлийг бүрэн эзэмшдэг ердөө 9 компанийн нэг нь бид билээ. 2025 оны 4-р сарын байдлаар нийт идэвхтэй 12,951 харилцагчтайгаар үйл ажиллагаа явуулж, үнэт цаасны зуучлалын болон хөрөнгө оруулалтын банкны цогц үйлчилгээг харилцагчиддаа хүргэж байна."
-                  en="We are one of only 9 companies out of the Mongolian Stock Exchange's 52 member companies that fully hold all 5 types of special licenses — Broker, Dealer, Investment Advisor, Underwriter, and Nominee Account. As of April 2025 we serve 12,951 active clients, delivering comprehensive securities brokerage and investment banking services."
-                  ja="当社は、モンゴル証券取引所の52の会員会社のうち、ブローカー、ディーラー、投資助言、引受、ノミニー口座という5種類すべての特別免許を保有する9社の1社です。2025年4月時点で12,951名のお客様にご利用いただき、証券仲介と投資銀行業務を包括的に提供しています。"
+                  mn="Монголын хөрөнгийн биржийн нийт 52 гишүүн компанийн дотроос Брокер, Дилер, Хөрөнгө оруулалтын зөвлөх, Андеррайтер, Номинал данс гэсэн бүх 5 төрлийн тусгай зөвшөөрлийг бүрэн эзэмшдэг ердөө 9 компанийн нэг нь бид билээ. 2026 оны 9-р сарын байдлаар нийт идэвхтэй 13,000+ харилцагчтайгаар үйл ажиллагаа явуулж, үнэт цаасны зуучлалын болон хөрөнгө оруулалтын банкны цогц үйлчилгээг харилцагчиддаа хүргэж байна."
+                  en="We are one of only 9 companies out of the Mongolian Stock Exchange's 52 member companies that fully hold all 5 types of special licenses — Broker, Dealer, Investment Advisor, Underwriter, and Nominee Account. As of April 2026 we serve 13,000+ active clients, delivering comprehensive securities brokerage and investment banking services."
+                  ja="当社は、モンゴル証券取引所の52の会員会社のうち、ブローカー、ディーラー、投資助言、引受、ノミニー口座という5種類すべての特別免許を保有する9社の1社です。2026年4月時点で13,000名以上のにお客様にご利用いただき、証券仲介と投資銀行業務を包括的に提供しています。"
                 />
               </p>
               <div className="motto">
@@ -126,10 +130,18 @@ export default function About({ reports }: { reports: ReportItem[] }) {
                     <svg viewBox="0 0 24 24">{value.icon}</svg>
                   </div>
                   <h4>
-                    <T mn={value.title.mn} en={value.title.en} ja={value.title.ja} />
+                    <T
+                      mn={value.title.mn}
+                      en={value.title.en}
+                      ja={value.title.ja}
+                    />
                   </h4>
                   <p>
-                    <T mn={value.body.mn} en={value.body.en} ja={value.body.ja} />
+                    <T
+                      mn={value.body.mn}
+                      en={value.body.en}
+                      ja={value.body.ja}
+                    />
                   </p>
                 </Reveal>
               ))}

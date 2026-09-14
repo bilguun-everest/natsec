@@ -740,12 +740,13 @@ header .wrap{max-width:1340px}
 @keyframes mktScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* --------------------------------------------------------- 10 stats band */
-/* Four figures on a hairline grid, each centred over its own label. Ruled
+/* Three figures on a hairline grid, each centred over its own label. Ruled
    rather than floating — it still reads as a fact sheet, which is what it is.
    (It was left-aligned until 2026-08-27, when the user asked for the figure to
-   sit over the middle of its label.) */
+   sit over the middle of its label. Annual trading came off on 2026-09-14,
+   taking the row from four to three.) */
 .stats{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
   gap:0;
 }
 /* Centred, so the figure sits over the middle of its own label.
@@ -1704,6 +1705,9 @@ footer{
   /* On two columns the rule belongs between the pair, so it comes off the
      cell that now starts a row. */
   .stat:nth-child(odd)::before{display:none}
+  /* Three figures leave one over on the second row; it takes the full width so
+     it sits centred under the pair instead of hanging off the left column. */
+  .stat:last-child:nth-child(odd){grid-column:1/-1}
   .fgrid{grid-template-columns:1fr;gap:44px}
   .fcols{grid-template-columns:repeat(3,minmax(0,1fr))}
 

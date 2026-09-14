@@ -8,31 +8,29 @@ import { FAQ } from "@/lib/faq";
 import { CONTACT, TRADING_URL } from "@/lib/site";
 
 /**
- * Four figures on one row, so the labels are kept to a similar length (mn
+ * Three figures on one row, so the labels are kept to a similar length (mn
  * 24–27 characters) and short enough to sit on a single line. They used to run
  * 26–30: two of them wrapped and two did not, which left the row with a ragged
  * bottom edge and no obvious reason for it.
  */
 const STATS: { value: string; mn: string; en: string; ja: string }[] = [
   {
-    value: "19",
+    value: "20",
     mn: "Жил тасралтгүй ажилласан",
-    en: "Years in operation", ja: "継続営業年数",
+    en: "Years in operation",
+    ja: "継続営業年数",
   },
   {
-    value: "18,400+",
+    value: "13000+",
     mn: "Идэвхтэй харилцагчийн данс",
-    en: "Active client accounts", ja: "稼働中のお客様口座",
-  },
-  {
-    value: "640",
-    mn: "Жилийн арилжаа, тэрбум\u00A0₮",
-    en: "Annual trading, bn\u00A0₮", ja: "年間取引高（十億₮）",
+    en: "Active client accounts",
+    ja: "稼働中のお客様口座",
   },
   {
     value: "27",
     mn: "Зохион байгуулсан IPO, бонд",
-    en: "IPOs and bonds arranged", ja: "引き受けたIPO・社債",
+    en: "IPOs and bonds arranged",
+    ja: "引き受けたIPO・社債",
   },
 ];
 
@@ -63,12 +61,25 @@ const OFFER: {
     title: { mn: "Брокер", en: "Broker", ja: "ブローカー" },
     body: {
       mn: "МХБ-ийн арилжааны системтэй шууд холбогдсон платформоор хоцрогдолгүй арилжаа хийнэ.",
-      en: "Trade without delay through a platform connected directly to the MSE trading system.", ja: "MSEの取引システムに直結したプラットフォームで、遅延なく取引できます。",
+      en: "Trade without delay through a platform connected directly to the MSE trading system.",
+      ja: "MSEの取引システムに直結したプラットフォームで、遅延なく取引できます。",
     },
     items: [
-      { mn: "Онлайн арилжааны систем", en: "Online trading system", ja: "オンライン取引システム" },
-      { mn: "Хувьцаа, бонд, ЗГҮЦ", en: "Equities, bonds, government paper", ja: "株式・社債・国債" },
-      { mn: "Номинал дансны үйлчилгээ", en: "Nominee account services", ja: "ノミニー口座サービス" },
+      {
+        mn: "Онлайн арилжааны систем",
+        en: "Online trading system",
+        ja: "オンライン取引システム",
+      },
+      {
+        mn: "Хувьцаа, бонд, ЗГҮЦ",
+        en: "Equities, bonds, government paper",
+        ja: "株式・社債・国債",
+      },
+      {
+        mn: "Номинал дансны үйлчилгээ",
+        en: "Nominee account services",
+        ja: "ノミニー口座サービス",
+      },
     ],
   },
   {
@@ -84,12 +95,25 @@ const OFFER: {
     title: { mn: "Андеррайтер", en: "Underwriter", ja: "引受業務" },
     body: {
       mn: "Компанийн хувьцаа, бондыг зах зээлд гаргах бүх үе шатыг хариуцна.",
-      en: "We manage every stage of bringing a company's shares or bonds to market.", ja: "企業の株式・社債を市場に出すまでの全段階を担います。",
+      en: "We manage every stage of bringing a company's shares or bonds to market.",
+      ja: "企業の株式・社債を市場に出すまでの全段階を担います。",
     },
     items: [
-      { mn: "Хувьцааны санхүүжилт (IPO, FPO)", en: "Equity financing (IPO, FPO)", ja: "株式による資金調達（IPO・FPO）" },
-      { mn: "Бондын санхүүжилт", en: "Bond financing", ja: "社債による資金調達" },
-      { mn: "Зах зээлд бүртгүүлэх бэлтгэл", en: "Listing preparation", ja: "上場準備" },
+      {
+        mn: "Хувьцааны санхүүжилт (IPO, FPO)",
+        en: "Equity financing (IPO, FPO)",
+        ja: "株式による資金調達（IPO・FPO）",
+      },
+      {
+        mn: "Бондын санхүүжилт",
+        en: "Bond financing",
+        ja: "社債による資金調達",
+      },
+      {
+        mn: "Зах зээлд бүртгүүлэх бэлтгэл",
+        en: "Listing preparation",
+        ja: "上場準備",
+      },
     ],
   },
   {
@@ -100,15 +124,32 @@ const OFFER: {
         <path d="M15.5 8.5l-2 5.5-5.5 2 2-5.5z" />
       </>
     ),
-    title: { mn: "Хөрөнгө оруулалтын зөвлөх", en: "Investment Advisory", ja: "投資助言" },
+    title: {
+      mn: "Хөрөнгө оруулалтын зөвлөх",
+      en: "Investment Advisory",
+      ja: "投資助言",
+    },
     body: {
       mn: "Эрсдэл даах чадвар, зорилгод тань тохирсон багц бүрдүүлж, тогтмол хянана.",
-      en: "We build a portfolio suited to your risk tolerance and goals, and monitor it continuously.", ja: "お客様のリスク許容度と目標に合ったポートフォリオを構築し、継続的にモニタリングします。",
+      en: "We build a portfolio suited to your risk tolerance and goals, and monitor it continuously.",
+      ja: "お客様のリスク許容度と目標に合ったポートフォリオを構築し、継続的にモニタリングします。",
     },
     items: [
-      { mn: "Багцын зөвлөх үйлчилгээ", en: "Portfolio advisory", ja: "ポートフォリオ助言" },
-      { mn: "Хувийн санхүүжилт", en: "Personal financing", ja: "個人向け資金計画" },
-      { mn: "Нэгдэл, өөрчлөн байгуулалт", en: "M&A and restructuring", ja: "M&A・組織再編" },
+      {
+        mn: "Багцын зөвлөх үйлчилгээ",
+        en: "Portfolio advisory",
+        ja: "ポートフォリオ助言",
+      },
+      {
+        mn: "Хувийн санхүүжилт",
+        en: "Personal financing",
+        ja: "個人向け資金計画",
+      },
+      {
+        mn: "Нэгдэл, өөрчлөн байгуулалт",
+        en: "M&A and restructuring",
+        ja: "M&A・組織再編",
+      },
     ],
   },
 ];
@@ -130,7 +171,8 @@ const STEPS: {
     title: { mn: "Данс нээх", en: "Open an account", ja: "口座を開設する" },
     body: {
       mn: "Онлайнаар бүртгэлээ бөглөж, иргэний үнэмлэхээ хавсаргана. Баталгаажуулалт 24 цагийн дотор.",
-      en: "Fill in the form online and attach your ID. Verification takes place within 24 hours.", ja: "オンラインで登録フォームに記入し、身分証を添付します。確認は24時間以内に完了します。",
+      en: "Fill in the form online and attach your ID. Verification takes place within 24 hours.",
+      ja: "オンラインで登録フォームに記入し、身分証を添付します。確認は24時間以内に完了します。",
     },
   },
   {
@@ -139,7 +181,8 @@ const STEPS: {
     title: { mn: "Мөнгө байршуулах", en: "Add money", ja: "入金" },
     body: {
       mn: "Арилжааны дансаа банкны шилжүүлгээр цэнэглэснээр худалдан авах хүч бэлэн болно.",
-      en: "Fund your trading account by bank transfer and your buying power is ready.", ja: "銀行振込で取引口座に入金すると、買付余力が使えるようになります。",
+      en: "Fund your trading account by bank transfer and your buying power is ready.",
+      ja: "銀行振込で取引口座に入金すると、買付余力が使えるようになります。",
     },
   },
   {
@@ -148,7 +191,8 @@ const STEPS: {
     title: { mn: "Арилжаа эхлүүлэх", en: "Start trading", ja: "取引を始める" },
     body: {
       mn: "Онлайн систем эсвэл аппаараа эхний захиалгаа өгч, гүйцэтгэлээ бодит цагт хянана.",
-      en: "Place your first order in the online system or the app and track it in real time.", ja: "オンラインシステムまたはアプリから最初の注文を出し、執行状況をリアルタイムで確認できます。",
+      en: "Place your first order in the online system or the app and track it in real time.",
+      ja: "オンラインシステムまたはアプリから最初の注文を出し、執行状況をリアルタイムで確認できます。",
     },
   },
 ];
@@ -193,11 +237,13 @@ function Offer() {
             eyebrow={{ mn: "Үйлчилгээ", en: "What we do", ja: "事業内容" }}
             title={{
               mn: "Хөрөнгө оруулалтын бүх шатанд",
-              en: "At every stage of investing", ja: "投資のあらゆる段階で",
+              en: "At every stage of investing",
+              ja: "投資のあらゆる段階で",
             }}
             lead={{
               mn: "МХБ-ийн 52 гишүүнээс бүх 5 төрлийн тусгай зөвшөөрлийг бүрэн эзэмшдэг 9 компанийн нэг нь бид.",
-              en: "One of nine firms among the exchange's 52 members holding all five categories of licence.", ja: "取引所の52の会員会社のうち、5種類すべての免許を保有する9社の1社です。",
+              en: "One of nine firms among the exchange's 52 members holding all five categories of licence.",
+              ja: "取引所の52の会員会社のうち、5種類すべての免許を保有する9社の1社です。",
             }}
           />
           <div className="dtrip">
@@ -221,7 +267,11 @@ function Offer() {
                   </span>
                 </div>
                 <h3>
-                  <T mn={entry.title.mn} en={entry.title.en} ja={entry.title.ja} />
+                  <T
+                    mn={entry.title.mn}
+                    en={entry.title.en}
+                    ja={entry.title.ja}
+                  />
                 </h3>
                 <p>
                   <T mn={entry.body.mn} en={entry.body.en} ja={entry.body.ja} />
@@ -251,11 +301,20 @@ function StartSteps() {
     <section>
       <div className="wrap">
         <SecHead
-          eyebrow={{ mn: "Хэрхэн эхлэх", en: "Getting Started", ja: "はじめに" }}
-          title={{ mn: "Гурван алхмаар эхэлнэ", en: "Start in three steps", ja: "3つのステップで始める" }}
+          eyebrow={{
+            mn: "Хэрхэн эхлэх",
+            en: "Getting Started",
+            ja: "はじめに",
+          }}
+          title={{
+            mn: "Гурван алхмаар эхэлнэ",
+            en: "Start in three steps",
+            ja: "3つのステップで始める",
+          }}
           lead={{
             mn: "Данс нээхээс эхний захиалга хүртэл ихэвчлэн нэг ажлын өдөрт багтана.",
-            en: "From opening an account to your first order — usually inside one working day.", ja: "口座開設から最初の注文まで、通常は1営業日以内に完了します。",
+            en: "From opening an account to your first order — usually inside one working day.",
+            ja: "口座開設から最初の注文まで、通常は1営業日以内に完了します。",
           }}
         />
 
@@ -287,7 +346,11 @@ function StartSteps() {
 
         <Reveal className="start-cta" delay={280}>
           <A href={TRADING_URL} className="btn btn-p">
-            <T mn="Данс нээх — 10 минут" en="Open Account — 10 min" ja="口座開設 — 10分" />
+            <T
+              mn="Данс нээх — 10 минут"
+              en="Open Account — 10 min"
+              ja="口座開設 — 10分"
+            />
           </A>
           <A href="/zaavar/" className="btn btn-o">
             <T mn="Бүх заавар" en="All guides" ja="ガイド一覧" />
@@ -310,14 +373,26 @@ function HomeFaq() {
     <section>
       <div className="wrap">
         <SecHead
-          eyebrow={{ mn: "Харилцагчийн туслах", en: "Customer Support", ja: "サポート" }}
-          title={{ mn: "Түгээмэл асуулт", en: "Frequently asked questions", ja: "よくあるご質問" }}
+          eyebrow={{
+            mn: "Харилцагчийн туслах",
+            en: "Customer Support",
+            ja: "サポート",
+          }}
+          title={{
+            mn: "Түгээмэл асуулт",
+            en: "Frequently asked questions",
+            ja: "よくあるご質問",
+          }}
         />
         <Reveal className="faq-list" delay={60}>
           {FAQ.slice(0, 5).map((entry) => (
             <A className="faq-row" href={`/${entry.route}/`} key={entry.route}>
               <span className="q">
-                <T mn={entry.question.mn} en={entry.question.en} ja={entry.question.ja} />
+                <T
+                  mn={entry.question.mn}
+                  en={entry.question.en}
+                  ja={entry.question.ja}
+                />
               </span>
               <span className="arrow" aria-hidden="true">
                 →
@@ -327,7 +402,12 @@ function HomeFaq() {
         </Reveal>
         <Reveal delay={140} style={{ marginTop: 28 }}>
           <A className="more" href="/faq/">
-            <T mn="Бүх асуулт үзэх" en="See all questions" ja="質問をすべて見る" /> →
+            <T
+              mn="Бүх асуулт үзэх"
+              en="See all questions"
+              ja="質問をすべて見る"
+            />{" "}
+            →
           </A>
         </Reveal>
       </div>
@@ -385,7 +465,11 @@ function ClosingCta() {
                 <T mn="Хаяг" en="Office" ja="所在地" />
               </small>
               <span>
-                <T mn="Eco Tower, 9 давхарт 904" en="Eco Tower, 9F, Room 904" ja="エコタワー 9階 904号室" />
+                <T
+                  mn="Eco Tower, 9 давхарт 904"
+                  en="Eco Tower, 9F, Room 904"
+                  ja="エコタワー 9階 904号室"
+                />
               </span>
             </div>
           </div>
@@ -446,8 +530,7 @@ function Hero() {
             <h1>
               {lang === "en" ? (
                 <>
-                  Your place in the{" "}
-                  <br />
+                  Your place in the <br />
                   <em>capital market</em>
                 </>
               ) : lang === "ja" ? (
@@ -458,8 +541,7 @@ function Hero() {
                 </>
               ) : (
                 <>
-                  Хөрөнгийн зах зээл дээрх{" "}
-                  <br />
+                  Хөрөнгийн зах зээл дээрх <br />
                   <em>таны байр суурь</em>
                 </>
               )}
@@ -473,7 +555,11 @@ function Hero() {
             </p>
             <div className="hero-cta">
               <A href={TRADING_URL} className="btn btn-w btn-lg">
-                <T mn="Данс нээх — 10 минут" en="Open Account — 10 min" ja="口座開設 — 10分" />
+                <T
+                  mn="Данс нээх — 10 минут"
+                  en="Open Account — 10 min"
+                  ja="口座開設 — 10分"
+                />
               </A>
               {/* "Данс шалгах" pointed at the same login URL as the button
                   beside it — one action wearing two names, and a reader could
@@ -487,19 +573,31 @@ function Hero() {
               <div>
                 <strong>МХБ</strong>
                 <span>
-                  <T mn="Гишүүн байгууллага" en="Member Organization" ja="会員機関" />
+                  <T
+                    mn="Гишүүн байгууллага"
+                    en="Member Organization"
+                    ja="会員機関"
+                  />
                 </span>
               </div>
               <div>
                 <strong>ҮЦТХТ</strong>
                 <span>
-                  <T mn="Гишүүн байгууллага" en="Member Organization" ja="会員機関" />
+                  <T
+                    mn="Гишүүн байгууллага"
+                    en="Member Organization"
+                    ja="会員機関"
+                  />
                 </span>
               </div>
               <div>
                 <strong>5 / 5</strong>
                 <span>
-                  <T mn="Тусгай зөвшөөрөл" en="Licence categories" ja="保有免許" />
+                  <T
+                    mn="Тусгай зөвшөөрөл"
+                    en="Licence categories"
+                    ja="保有免許"
+                  />
                 </span>
               </div>
             </div>
