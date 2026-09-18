@@ -71,7 +71,7 @@ export const GUIDES: Guide[] = [
   {
     route: "zaavar-mhb",
     num: 2,
-    title: { mn: "МХБ-ийн арилжаанд оролцох", en: "Trade on the MSE", ja: "MSEで取引する" },
+    title: { mn: "МХБ-ийн арилжаанд оролцох", en: "Trade on the MSE", ja: "モン証で取引する" },
     teaser: { mn: "Бодит цагт авах, зарах", en: "Buy and sell in real time", ja: "リアルタイムで売買" },
     lead: {
       mn: "Онлайн арилжааны систем эсвэл апп-аар нэвтэрч, сонгосон үнэт цаасныхаа авах/зарах захиалгыг байршуулаад, гүйцэтгэлийг бодит цагт хянана.",
@@ -99,7 +99,7 @@ export const GUIDES: Guide[] = [
         title: { mn: "Захиалгаа баталгаажуулах", en: "Confirm the order", ja: "注文を確定する" },
         body: {
           mn: "Мэдээллээ дахин шалгаад баталгаажуулах товч дарснаар захиалга шууд МХБ-ийн системд илгээгдэнэ.",
-          en: "Review the details once more and confirm — your order is sent directly to the MSE trading system.", ja: "内容をもう一度確認して確定すると、注文はMSEの取引システムへ直接送信されます。",
+          en: "Review the details once more and confirm — your order is sent directly to the MSE trading system.", ja: "内容をもう一度確認して確定すると、注文はモン証の取引システムへ直接送信されます。",
         },
       },
       {

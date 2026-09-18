@@ -22,7 +22,7 @@ export const FAQ: FaqEntry[] = [
     points: [
       {
         mn: "Таны нэрийн өмнөөс МХБ дээр арилжаа хийж гүйцэтгэдэг",
-        en: "Executes trades on your behalf on the exchange", ja: "お客様に代わって取引所で売買を執行します",
+        en: "Executes trades on your behalf on the MSE", ja: "お客様に代わってモン証で売買を執行します",
       },
       {
         mn: "Компанид санхүүжилт (IPO, FPO, бонд) зохион байгуулдаг",
@@ -42,7 +42,7 @@ export const FAQ: FaqEntry[] = [
     },
     answer: {
       mn: "Үнэт цаасны данс нээнэ гэдэг нь Үнэт цаасны төвлөрсөн хадгаламжийн төв (ҮЦТХТ)-д данс нээлгэхийг хэлнэ. Ижил дугаартай төлбөр тооцооны данс банкинд зэрэг нээгдэнэ. Нэг хүн ганц данстай байх ба хэд хэдэн ҮЦК-аар хандаж болно.",
-      en: "Opening a securities account means opening one at the Securities Central Depository. A settlement account with the same number opens alongside it at the bank. One person holds one account, reachable through several firms.", ja: "証券口座の開設とは、証券中央預託機関に口座を開くことです。同じ番号の決済口座が銀行に同時に開設されます。口座はお一人につき1つで、複数の証券会社から利用できます。",
+      en: "Opening a securities account means opening one at the Securities Central Depository (CSD). A settlement account with the same number opens alongside it at the bank. One person holds one account, reachable through several firms.", ja: "証券口座の開設とは、証券中央預託機関（保振）に口座を開くことです。同じ番号の決済口座が銀行に同時に開設されます。口座はお一人につき1つで、複数の証券会社から利用できます。",
     },
     points: [
       {

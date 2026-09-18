@@ -80,7 +80,7 @@ export const TITLES: Record<Route, Record<Lang, string>> = {
   sudalgaa: { mn: "Үнэт цаасны судалгаа | Нэйшнл сэкюритис ҮЦК", en: "Securities research | National Securities", ja: "証券リサーチ | ナショナル・セキュリティーズ証券" },
   zaavar: { mn: "Хэрхэн эхлэх | Нэйшнл сэкюритис ҮЦК", en: "Getting started | National Securities", ja: "はじめに | ナショナル・セキュリティーズ証券" },
   "zaavar-dansneeh": { mn: "Данс нээх | Нэйшнл сэкюритис ҮЦК", en: "Opening an account | National Securities", ja: "口座開設 | ナショナル・セキュリティーズ証券" },
-  "zaavar-mhb": { mn: "МХБ-ийн арилжаанд оролцох | Нэйшнл сэкюритис ҮЦК", en: "Trading on the MSE | National Securities", ja: "MSEでの取引 | ナショナル・セキュリティーズ証券" },
+  "zaavar-mhb": { mn: "МХБ-ийн арилжаанд оролцох | Нэйшнл сэкюритис ҮЦК", en: "Trading on the MSE | National Securities", ja: "モン証での取引 | ナショナル・セキュリティーズ証券" },
   "zaavar-ipo": { mn: "IPO-д хэрхэн оролцох вэ | Нэйшнл сэкюритис ҮЦК", en: "Taking part in an IPO | National Securities", ja: "IPOへの参加 | ナショナル・セキュリティーズ証券" },
   "zaavar-mungu": { mn: "Мөнгө байршуулах, татах | Нэйшнл сэкюритис ҮЦК", en: "Deposits and withdrawals | National Securities", ja: "入金と出金 | ナショナル・セキュリティーズ証券" },
   "zaavar-tsenegleh": { mn: "Данс цэнэглэх | Нэйшнл сэкюритис ҮЦК", en: "Adding money to your account | National Securities", ja: "口座への資金追加 | ナショナル・セキュリティーズ証券" },

@@ -62,7 +62,7 @@ const OFFER: {
     body: {
       mn: "МХБ-ийн арилжааны системтэй шууд холбогдсон платформоор хоцрогдолгүй арилжаа хийнэ.",
       en: "Trade without delay through a platform connected directly to the MSE trading system.",
-      ja: "MSEの取引システムに直結したプラットフォームで、遅延なく取引できます。",
+      ja: "モン証の取引システムに直結したプラットフォームで、遅延なく取引できます。",
     },
     items: [
       {
@@ -242,8 +242,8 @@ function Offer() {
             }}
             lead={{
               mn: "МХБ-ийн 52 гишүүнээс бүх 5 төрлийн тусгай зөвшөөрлийг бүрэн эзэмшдэг 9 компанийн нэг нь бид.",
-              en: "One of nine firms among the exchange's 52 members holding all five categories of licence.",
-              ja: "取引所の52の会員会社のうち、5種類すべての免許を保有する9社の1社です。",
+              en: "One of nine firms among the MSE's 52 members holding all five categories of licence.",
+              ja: "モン証の52の会員会社のうち、5種類すべての免許を保有する9社の1社です。",
             }}
           />
           <div className="dtrip">
@@ -571,7 +571,9 @@ function Hero() {
             </div>
             <div className="lic">
               <div>
-                <strong>МХБ</strong>
+                <strong>
+                  <T mn="МХБ" en="MSE" ja="モン証" />
+                </strong>
                 <span>
                   <T
                     mn="Гишүүн байгууллага"
@@ -581,7 +583,9 @@ function Hero() {
                 </span>
               </div>
               <div>
-                <strong>ҮЦТХТ</strong>
+                <strong>
+                  <T mn="ҮЦТХТ" en="CSD" ja="保振" />
+                </strong>
                 <span>
                   <T
                     mn="Гишүүн байгууллага"

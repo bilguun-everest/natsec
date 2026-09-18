@@ -28,7 +28,7 @@ const SERVICES: {
     title: { mn: "Брокер", en: "Broker", ja: "ブローカー" },
     lead: {
       mn: "МХБ-ийн арилжааны системтэй шууд холбогдсон платформоор хоцрогдолгүй арилжаа хийнэ.",
-      en: "Trade without delay through a platform directly connected to the MSE trading system.", ja: "MSEの取引システムに直結したプラットフォームで、遅延なく取引できます。",
+      en: "Trade without delay through a platform directly connected to the MSE trading system.", ja: "モン証の取引システムに直結したプラットフォームで、遅延なく取引できます。",
     },
     items: [
       { mn: "Дотоод арилжаанд оролцох", en: "Domestic trading", ja: "国内取引" },
