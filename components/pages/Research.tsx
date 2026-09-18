@@ -7,7 +7,13 @@ import { CONTACT } from "@/lib/site";
 import type { ResearchItem } from "@/lib/content";
 
 /** An entry with no file yet stays inert rather than linking nowhere. */
-function ItemLink({ href, children }: { href: string | null; children: React.ReactNode }) {
+function ItemLink({
+  href,
+  children,
+}: {
+  href: string | null;
+  children: React.ReactNode;
+}) {
   if (!href) return <PendingLink>{children}</PendingLink>;
   return <A href={href}>{children}</A>;
 }
@@ -27,11 +33,20 @@ export default function Research({ research }: { research: ResearchItem[] }) {
       <div className="wrap split">
         <div>
           <SecHead
-            eyebrow={{ mn: "Судалгаа, шинжилгээ", en: "Research & Analysis", ja: "リサーチ・分析" }}
-            title={{ mn: "Үнэт цаасны судалгаа", en: "Securities Research", ja: "証券リサーチ" }}
+            eyebrow={{
+              mn: "Судалгаа, шинжилгээ",
+              en: "Research & Analysis",
+              ja: "リサーチ・分析",
+            }}
+            title={{
+              mn: "Үнэт цаасны судалгаа",
+              en: "Securities Research",
+              ja: "証券リサーチ",
+            }}
             lead={{
               mn: "Бирж дээр бүртгэлтэй компаниудын үнэлгээ, салбарын шинжилгээг PDF хэлбэрээр нийтэлнэ.",
-              en: "Valuations of listed companies and sector analysis, published as PDFs.", ja: "上場企業の評価と業種分析をPDFで公開します。",
+              en: "Valuations of listed companies and sector analysis, published as PDFs.",
+              ja: "上場企業の評価と業種分析をPDFで公開します。",
             }}
             style={{ marginBottom: 22 }}
           />
@@ -51,9 +66,15 @@ export default function Research({ research }: { research: ResearchItem[] }) {
                     <time>{item.date}</time>
                     <div>
                       <h4>
-                        <T mn={item.title.mn} en={item.title.en} ja={item.title.ja} />
+                        <T
+                          mn={item.title.mn}
+                          en={item.title.en}
+                          ja={item.title.ja}
+                        />
                       </h4>
-                      {item.size ? <span className="tag">{item.size}</span> : null}
+                      {item.size ? (
+                        <span className="tag">{item.size}</span>
+                      ) : null}
                     </div>
                   </ItemLink>
                 </Reveal>
@@ -65,13 +86,17 @@ export default function Research({ research }: { research: ResearchItem[] }) {
         <Reveal className="rbox" delay={120}>
           <Eyebrow mn="Судалгаа" en="Research" ja="リサーチ" />
           <h3>
-            <T mn="Шинжээчийн тайлан" en="Analyst Reports" ja="アナリストレポート" />
+            <T
+              mn="Шинжээчийн тайлан"
+              en="Analyst Reports"
+              ja="アナリストレポート"
+            />
           </h3>
           <p>
             <T
-              mn="Тодорхой компани, салбарын талаар шинжилгээ хүсэх бол брокертойгоо шууд холбогдоно уу."
-              en="To request analysis of a particular company or sector, talk to your broker directly."
-              ja="特定の企業や業種の分析をご希望の場合は、担当ブローカーに直接ご相談ください。"
+              mn="Тодорхой компани, салбарын талаар шинжилгээ хүсэх бол брокертой шууд холбогдоно уу."
+              en="For analysis regarding specific companies or sectors, please contact a broker directly."
+              ja="「特定の企業や業界に関する分析をご希望の場合は、ブローカーに直接お問い合わせください。」"
             />
           </p>
           <ul className="rlist">
